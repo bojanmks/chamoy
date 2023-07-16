@@ -24,6 +24,6 @@ jobs:
       - name: Send POST request
         run: |
           http --json POST \
-            https://control.sparkedhost.us/api/client/servers/${{secrets.SERVER_ID}}/power \
+            ${{secrets.POWER_ENDPOINT_URL}} \
             Authorization:"${{secrets.API_KEY}}" \
             < request.json
