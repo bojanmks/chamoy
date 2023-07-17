@@ -2,11 +2,13 @@ require('dotenv').config();
 const { default: axios } = require("axios");
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const sendTextReply = require('../modules/messaging/sendTextReply');
+const { PRODUCTION_ENVIRONMENT } = require('../constants/environments');
 
 module.exports = {
     name: 'restart',
     description: 'Restarts the bot',
     onlyDevs: true,
+    environments: [PRODUCTION_ENVIRONMENT],
     callback: async (client, interaction) => {
         sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);
 
