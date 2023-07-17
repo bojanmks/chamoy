@@ -1,4 +1,4 @@
-const { NO_PERMISSION_ERROR_RESPONSE } = require("../constants/responseMessages");
+const { NO_PERMISSION_ERROR_RESPONSE } = require("./errorMessages");
 
 module.exports = (interaction) => {
     interaction.reply({

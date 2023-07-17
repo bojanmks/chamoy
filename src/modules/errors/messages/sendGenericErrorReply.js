@@ -1,4 +1,4 @@
-const { GENERIC_ERROR_RESPONSE } = require("../constants/responseMessages");
+const { GENERIC_ERROR_RESPONSE } = require("./errorMessages");
 
 module.exports = (interaction) => {
     interaction.reply({

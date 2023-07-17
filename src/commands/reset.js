@@ -1,6 +1,6 @@
 const getDaysLeft = require("../modules/usernameDecrement/getDaysLeft");
 const handleUsernameReset = require("../modules/usernameDecrement/handleUsernameReset");
-const sendGenericErrorReply = require("../errors/sendGenericErrorReply");
+const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErrorReply");
 
 module.exports = {
     name: 'reset',

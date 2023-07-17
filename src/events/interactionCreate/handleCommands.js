@@ -1,6 +1,6 @@
 const { devs } = require('../../../config.json');
-const sendGenericErrorReply = require('../../errors/sendGenericErrorReply');
-const sendNoPermissionErrorReply = require('../../errors/sendNoPermissionErrorReply');
+const sendGenericErrorReply = require('../../modules/errors/messages/sendGenericErrorReply');
+const sendNoPermissionErrorReply = require('../../modules/errors/messages/sendNoPermissionErrorReply');
 const getLocalCommands = require('../../modules/commands/getLocalCommands');
 
 module.exports = async (client, interaction) => {
