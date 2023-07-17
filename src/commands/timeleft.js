@@ -1,5 +1,6 @@
 const getDaysLeft = require('../modules/usernameDecrement/getDaysLeft');
 const getSavedUsername = require('../modules/usernameDecrement/getSavedUsername');
+const sendDaysLeftMessage = require('../modules/usernameDecrement/messages/sendDaysLeftMessage');
 
 module.exports = {
     name: 'timeleft',
@@ -8,6 +9,6 @@ module.exports = {
         const username = getSavedUsername(getSavedUsername);
         const daysLeft = getDaysLeft(username);
 
-        interaction.reply(`${daysLeft} days left`);
+        sendDaysLeftMessage(daysLeft, interaction);
     }
 };

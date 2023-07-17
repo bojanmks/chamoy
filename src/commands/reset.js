@@ -1,6 +1,7 @@
 const getDaysLeft = require("../modules/usernameDecrement/getDaysLeft");
 const handleUsernameReset = require("../modules/usernameDecrement/handleUsernameReset");
 const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErrorReply");
+const sendDaysLeftMessage = require("../modules/usernameDecrement/messages/sendDaysLeftMessage");
 
 module.exports = {
     name: 'reset',
@@ -13,6 +14,6 @@ module.exports = {
         }
 
         const daysLeft = getDaysLeft(newUsername);
-        return interaction.reply(`${daysLeft} days left`);
+        sendDaysLeftMessage(daysLeft, interaction);
     }
 };

@@ -2,6 +2,7 @@ const { ApplicationCommandOptionType } = require('discord.js');
 const getDaysLeft = require('../modules/usernameDecrement/getDaysLeft');
 const handleUsernameDecrement = require('../modules/usernameDecrement/handleUsernameDecrement');
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
+const sendDaysLeftMessage = require('../modules/usernameDecrement/messages/sendDaysLeftMessage');
 
 module.exports = {
     name: 'skip',
@@ -22,7 +23,7 @@ module.exports = {
         }
 
         const daysLeft = getDaysLeft(newUsername);
-        interaction.reply(`${daysLeft} days left`);
+        sendDaysLeftMessage(daysLeft, interaction);
     }
 };
 
