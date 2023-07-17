@@ -1,3 +1,3 @@
 module.exports = (client) => {
-    console.log(`✅ ${client.user.username} is online2`);
+    console.log(`✅ ${client.user.username} is online`);
 };
