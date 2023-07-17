@@ -41,7 +41,7 @@ function generateCommandChoices(games) {
 function generateGameEmbed(game) {
     const embed = generateBaseEmbed();
 
-    embed.setTitle('Linkovi:');
+    embed.setTitle(game.name);
 
     for(let i in game.links) {
         addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
