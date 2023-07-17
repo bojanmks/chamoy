@@ -6,21 +6,14 @@ on:
       - main
 
 jobs:
-  send_post_request:
-    name: Send POST request
+  sendHttpRequest:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Create request body file
+      - name: Send HTTP Request
         run: |
-          echo '{"signal": "restart"}' > request.json
-
-      - name: Send POST request
-        run: |
-          http --json POST \
-            ${{secrets.POWER_ENDPOINT_URL}} \
-            Authorization:"${{secrets.API_KEY}}" \
-            < request.json
+          curl -X POST \
+               -H "Content-Type: application/json" \
+               -H "Authorization: ${{secrets.API_KEY}}" \
+               -d '{"signal": "restart"}' \
+               ${{secrets.POWER_ENDPOINT_URL}}
