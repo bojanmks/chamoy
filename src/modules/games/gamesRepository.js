@@ -2,9 +2,9 @@ const games = require('../../data/games.json');
 
 module.exports = {
     get: () => {
-        return games.sort((a, b) => a.keyword.localeCompare(b.keyword));
+        return games.sort((a, b) => a.name.localeCompare(b.name));
     },
-    find: (keyword) => {
-        return games.find(x => x.keyword === keyword);
+    find: (id) => {
+        return games.find(x => x.id === id);
     }
 };

@@ -10,14 +10,14 @@ module.exports = {
         {
             name: 'game',
             description: 'Name of the game',
-            type: ApplicationCommandOptionType.String,
+            type: ApplicationCommandOptionType.Number,
             required: true,
             choices: generateCommandChoices(gamesRepository.get())
         }
     ],
     callback: (client, interaction) => {
-        const gameKeyword = interaction.options.get('game').value;
-        const game = gamesRepository.find(gameKeyword);
+        const gameId = interaction.options.get('game').value;
+        const game = gamesRepository.find(gameId);
 
         if (!game) {
             return sendGenericErrorReply(interaction);
@@ -34,7 +34,7 @@ module.exports = {
 function generateCommandChoices(games) {
     return games.map(x => ({
         name: x.name,
-        value: x.keyword
+        value: x.id
     }));
 }
 
@@ -44,11 +44,7 @@ function generateGameEmbed(game) {
     embed.setTitle('Linkovi:');
 
     for(let i in game.links) {
-        embed.addFields({
-            name: '\u200b',
-            value: "``" + (parseInt(i) + 1) + ".``  " + `[${game.links[i].name}](${game.links[i].link})`,
-            inline: false
-        });
+        addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
     }
 
     if(game.thumbnail) {
@@ -56,4 +52,18 @@ function generateGameEmbed(game) {
     }
 
     return embed;
+}
+
+function addLinkToEmbed(embed, ordinalNumber, linkObject) {
+    let fieldValue = "``" + ordinalNumber + ".``  " + `[${linkObject.name}](${linkObject.link})`;
+
+    if (linkObject.description) {
+        fieldValue += ` - ${linkObject.description}`;
+    }
+
+    embed.addFields({
+        name: '\u200b',
+        value: fieldValue,
+        inline: false
+    });
 }
