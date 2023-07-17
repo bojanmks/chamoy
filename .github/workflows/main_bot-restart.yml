@@ -14,9 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install httpie
-        run: sudo apt-get install httpie
-
       - name: Create request body file
         run: |
           echo '{"signal": "restart"}' > request.json

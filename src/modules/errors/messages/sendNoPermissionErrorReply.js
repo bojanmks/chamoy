@@ -1,8 +1,6 @@
+const sendTextReply = require("../../messaging/sendTextReply");
 const { NO_PERMISSION_ERROR_RESPONSE } = require("./errorMessages");
 
 module.exports = (interaction) => {
-    interaction.reply({
-        content: NO_PERMISSION_ERROR_RESPONSE,
-        ephemeral: true
-    });
+    sendTextReply(interaction, NO_PERMISSION_ERROR_RESPONSE, true);
 };
