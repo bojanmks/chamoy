@@ -43,11 +43,18 @@
     "links": [
       {
         "name": "Left 4 Dead 2",
-        "link": "http://www.mediafire.com/file/k3ylt96xqljma8a/Left.4.Dead.2.v2.2.1.2.7z/file"
+        "link": "https://1fichier.com/?mbdlk6et422a5mqld6dk"
+      },
+      {
+        "name": "Plugini",
+        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGhxEyoKP8jdW392yB?e=RhteXt",
+        "description": "Za 5+ igrača, samo host mora da ima"
       },
       {
         "name": "Online Fix",
-        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiB9u-SO1rGjbKDP8?e=MRYgzj"
+        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiB9u-SO1rGjbKDP8?e=MRYgzj",
+        "description": "Nije obavezno",
+        "deleted": true
       }
     ]
   },

@@ -40,10 +40,10 @@ function generateCommandChoices(games) {
 
 function generateGameEmbed(game) {
     const embed = generateBaseEmbed();
-
     embed.setTitle(game.name);
 
-    for(let i in game.links) {
+    const activeLinks = game.links.filter(x => !x.deleted);
+    for(let i in activeLinks) {
         addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
     }
 
