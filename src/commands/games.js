@@ -32,7 +32,7 @@ module.exports = {
 };
 
 function generateCommandChoices(games) {
-    return games.map(x => ({
+    return games.filter(x => !x.deleted).map(x => ({
         name: x.name,
         value: x.id
     }));

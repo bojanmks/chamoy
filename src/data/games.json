@@ -54,6 +54,7 @@
   {
     "id": 5,
     "name": "GUILTY GEAR -STRIVE-",
+    "deleted": true,
     "thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/1384160/header.jpg?t=1628665895",
     "links": [
       {
@@ -107,6 +108,7 @@
   {
     "id": 7,
     "name": "Cluedo",
+    "deleted": true,
     "thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/794800/header.jpg?t=1610536248",
     "links": [
       {
