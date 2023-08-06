@@ -2,6 +2,7 @@ const { ApplicationCommandOptionType } = require('discord.js');
 const gamesRepository = require('../modules/games/gamesRepository');
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const generateBaseEmbed = require('../modules/embeds/generateBaseEmbed');
+const generateCommandChoices = require('../modules/commands/generateCommandChoices');
 
 module.exports = {
     name: 'games',
@@ -30,13 +31,6 @@ module.exports = {
         });
     }
 };
-
-function generateCommandChoices(games) {
-    return games.filter(x => !x.deleted).map(x => ({
-        name: x.name,
-        value: x.id
-    }));
-}
 
 function generateGameEmbed(game) {
     const embed = generateBaseEmbed();
