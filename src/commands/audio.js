@@ -6,6 +6,7 @@ const sendTextReply = require('../modules/messaging/sendTextReply');
 const path = require('path');
 const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const generateCommandChoices = require('../modules/commands/generateCommandChoices');
+const { X_EMOJI, PLAY_EMOJI } = require('../constants/emojis');
 
 module.exports = {
     name: 'audio',
@@ -28,7 +29,7 @@ module.exports = {
 
         const usersVoiceChannel = interaction.member.voice.channel;
         if (!usersVoiceChannel) {
-            return sendTextReply(interaction, ':x: You need to be in a voice channel', true);
+            return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
         }
 
         const audioId = interaction.options.get('name').value;
@@ -52,7 +53,7 @@ module.exports = {
                 busyUtil.toggleBusy(serverId);
             });
 
-            sendTextReply(interaction, `:white_check_mark: Playing **${audio.name}**`, true);
+            sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
         }
         catch (error) {
             connection.disconnect();
