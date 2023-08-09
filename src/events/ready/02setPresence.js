@@ -12,4 +12,6 @@ module.exports = (client) => {
             ],
             status: PresenceUpdateStatus.DoNotDisturb
         });
+
+    console.log('✅ Presence set');
 };
