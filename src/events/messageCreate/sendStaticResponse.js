@@ -25,8 +25,6 @@ function getExactResponse(messageContent) {
     const exactResponses = staticResponses.filter(x => x.exact);
     const exactResponse = exactResponses.find(x => (!x.caseSensitive && x.message.toLocaleLowerCase() === messageContent.toLowerCase())
                                                 || (x.caseSensitive && x.message === messageContent));
-
-    console.log(messageContent);
     
     return exactResponse;
 }

@@ -14,7 +14,7 @@ module.exports = [
         response: `${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI}`
     },
     {
-        message: '🫡',
+        message: SALUTE_EMOJI,
         response: SALUTE_EMOJI,
         exact: true
     }
