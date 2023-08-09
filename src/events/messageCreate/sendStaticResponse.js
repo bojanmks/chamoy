@@ -1,15 +1,15 @@
 const messageResponses = require('../../data/messageResponses.json');
 const stringSimilarity = require('string-similarity');
 
-const MINIMUM_ACCURACY = .75;
+const MINIMUM_ACCURACY = .7;
 
 module.exports = async (client, message) => {
+    if (message.author.bot) return;
+
     if (!messageResponses || !messageResponses.length) return;
 
     const messageContent = message.content;
     const responseObject = getRecognizedMessage(messageContent);
-
-    console.log(responseObject);
 
     if (responseObject) {
         message.reply(responseObject.response);
