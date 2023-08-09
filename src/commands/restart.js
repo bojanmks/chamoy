@@ -17,7 +17,7 @@ module.exports = {
         };
 
         const headers = {
-            'Authorization': process.env.API_KEY
+            'Authorization': 'Bearer ' + process.env.SPARKEDHOST_API_KEY
         };
 
         await axios.post(process.env.POWER_API_ENDPOINT, body, { headers })
