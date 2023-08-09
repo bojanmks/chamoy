@@ -1,4 +1,4 @@
-const messageResponses = require('../../data/messageResponses.json');
+const staticResponses = require('../../modules/staticResponses/staticResponses');
 const stringSimilarity = require('string-similarity');
 
 const MINIMUM_ACCURACY = .7;
@@ -6,7 +6,7 @@ const MINIMUM_ACCURACY = .7;
 module.exports = async (client, message) => {
     if (message.author.bot) return;
 
-    if (!messageResponses || !messageResponses.length) return;
+    if (!staticResponses || !staticResponses.length) return;
 
     const messageContent = message.content;
     const responseObject = getRecognizedMessage(messageContent);
@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
 }
 
 function getRecognizedMessage(messageContent) {
-    const responsesWithAccuracy = messageResponses.map(x => ({
+    const responsesWithAccuracy = staticResponses.map(x => ({
         message: x.message,
         response: x.response,
         accuracy: calculateSentenceSimilarity(x.message.toLowerCase(), messageContent.toLowerCase())
