@@ -20,7 +20,7 @@ function getRecognizedMessage(messageContent) {
     const responsesWithAccuracy = messageResponses.map(x => ({
         message: x.message,
         response: x.response,
-        accuracy: calculateSentenceSimilarity(x.message, messageContent)
+        accuracy: calculateSentenceSimilarity(x.message.toLowerCase(), messageContent.toLowerCase())
     })).sort((a, b) => b.accuracy - a.accuracy);
 
     const mostAccurateResponse = responsesWithAccuracy[0];
