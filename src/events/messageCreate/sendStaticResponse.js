@@ -8,16 +8,31 @@ module.exports = async (client, message) => {
 
     if (!staticResponses || !staticResponses.length) return;
 
-    const messageContent = message.content;
-    const responseObject = getRecognizedMessage(messageContent);
+    const messageContent = message.content.trim();
 
-    if (responseObject) {
-        message.reply(responseObject.response);
+    const exactResponse = getExactResponse(messageContent);
+    if (exactResponse) {
+        return message.reply(exactResponse.response);
+    }
+
+    const recognizedResponse = getRecognizedResponse(messageContent);
+    if (recognizedResponse) {
+        message.reply(recognizedResponse.response);
     }
 }
 
-function getRecognizedMessage(messageContent) {
-    const responsesWithAccuracy = staticResponses.map(x => ({
+function getExactResponse(messageContent) {
+    const exactResponses = staticResponses.filter(x => x.exact);
+    const exactResponse = exactResponses.find(x => (!x.caseSensitive && x.message.toLocaleLowerCase() === messageContent.toLowerCase())
+                                                || (x.caseSensitive && x.message === messageContent));
+
+    console.log(messageContent);
+    
+    return exactResponse;
+}
+
+function getRecognizedResponse(messageContent) {
+    const responsesWithAccuracy = staticResponses.filter(x => !x.exact).map(x => ({
         message: x.message,
         response: x.response,
         accuracy: calculateSentenceSimilarity(x.message.toLowerCase(), messageContent.toLowerCase())

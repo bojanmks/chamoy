@@ -1,4 +1,4 @@
-const { LAUGHING_CRYING_EMOJI } = require("../../constants/emojis");
+const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("../../constants/emojis");
 
 module.exports = [
     {
@@ -12,5 +12,10 @@ module.exports = [
     {
         message: 'vadim ga malo po malo',
         response: `${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI}`
+    },
+    {
+        message: '🫡',
+        response: SALUTE_EMOJI,
+        exact: true
     }
 ];
