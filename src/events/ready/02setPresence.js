@@ -1,17 +1,6 @@
-const { ActivityType, PresenceUpdateStatus } = require("discord.js");
+const defaultPresence = require("../../modules/presence/defaultPresence");
 
 module.exports = (client) => {
-    client
-        .user
-        .setPresence({
-            activities: [
-                {
-                    name: 'VOYAGE X DEVITO - MAFIA (OFFICIAL VIDEO)',
-                    type: ActivityType.Listening
-                }
-            ],
-            status: PresenceUpdateStatus.DoNotDisturb
-        });
-
-    console.log('✅ Presence set');
+    client.user.setPresence(defaultPresence());
+    console.log('✅ Default presence set');
 };
