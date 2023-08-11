@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Client, IntentsBitField } = require('discord.js');
 const eventHandler = require('./handlers/eventHandler');
-const scheduleJobs = require('./modules/jobs/scheduleJobs');
 
 const client = new Client({
     intents: [
@@ -14,6 +13,5 @@ const client = new Client({
 });
 
 eventHandler(client);
-scheduleJobs(client);
 
 client.login(process.env.TOKEN);
