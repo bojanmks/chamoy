@@ -1,6 +1,11 @@
 const defaultPresence = require("../../modules/presence/defaultPresence");
+const presenceRatelimitUtil = require("../../modules/presence/presenceRatelimitUtil");
 
 module.exports = (client) => {
-    client.user.setPresence(defaultPresence());
-    console.log('✅ Default presence set');
+    presenceRatelimitUtil.onCanChangePresence(() => {
+        client.user.setPresence(defaultPresence());
+        console.log('✅ Default presence set');
+    }, () => {
+        console.log('❌ Could not set default presence');
+    });
 };

@@ -2,6 +2,7 @@ const { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus } = req
 const setPresence = require("../modules/presence/setPresence");
 const sendTextReply = require("../modules/messaging/sendTextReply");
 const { CHECK_EMOJI } = require("../constants/emojis");
+const presenceRatelimitUtil = require("../modules/presence/presenceRatelimitUtil");
 
 module.exports = {
     name: 'setpresence',
@@ -63,12 +64,16 @@ module.exports = {
         }
     ],
     callback: (client, interaction) => {
-        const activityName = interaction.options.get('name').value;
-        const activityType = interaction.options.get('type').value;
-        const status = interaction.options.get('status').value;
+        presenceRatelimitUtil.onCanChangePresence(() => {
+            const activityName = interaction.options.get('name').value;
+            const activityType = interaction.options.get('type').value;
+            const status = interaction.options.get('status').value;
 
-        setPresence(client, activityName, activityType, status);
+            setPresence(client, activityName, activityType, status);
 
-        sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
+            sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
+        }, () => {
+            presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
+        });
     }
 };

@@ -17,6 +17,6 @@ module.exports = (client) => {
             }
         });
 
-        console.log(`✅ ${job.name} job scheduled.`);
+        console.log(`✅ ${job.name} job scheduled`);
     }
 };
