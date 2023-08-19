@@ -2,19 +2,19 @@ const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("../../constants/emojis"
 
 module.exports = [
     {
-        message: 'koliko kosta daytona?',
+        messages: ['koliko kosta daytona?', 'koliko kosta dejtona?'],
         response: 'kosta 50 soma'
     },
     {
-        message: 'koliko teska je torba?',
+        messages: ['koliko teska je torba?'],
         response: 'oko 2 miliona'
     },
     {
-        message: 'vadim ga malo po malo',
+        messages: ['vadim ga malo po malo'],
         response: `${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI}`
     },
     {
-        message: SALUTE_EMOJI,
+        messages: [SALUTE_EMOJI],
         response: SALUTE_EMOJI,
         exact: true
     }
