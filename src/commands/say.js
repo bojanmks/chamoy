@@ -13,7 +13,6 @@ module.exports = {
             required: true
         }
     ],
-    onlyDevs: true,
     callback: (client, interaction) => {
         const messageToSend = interaction.options.get('message').value;
         interaction.channel.send(messageToSend);
