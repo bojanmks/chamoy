@@ -1,8 +1,8 @@
 const { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus } = require("discord.js");
 const setPresence = require("../modules/presence/setPresence");
 const sendTextReply = require("../modules/messaging/sendTextReply");
-const { CHECK_EMOJI } = require("../constants/emojis");
 const presenceRatelimitUtil = require("../modules/presence/presenceRatelimitUtil");
+const { CHECK_EMOJI } = require("../modules/shared/constants/emojis");
 
 module.exports = {
     name: 'setpresence',

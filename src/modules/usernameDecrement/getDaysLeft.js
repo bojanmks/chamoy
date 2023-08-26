@@ -1,4 +1,5 @@
-const { ALPHABET } = require('../../constants/constants');
+const { ALPHABET } = require("../shared/constants/constants");
+
 
 module.exports = (username) => {
     let daysLeft = 0;

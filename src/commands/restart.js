@@ -2,7 +2,7 @@ require('dotenv').config();
 const { default: axios } = require("axios");
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const sendTextReply = require('../modules/messaging/sendTextReply');
-const { PRODUCTION_ENVIRONMENT } = require('../constants/environments');
+const { PRODUCTION_ENVIRONMENT } = require('../modules/shared/constants/environments');
 
 module.exports = {
     name: 'restart',

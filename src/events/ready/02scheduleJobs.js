@@ -1,6 +1,6 @@
 const schedule = require('node-schedule');
 const getJobs = require('../../modules/jobs/getJobs');
-const { CURRENT_ENVIRONMENT } = require('../../constants/environments');
+const { CURRENT_ENVIRONMENT } = require('../../modules/shared/constants/environments');
 
 module.exports = (client) => {
     const jobs = getJobs();

@@ -1,5 +1,6 @@
-const { X_EMOJI } = require("../../constants/emojis");
+
 const sendTextReply = require("../messaging/sendTextReply");
+const { X_EMOJI } = require("../shared/constants/emojis");
 
 let lastPresenceChangeTime;
 

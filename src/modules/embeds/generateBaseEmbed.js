@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { EMBED_COLOR } = require("../../constants/constants");
+const { EMBED_COLOR } = require("../shared/constants/constants");
 
 module.exports = () => {
     return new EmbedBuilder()

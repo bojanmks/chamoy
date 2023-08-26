@@ -1,4 +1,4 @@
-const audioList = require('../../data/audio.json');
+const audioList = require('../../assets/data/audio.json');
 
 module.exports = {
     get: () => {

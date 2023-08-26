@@ -1,4 +1,5 @@
-const { X_EMOJI } = require("../../../constants/emojis");
+const { X_EMOJI } = require("../../shared/constants/emojis");
+
 
 module.exports = {
     GENERIC_ERROR_RESPONSE: `${X_EMOJI} An error occured`,

@@ -6,7 +6,7 @@ const sendTextReply = require('../modules/messaging/sendTextReply');
 const path = require('path');
 const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const generateCommandChoices = require('../modules/commands/generateCommandChoices');
-const { X_EMOJI, PLAY_EMOJI } = require('../constants/emojis');
+const { X_EMOJI, PLAY_EMOJI } = require('../modules/shared/constants/emojis');
 
 module.exports = {
     name: 'audio',
@@ -70,7 +70,7 @@ function playAudio(connection, audio, onFinish) {
         }
     });
 
-    const relativeFilePath = `./src/audio/${audio.fileName}`;
+    const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
     const absoluteFilePath = path.resolve(relativeFilePath);
     const audioResource = createAudioResource(absoluteFilePath);
 

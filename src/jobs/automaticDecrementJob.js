@@ -1,4 +1,5 @@
-const { PRODUCTION_ENVIRONMENT } = require("../constants/environments");
+
+const { PRODUCTION_ENVIRONMENT } = require("../modules/shared/constants/environments");
 const handleUsernameDecrement = require("../modules/usernameDecrement/handleUsernameDecrement");
 
 module.exports = {

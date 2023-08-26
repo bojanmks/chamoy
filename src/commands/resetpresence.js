@@ -1,7 +1,8 @@
-const { CHECK_EMOJI } = require("../constants/emojis");
+
 const sendTextReply = require("../modules/messaging/sendTextReply");
 const defaultPresence = require("../modules/presence/defaultPresence");
 const presenceRatelimitUtil = require("../modules/presence/presenceRatelimitUtil");
+const { CHECK_EMOJI } = require("../modules/shared/constants/emojis");
 
 module.exports = {
     name: 'resetpresence',

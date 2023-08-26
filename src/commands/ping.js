@@ -1,4 +1,4 @@
-const { DEVELOPMENT_ENVIRONMENT } = require("../constants/environments");
+const { DEVELOPMENT_ENVIRONMENT } = require("../modules/shared/constants/environments");
 
 module.exports = {
     name: 'ping',
