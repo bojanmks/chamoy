@@ -13,5 +13,10 @@
         "id": 3,
         "name": "Mr Boombastic",
         "fileName": "mr_boombastic.mp3"
+    },
+    {
+        "id": 4,
+        "name": "Steven",
+        "fileName": "steven.mp3"
     }
 ]
