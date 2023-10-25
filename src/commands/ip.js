@@ -42,6 +42,10 @@ module.exports = {
 function generateEmbed(embed, members) {
     embed.addFields(
         {
+            name: 'Network ID',
+            value: zeroTierNetworkId
+        },
+        {
             name: 'Node ID',
             value: members.map(x => x.nodeId).join('\n'),
             inline: true
