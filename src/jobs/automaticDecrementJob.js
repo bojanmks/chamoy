@@ -7,6 +7,7 @@ module.exports = {
     cronExpression: '0 0 * * *',
     environments: [PRODUCTION_ENVIRONMENT],
     callback: async (client) => {
-        await handleUsernameDecrement(client);
+        const newUsername = await handleUsernameDecrement(client);
+        console.log(`✅ Username was automatically updated to '${newUsername}' at ${new Date().toUTCString()}`);
     }
 };
