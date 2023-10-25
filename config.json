@@ -1,5 +1,7 @@
 {
     "targetUserId": "958462780246229082",
     "serverId": "737095502516060301",
-    "devs": ["292050833640652801"]
+    "devs": ["292050833640652801"],
+    "zeroTierApiUrl": "https://api.zerotier.com/api/v1",
+    "zeroTierNetworkId": "8056c2e21cc632f5"
 }

@@ -24,7 +24,8 @@ module.exports = {
             return sendGenericErrorReply(interaction);
         }
 
-        const embed = generateGameEmbed(game);
+        const embed = generateBaseEmbed(client, game.name);
+        generateGameEmbed(embed, game);
 
         interaction.reply({
             embeds: [embed]
@@ -32,10 +33,7 @@ module.exports = {
     }
 };
 
-function generateGameEmbed(game) {
-    const embed = generateBaseEmbed();
-    embed.setTitle(game.name);
-
+function generateGameEmbed(embed, game) {
     const activeLinks = game.links.filter(x => !x.deleted);
     for(let i in activeLinks) {
         addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
@@ -44,8 +42,6 @@ function generateGameEmbed(game) {
     if(game.thumbnail) {
         embed.setImage(game.thumbnail);
     }
-
-    return embed;
 }
 
 function addLinkToEmbed(embed, ordinalNumber, linkObject) {
