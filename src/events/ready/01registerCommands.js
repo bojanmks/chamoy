@@ -56,8 +56,8 @@ async function removeNonExistantCommands(localCommands, applicationCommands) {
         x => !localCommands.some(y => y.name === x.name)
     );
 
-    for (const commandToBeDeleted of commandsToBeDeleted) {
-        await deleteExistingCommand(applicationCommands, id);
+    for (const commandToBeDeleted of commandsToBeDeleted.values()) {
+        await deleteExistingCommand(applicationCommands, commandToBeDeleted.id);
         console.log(`✅ Command deleted: ${commandToBeDeleted.name}`);
     }
 }

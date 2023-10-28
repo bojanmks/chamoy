@@ -3,7 +3,7 @@ const { PRODUCTION_ENVIRONMENT } = require("../modules/shared/constants/environm
 const handleUsernameDecrement = require("../modules/usernameDecrement/handleUsernameDecrement");
 
 module.exports = {
-    name: 'Automatic Decrement',
+    name: 'Automatic username update',
     cronExpression: '0 0 * * *',
     environments: [PRODUCTION_ENVIRONMENT],
     callback: async (client) => {
