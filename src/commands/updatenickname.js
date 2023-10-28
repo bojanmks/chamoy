@@ -5,7 +5,7 @@ const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErr
 const sendDaysLeftMessage = require('../modules/usernameDecrement/messages/sendDaysLeftMessage');
 
 module.exports = {
-    name: 'skip',
+    name: 'updatenickname',
     description: 'Skips the specified number of days, or 1 by default',
     options: [
         {

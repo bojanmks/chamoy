@@ -4,7 +4,7 @@ const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErr
 const sendDaysLeftMessage = require("../modules/usernameDecrement/messages/sendDaysLeftMessage");
 
 module.exports = {
-    name: 'reset',
+    name: 'resetnickname',
     description: 'Resets the nickname',
     callback: async (client, interaction) => {
         const newUsername = await handleUsernameReset(client, interaction);
