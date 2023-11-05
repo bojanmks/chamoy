@@ -13,7 +13,8 @@ module.exports = (client) => {
             try {
                 await job.callback(client);
             } catch (error) {
-                console.error(`❌ Error running ${job.name} job: ${error}`);
+                console.error(`❌ Error running ${job.name} job:`);
+                console.error(error);
             }
         });
 

@@ -11,7 +11,8 @@ module.exports = async (client) => {
         await updateApplicationCommands(localCommands, applicationCommands);
         await removeNonExistantCommands(localCommands, applicationCommands);
     } catch (error) {
-        console.error(`❌ There was an error registering commands: ${error}`);
+        console.error(`❌ There was an error registering commands:`);
+        console.error(error);
     }
 };
 

@@ -3,7 +3,7 @@ const sendTextReply = require("../modules/messaging/sendTextReply");
 const { default: axios } = require("axios");
 const { zeroTierApiUrl, zeroTierNetworkId } = require("../../config.json");
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
-const { CHECK_EMOJI, X_EMOJI } = require("../modules/shared/constants/emojis");
+const { CHECK_EMOJI } = require("../modules/shared/constants/emojis");
 
 module.exports = {
     name: 'setnodename',
@@ -35,7 +35,8 @@ module.exports = {
                 sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
             })
             .catch(error => {
-                console.error(`${X_EMOJI} Error updating a zero tier node name: ${error}`);
+                console.error('❌ Error updating a zero tier node name:');
+                console.error(error);
                 sendGenericErrorReply(interaction);
             });
     }

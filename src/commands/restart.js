@@ -22,7 +22,8 @@ module.exports = {
 
         await axios.post(process.env.POWER_API_ENDPOINT, body, { headers })
             .catch(error => {
-                console.error(`❌ Error restarting the bot: ${error}`);
+                console.error('❌ Error restarting the bot:');
+                console.error(error);
                 sendGenericErrorReply(interaction);
             });
     }

@@ -7,7 +7,13 @@ module.exports = async (username, client) => {
     const targetUser = await server.members.fetch(targetUserId);
     if (!targetUser) return false;
 
-    targetUser.setNickname(username);
+    let result = true;
 
-    return true;
+    await targetUser.setNickname(username).catch(err => {
+        result = false;
+        console.error(`❌ There was an error setting a users nickname:`);
+        console.error(err);
+    });
+
+    return result;
 };

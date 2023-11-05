@@ -3,7 +3,6 @@ const { zeroTierApiUrl, zeroTierNetworkId } = require("../../config.json");
 const generateBaseEmbed = require("../modules/embeds/generateBaseEmbed");
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const { ApplicationCommandOptionType } = require("discord.js");
-const { X_EMOJI } = require("../modules/shared/constants/emojis");
 
 module.exports = {
     name: 'ip',
@@ -34,7 +33,8 @@ module.exports = {
                 });
             })
             .catch(error => {
-                console.error(`${X_EMOJI} Error fetching zero tier members: ${error}`);
+                console.error('❌ Error fetching zero tier members:');
+                console.error(error);
                 sendGenericErrorReply(interaction);
             });
     }
