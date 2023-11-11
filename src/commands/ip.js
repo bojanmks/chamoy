@@ -9,13 +9,13 @@ module.exports = {
     description: 'Get list of zero tier network members',
     options: [
         {
-            name: 'nodeid',
-            description: 'Part of the Node ID to search by',
+            name: 'keyword',
+            description: 'Search by node id, name or ip',
             type: ApplicationCommandOptionType.String
         }
     ],
     callback: async (client, interaction) => {
-        const nodeIdKeyword = interaction.options.get('nodeid')?.value ?? "";
+        const keyword = interaction.options.get('keyword')?.value ?? "";
 
         const headers = {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
@@ -23,7 +23,9 @@ module.exports = {
 
         await axios.get(`${zeroTierApiUrl}/network/${zeroTierNetworkId}/member`, { headers })
             .then(data => {
-                const members = data.data.filter(x => x.nodeId.includes(nodeIdKeyword));
+                const members = data.data.filter(x => x.nodeId?.includes(keyword)
+                                                   || x.name?.includes(keyword)
+                                                   || x.config?.ipAssignments.some(ipAs => ipAs.includes(keyword)));
 
                 const embed = generateBaseEmbed(client, 'IP');
                 generateEmbed(embed, members);
