@@ -3,6 +3,7 @@ const { zeroTierApiUrl, zeroTierNetworkId } = require("../../config.json");
 const generateBaseEmbed = require("../modules/embeds/generateBaseEmbed");
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const { ApplicationCommandOptionType } = require("discord.js");
+const sendReply = require("../modules/messaging/sendReply");
 
 module.exports = {
     name: 'ip',
@@ -12,10 +13,16 @@ module.exports = {
             name: 'keyword',
             description: 'Search by node id, name or ip',
             type: ApplicationCommandOptionType.String
+        },
+        {
+            name: 'ephemeral',
+            description: 'Should message be only visible to you',
+            type: ApplicationCommandOptionType.Boolean
         }
     ],
     callback: async (client, interaction) => {
         const keyword = interaction.options.get('keyword')?.value ?? "";
+        const ephemeral = interaction.options.get('ephemeral')?.value ?? true;
 
         const headers = {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
@@ -30,8 +37,9 @@ module.exports = {
                 const embed = generateBaseEmbed(client, 'IP');
                 generateEmbed(embed, members);
 
-                interaction.reply({
-                    embeds: [embed]
+                sendReply(interaction, {
+                    embeds: [embed],
+                    ephemeral: ephemeral
                 });
             })
             .catch(error => {

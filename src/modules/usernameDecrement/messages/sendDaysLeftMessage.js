@@ -1,3 +1,5 @@
+const sendTextReply = require("../../messaging/sendTextReply");
+
 module.exports = (daysLeft, interaction) => {
-    interaction.reply(`${daysLeft} days left`);
+    sendTextReply(interaction, `${daysLeft} days left`);
 };

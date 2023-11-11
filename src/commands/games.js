@@ -3,6 +3,7 @@ const gamesRepository = require('../modules/games/gamesRepository');
 const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
 const generateBaseEmbed = require('../modules/embeds/generateBaseEmbed');
 const generateCommandChoices = require('../modules/commands/generateCommandChoices');
+const sendReply = require('../modules/messaging/sendReply');
 
 module.exports = {
     name: 'games',
@@ -27,7 +28,7 @@ module.exports = {
         const embed = generateBaseEmbed(client, game.name);
         generateGameEmbed(embed, game);
 
-        interaction.reply({
+        sendReply(interaction, {
             embeds: [embed]
         });
     }
