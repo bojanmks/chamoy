@@ -8,6 +8,9 @@ module.exports = {
     environments: [PRODUCTION_ENVIRONMENT],
     callback: async (client) => {
         const newUsername = await handleUsernameDecrement(client);
-        console.log(`✅ Username was automatically updated to '${newUsername}' at ${new Date().toUTCString()}`);
+        
+        if (newUsername) {
+            console.log(`✅ Username was automatically updated to '${newUsername}' at ${new Date().toUTCString()}`);
+        }
     }
 };
