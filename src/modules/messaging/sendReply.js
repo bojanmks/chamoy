@@ -1,8 +1,7 @@
 module.exports = (interaction, data) => {
     if (interaction.replied) {
-        interaction.followUp(data);
-        return;
+        return interaction.followUp(data);
     }
 
-    interaction.reply(data);
+    return interaction.reply(data);
 };

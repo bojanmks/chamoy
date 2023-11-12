@@ -7,7 +7,7 @@ const sendReply = require("../modules/messaging/sendReply");
 
 module.exports = {
     name: 'ip',
-    description: 'Get list of zero tier network members',
+    description: 'Get the/pin list of zero tier network members',
     options: [
         {
             name: 'keyword',

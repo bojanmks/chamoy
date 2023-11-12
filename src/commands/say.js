@@ -4,7 +4,7 @@ const { CHECK_EMOJI } = require("../modules/shared/constants/emojis");
 
 module.exports = {
     name: 'say',
-    description: 'Send provided message',
+    description: 'Make bot send a message',
     options: [
         {
             name: 'message',

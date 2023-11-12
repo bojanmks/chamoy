@@ -7,6 +7,5 @@ module.exports = (client, title) => {
         .setAuthor({
             name: title,
             iconURL: client.user.displayAvatarURL()
-        })
-        .setTimestamp();
+        });
 };

@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Client, IntentsBitField } = require('discord.js');
-const eventHandler = require('./handlers/eventHandler');
+const eventHandler = require('./events/eventHandler');
 
 const client = new Client({
     intents: [
