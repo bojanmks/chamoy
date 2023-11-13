@@ -23,15 +23,12 @@ module.exports = async (client, interaction) => {
 
     try {
         await commandObject.callback(client, interaction);
-    } catch (error) {
+    } catch (e) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
-        console.error(error);
+        console.error(e);
 
-        // so the bot doesn't crash when it's not able to send a reply due to the connection timeout exception
-        try {
+        if (!e.name.includes("ConnectTimeoutError")) {
             sendGenericErrorReply(interaction);
-        } catch {
-            //
         }
     }
 };
