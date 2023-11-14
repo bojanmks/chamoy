@@ -52,7 +52,8 @@
       },
       {
         "name": "Online Fix",
-        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiB9u-SO1rGjbKDP8?e=MRYgzj"
+        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiB9u-SO1rGjbKDP8?e=MRYgzj",
+        "deleted": "true"
       }
     ]
   },
@@ -97,16 +98,18 @@
       {
         "name": "Prop Hunt",
         "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiFUCiRTn5X3CL3eh?e=FHyq0I",
-        "description": "Izmenjen"
+        "description": "(Izmenjen)"
       },
       {
         "name": "Botovi",
-        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiRn3oWP4KaZ1625l?e=dfMKyg"
+        "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiRn3oWP4KaZ1625l?e=dfMKyg",
+        "deleted": true
       },
       {
         "name": "Online Fix",
         "link": "https://1drv.ms/u/s!Ar3_sCxXuaIGiFPcgocPg-oKSQe4?e=Uihtgp",
-        "description": "Nije obavezno"
+        "description": "Nije obavezno (Moze da se koristi ZeroTier ili slicno)",
+        "deleted": true
       }
     ]
   },
