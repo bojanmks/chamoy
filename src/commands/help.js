@@ -2,12 +2,24 @@ const getLocalCommands = require("../modules/commands/getLocalCommands");
 const sendReply = require("../modules/messaging/sendReply");
 const generateBaseEmbed = require('../modules/embeds/generateBaseEmbed');
 const { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder } = require('discord.js');
+const { CURRENT_ENVIRONMENT } = require("../modules/shared/constants/environments");
+const { devs } = require("../../config.json");
+const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErrorReply");
+
+const COMMANDS_PER_PAGE = 10;
 
 module.exports = {
     name: 'help',
     description: 'Lists all commands',
     callback: async (client, interaction) => {
-        const commands = getLocalCommands().sort((a, b) => a.name.localeCompare(b.name));
+        const commands = getLocalCommands()
+            .filter(x => isCommandAvailable(x, interaction))
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+        if (!commands || !commands.length) {
+            sendGenericErrorReply(interaction);
+            return;
+        }
 
         const message = generateMessage(client, commands);
         const sentMessage = await sendReply(interaction, message);
@@ -20,7 +32,17 @@ module.exports = {
     }
 };
 
-const COMMANDS_PER_PAGE = 10;
+function isCommandAvailable(command, interaction) {
+    if (command.environments && !command.environments.includes(CURRENT_ENVIRONMENT)) {
+        return false;
+    }
+
+    if (command.onlyDevs && !devs.includes(interaction.user.id)) {
+        return false;
+    }
+
+    return true;
+}
 
 function generateMessage(client, commands, page = 0) {
     const embed = generateBaseEmbed(client, 'Commands');
