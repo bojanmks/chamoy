@@ -15,11 +15,18 @@ module.exports = {
             type: ApplicationCommandOptionType.Number,
             required: true,
             choices: generateCommandChoices(gamesRepository.get())
+        },
+        {
+            name: 'ephemeral',
+            description: 'Should message be only visible to you',
+            type: ApplicationCommandOptionType.Boolean
         }
     ],
     callback: (client, interaction) => {
         const gameId = interaction.options.get('game').value;
         const game = gamesRepository.find(gameId);
+
+        const ephemeral = interaction.options.get('ephemeral')?.value ?? false;
 
         if (!game) {
             return sendGenericErrorReply(interaction);
@@ -29,7 +36,8 @@ module.exports = {
         generateGameEmbed(embed, game);
 
         sendReply(interaction, {
-            embeds: [embed]
+            embeds: [embed],
+            ephemeral: ephemeral
         });
     }
 };
