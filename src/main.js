@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, IntentsBitField } = require('discord.js');
 const eventHandler = require('./events/eventHandler');
+const setDefaultGlobalDispatcher = require('./modules/undici/setDefaultGlobalDispatcher');
 
 const client = new Client({
     intents: [
@@ -13,5 +14,6 @@ const client = new Client({
 });
 
 eventHandler(client);
+setDefaultGlobalDispatcher();
 
 client.login(process.env.TOKEN);
