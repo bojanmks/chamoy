@@ -212,9 +212,14 @@
         "description": "Za instaliranje modova (Manual download)"
       },
       {
-        "name": "MoreCompany",
+        "name": "More Company",
         "link": "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
         "description": "Mod za 5+ igraca (Manual download)"
+      },
+      {
+        "name": "More Suits",
+        "link": "https://thunderstore.io/c/lethal-company/p/x753/More_Suits/",
+        "description": "Mod za vise odela (Manual download)"
       }
     ]
   }
