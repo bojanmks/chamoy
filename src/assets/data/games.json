@@ -205,6 +205,16 @@
       {
         "name": "Lethal Company",
         "link": "https://1fichier.com/?2kkcj8ddgvs5lhd6gddg"
+      },
+      {
+        "name": "BepInExPack",
+        "link": "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
+        "description": "Za instaliranje modova (Manual download)"
+      },
+      {
+        "name": "MoreCompany",
+        "link": "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
+        "description": "Mod za 5+ igraca (Manual download)"
       }
     ]
   }

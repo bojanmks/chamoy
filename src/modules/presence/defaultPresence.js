@@ -4,8 +4,8 @@ module.exports = () => {
     return {
         activities: [
             {
-                name: 'VOYAGE X DEVITO - MAFIA (OFFICIAL VIDEO)',
-                type: ActivityType.Listening
+                name: 'Lethal Company',
+                type: ActivityType.Playing
             }
         ],
         status: PresenceUpdateStatus.DoNotDisturb
