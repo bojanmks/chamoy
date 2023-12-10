@@ -4,8 +4,8 @@ module.exports = () => {
     return {
         activities: [
             {
-                name: 'Lethal Company',
-                type: ActivityType.Playing
+                name: 'Mamuti na Ostrvu',
+                type: ActivityType.Watching
             }
         ],
         status: PresenceUpdateStatus.DoNotDisturb
