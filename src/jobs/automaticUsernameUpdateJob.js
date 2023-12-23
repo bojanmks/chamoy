@@ -6,6 +6,7 @@ module.exports = {
     name: 'Automatic username update',
     cronExpression: '0 0 * * *',
     environments: [PRODUCTION_ENVIRONMENT],
+    deleted: true,
     callback: async (client) => {
         const newUsername = await handleUsernameDecrement(client);
         
