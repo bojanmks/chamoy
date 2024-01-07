@@ -4,7 +4,6 @@ const API_PREFIX = "/api";
 const path = require('path');
 const getAllFiles = require('@util/getAllFiles');
 const express = require('express');
-const getFileNameFromPath = require('@util/getFileNameFromPath');
 const { UNEXPECTED_ERROR_API_RESPONSE } = require('@modules/errors/messages/errorMessages');
 const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/shared/constants/statusCodes');
 const app = express();
@@ -13,7 +12,7 @@ module.exports = () => {
     const controllerFilePaths = getAllFiles(path.join(__dirname, "controllers"));
 
     for (const controllerFilePath of controllerFilePaths) {
-        const controllerFileName = getFileNameFromPath(controllerFilePath);
+        const controllerFileName = path.basename(controllerFilePath);
 
         const controllerNameEndIndex = controllerFileName.indexOf("Controller");
         const controllerName = controllerFileName.substring(0, controllerNameEndIndex);
