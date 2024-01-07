@@ -1,5 +1,5 @@
 const path = require('path');
-const getObjectsFromFilesInPath = require("../../util/getObjectsFromFilesInPath");
+const getObjectsFromFilesInPath = require("@util/getObjectsFromFilesInPath");
 
 module.exports = () => {
     const jobsPath = path.join(__dirname, '..', '..', 'jobs');

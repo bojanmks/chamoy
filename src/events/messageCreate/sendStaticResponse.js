@@ -1,4 +1,5 @@
-const staticResponses = require('../../modules/staticResponses/staticResponses');
+
+const staticResponses = require('@modules/staticResponses/staticResponses');
 const stringSimilarity = require('string-similarity');
 
 const MINIMUM_ACCURACY = .85;

@@ -1,4 +1,4 @@
-const sendReply = require("../modules/messaging/sendReply");
+const sendReply = require("@modules/messaging/sendReply");
 
 module.exports = {
     name: 'chamoy',

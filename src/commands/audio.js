@@ -1,13 +1,13 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const audioRepository = require('../modules/audio/audioRepository');
-const busyUtil = require('../modules/busy/busyUtil');
-const sendBotIsBusyReply = require('../modules/errors/messages/sendBotIsBusyReply');
-const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
-const sendTextReply = require('../modules/messaging/sendTextReply');
+const audioRepository = require('@modules/audio/audioRepository');
+const busyUtil = require('@modules/busy/busyUtil');
+const sendBotIsBusyReply = require('@modules/errors/messages/sendBotIsBusyReply');
+const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
+const sendTextReply = require('@modules/messaging/sendTextReply');
 const path = require('path');
 const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
-const generateCommandChoices = require('../modules/commands/generateCommandChoices');
-const { X_EMOJI, PLAY_EMOJI } = require('../modules/shared/constants/emojis');
+const generateCommandChoices = require('@modules/commands/generateCommandChoices');
+const { X_EMOJI, PLAY_EMOJI } = require('@modules/shared/constants/emojis');
 
 module.exports = {
     name: 'audio',

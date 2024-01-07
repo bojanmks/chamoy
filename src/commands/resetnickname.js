@@ -1,7 +1,7 @@
-const getDaysLeft = require("../modules/usernameDecrement/getDaysLeft");
-const handleUsernameReset = require("../modules/usernameDecrement/handleUsernameReset");
-const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErrorReply");
-const sendDaysLeftMessage = require("../modules/usernameDecrement/messages/sendDaysLeftMessage");
+const getDaysLeft = require("@modules/usernameDecrement/getDaysLeft");
+const handleUsernameReset = require("@modules/usernameDecrement/handleUsernameReset");
+const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
+const sendDaysLeftMessage = require("@modules/usernameDecrement/messages/sendDaysLeftMessage");
 
 module.exports = {
     name: 'resetnickname',

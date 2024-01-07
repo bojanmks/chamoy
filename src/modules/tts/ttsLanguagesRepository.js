@@ -1,4 +1,4 @@
-const languages = require('../../assets/data/tts-languages.json');
+const languages = require('@assets/data/tts-languages.json');
 
 module.exports = {
     get: () => {

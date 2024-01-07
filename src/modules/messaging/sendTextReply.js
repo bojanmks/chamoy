@@ -1,4 +1,4 @@
-const sendReply = require("./sendReply");
+const sendReply = require("@modules/messaging/sendReply");
 
 module.exports = (interaction, content, ephemeral = false) => {
     const replyContent = {

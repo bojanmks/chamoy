@@ -1,6 +1,6 @@
 
-const { PRODUCTION_ENVIRONMENT } = require("../modules/shared/constants/environments");
-const handleUsernameDecrement = require("../modules/usernameDecrement/handleUsernameDecrement");
+const { PRODUCTION_ENVIRONMENT } = require("@modules/shared/constants/environments");
+const handleUsernameDecrement = require("@modules/usernameDecrement/handleUsernameDecrement");
 
 module.exports = {
     name: 'Automatic username update',

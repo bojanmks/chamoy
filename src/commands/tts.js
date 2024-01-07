@@ -1,10 +1,10 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const sendTextReply = require("../modules/messaging/sendTextReply");
-const { CHECK_EMOJI, X_EMOJI } = require("../modules/shared/constants/emojis");
-const generateCommandChoices = require("../modules/commands/generateCommandChoices");
-const ttsLanguagesRepository = require("../modules/tts/ttsLanguagesRepository");
-const busyUtil = require("../modules/busy/busyUtil");
-const sendBotIsBusyReply = require("../modules/errors/messages/sendBotIsBusyReply");
+const sendTextReply = require("@modules/messaging/sendTextReply");
+const { CHECK_EMOJI, X_EMOJI } = require("@modules/shared/constants/emojis");
+const generateCommandChoices = require("@modules/commands/generateCommandChoices");
+const ttsLanguagesRepository = require("@modules/tts/ttsLanguagesRepository");
+const busyUtil = require("@modules/busy/busyUtil");
+const sendBotIsBusyReply = require("@modules/errors/messages/sendBotIsBusyReply");
 const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const gTTS = require("gtts");
 

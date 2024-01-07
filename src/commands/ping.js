@@ -1,5 +1,5 @@
-const sendTextReply = require("../modules/messaging/sendTextReply");
-const { DEVELOPMENT_ENVIRONMENT } = require("../modules/shared/constants/environments");
+const sendTextReply = require("@modules/messaging/sendTextReply");
+const { DEVELOPMENT_ENVIRONMENT } = require("@modules/shared/constants/environments");
 
 module.exports = {
     name: 'ping',

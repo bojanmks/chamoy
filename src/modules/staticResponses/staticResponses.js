@@ -1,4 +1,4 @@
-const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("../shared/constants/emojis");
+const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("@modules/shared/constants/emojis");
 
 
 module.exports = [

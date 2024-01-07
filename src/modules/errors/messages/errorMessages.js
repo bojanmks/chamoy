@@ -1,4 +1,4 @@
-const { X_EMOJI } = require("../../shared/constants/emojis");
+const { X_EMOJI } = require("@modules/shared/constants/emojis");
 
 
 module.exports = {

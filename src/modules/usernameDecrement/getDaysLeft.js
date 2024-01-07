@@ -1,4 +1,4 @@
-const { ALPHABET } = require("../shared/constants/constants");
+const { ALPHABET } = require("@modules/shared/constants/constants");
 
 
 module.exports = (username) => {

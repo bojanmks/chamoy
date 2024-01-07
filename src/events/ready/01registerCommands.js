@@ -1,7 +1,7 @@
-const areCommandsDifferent = require('../../modules/commands/areCommandsDifferent');
-const getApplicationCommands = require('../../modules/commands/getApplicationCommands');
-const getLocalCommands = require('../../modules/commands/getLocalCommands');
-const { CURRENT_ENVIRONMENT } = require('../../modules/shared/constants/environments');
+const areCommandsDifferent = require('@modules/commands/areCommandsDifferent');
+const getApplicationCommands = require('@modules/commands/getApplicationCommands');
+const getLocalCommands = require('@modules/commands/getLocalCommands');
+const { CURRENT_ENVIRONMENT } = require('@modules/shared/constants/environments');
 
 module.exports = async (client) => {
     try {

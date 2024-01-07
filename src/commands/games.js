@@ -1,9 +1,9 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const gamesRepository = require('../modules/games/gamesRepository');
-const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
-const generateBaseEmbed = require('../modules/embeds/generateBaseEmbed');
-const generateCommandChoices = require('../modules/commands/generateCommandChoices');
-const sendReply = require('../modules/messaging/sendReply');
+const gamesRepository = require('@modules/games/gamesRepository');
+const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
+const generateBaseEmbed = require('@modules/embeds/generateBaseEmbed');
+const generateCommandChoices = require('@modules/commands/generateCommandChoices');
+const sendReply = require('@modules/messaging/sendReply');
 
 module.exports = {
     name: 'games',

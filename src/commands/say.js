@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const sendTextReply = require("../modules/messaging/sendTextReply");
-const { CHECK_EMOJI } = require("../modules/shared/constants/emojis");
+const sendTextReply = require("@modules/messaging/sendTextReply");
+const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
 
 module.exports = {
     name: 'say',

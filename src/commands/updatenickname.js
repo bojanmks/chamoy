@@ -1,8 +1,8 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const getDaysLeft = require('../modules/usernameDecrement/getDaysLeft');
-const handleUsernameDecrement = require('../modules/usernameDecrement/handleUsernameDecrement');
-const sendGenericErrorReply = require('../modules/errors/messages/sendGenericErrorReply');
-const sendDaysLeftMessage = require('../modules/usernameDecrement/messages/sendDaysLeftMessage');
+const getDaysLeft = require('@modules/usernameDecrement/getDaysLeft');
+const handleUsernameDecrement = require('@modules/usernameDecrement/handleUsernameDecrement');
+const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
+const sendDaysLeftMessage = require('@modules/usernameDecrement/messages/sendDaysLeftMessage');
 
 module.exports = {
     name: 'updatenickname',

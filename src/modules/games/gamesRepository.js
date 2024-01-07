@@ -1,4 +1,4 @@
-const games = require('../../assets/data/games.json');
+const games = require('@assets/data/games.json');
 
 module.exports = {
     get: () => {

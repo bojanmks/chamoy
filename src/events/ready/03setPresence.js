@@ -1,5 +1,5 @@
-const defaultPresence = require("../../modules/presence/defaultPresence");
-const presenceRatelimitUtil = require("../../modules/presence/presenceRatelimitUtil");
+const defaultPresence = require("@modules/presence/defaultPresence");
+const presenceRatelimitUtil = require("@modules/presence/presenceRatelimitUtil");
 
 module.exports = (client) => {
     presenceRatelimitUtil.onCanChangePresence(() => {

@@ -1,10 +1,10 @@
-const getLocalCommands = require("../modules/commands/getLocalCommands");
-const sendReply = require("../modules/messaging/sendReply");
-const generateBaseEmbed = require('../modules/embeds/generateBaseEmbed');
+const getLocalCommands = require("@modules/commands/getLocalCommands");
+const sendReply = require("@modules/messaging/sendReply");
+const generateBaseEmbed = require('@modules/embeds/generateBaseEmbed');
 const { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder } = require('discord.js');
-const { CURRENT_ENVIRONMENT } = require("../modules/shared/constants/environments");
+const { CURRENT_ENVIRONMENT } = require("@modules/shared/constants/environments");
 const { devs } = require("../../config.json");
-const sendGenericErrorReply = require("../modules/errors/messages/sendGenericErrorReply");
+const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
 
 const COMMANDS_PER_PAGE = 10;
 

@@ -1,4 +1,4 @@
-const { MAX_USERNAME, ALPHABET } = require("../shared/constants/constants");
+const { MAX_USERNAME, ALPHABET } = require("@modules/shared/constants/constants");
 
 module.exports = (username, numberOfDays = 1) => {
     let newUsername = username;

@@ -1,4 +1,4 @@
-const getAllFiles = require("./getAllFiles");
+const getAllFiles = require("@util/getAllFiles");
 
 
 module.exports = (path) => {
