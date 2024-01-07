@@ -4,10 +4,10 @@ module.exports = () => {
     return {
         activities: [
             {
-                name: 'Mamuti na Ostrvu',
+                name: 'Drive (2011)',
                 type: ActivityType.Watching
             }
         ],
-        status: PresenceUpdateStatus.DoNotDisturb
+        status: PresenceUpdateStatus.Idle
     };
 };
