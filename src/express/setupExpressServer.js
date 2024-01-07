@@ -7,11 +7,11 @@ const express = require('express');
 const cors = require('cors');
 const { UNEXPECTED_ERROR_API_RESPONSE } = require('@modules/errors/messages/errorMessages');
 const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/shared/constants/statusCodes');
+
 const app = express();
+app.use(cors());
 
 module.exports = () => {
-    app.options("*", cors());
-
     const controllerFilePaths = getAllFiles(path.join(__dirname, "controllers"));
 
     for (const controllerFilePath of controllerFilePaths) {
