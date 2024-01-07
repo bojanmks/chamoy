@@ -1,4 +1,4 @@
-const SERVER_PORT = 25738;
+const SERVER_PORT = process.env.EXPRESS_SERVER_PORT;
 const API_PREFIX = "/api";
 
 const path = require('path');
