@@ -6,7 +6,7 @@ const getAllFiles = require('@util/getAllFiles');
 const express = require('express');
 const getFileNameFromPath = require('@util/getFileNameFromPath');
 const { UNEXPECTED_ERROR_API_RESPONSE } = require('@modules/errors/messages/errorMessages');
-const { USER_ERROR, SUCCESS, SERVER_ERROR } = require('@modules/shared/constants/statusCodes');
+const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/shared/constants/statusCodes');
 const app = express();
 
 module.exports = () => {
@@ -25,6 +25,13 @@ module.exports = () => {
             registerEndpoint(endpointObject, controllerBaseRoute);
         }
     }
+
+    app.all("*", (req, res) => {
+        res.status(NOT_FOUND);
+        res.send({
+            statusCode: NOT_FOUND
+        });
+    });
 
     app.listen(SERVER_PORT, () => {
         console.log(`✅ Express server is listening to port ${SERVER_PORT}`);
@@ -52,18 +59,23 @@ function handleEndpointCallback(endpointObject, req, res, next) {
             const validationResult = endpointObject.validator(req, res, next);
     
             if (!validationResult.isValid) {
-                res.send(generateValidationError(validationResult));
+                const validationResponse = generateValidationResponse(validationResult);
+                res.status(validationResponse.statusCode);
+                res.send(validationResponse);
                 return;
             }
         }
     
         const response = endpointObject.callback(req, res, next);
+        
+        res.status(SUCCESS);
         res.send({
             statusCode: SUCCESS,
             data: response
         });
     }
     catch {
+        res.status(SERVER_ERROR);
         res.send({
             statusCode: SERVER_ERROR,
             message: UNEXPECTED_ERROR_API_RESPONSE
@@ -71,13 +83,11 @@ function handleEndpointCallback(endpointObject, req, res, next) {
     }
 }
 
-function generateValidationError(validationResult) {
-    const response = {
+function generateValidationResponse(validationResult) {
+    return {
         statusCode: validationResult.statusCode ? validationResult.statusCode : USER_ERROR,
         data: {
             validationMessages: validationResult.messages
         }
     };
-    
-    return response;
 }
