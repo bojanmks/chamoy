@@ -1,4 +1,4 @@
-const SERVER_PORT = 3000;
+const SERVER_PORT = 25738;
 const API_PREFIX = "/api";
 
 const path = require('path');
