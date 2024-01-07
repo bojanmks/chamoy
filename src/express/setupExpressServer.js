@@ -48,9 +48,13 @@ function registerEndpoint(endpointObject, baseRoute) {
 
     endpointObject.method = endpointObject.method.toLowerCase();
 
-    app[endpointObject.method](baseRoute + endpointObject.route, (req, res, next) => {
+    const fullRoute = baseRoute + endpointObject.route;
+
+    app[endpointObject.method](fullRoute, (req, res, next) => {
         handleEndpointCallback(endpointObject, req, res, next);
     });
+
+    console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
 }
 
 function handleEndpointCallback(endpointObject, req, res, next) {
@@ -67,7 +71,7 @@ function handleEndpointCallback(endpointObject, req, res, next) {
         }
     
         const response = endpointObject.callback(req, res, next);
-        
+
         res.status(SUCCESS);
         res.send({
             statusCode: SUCCESS,
