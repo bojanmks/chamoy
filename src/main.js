@@ -3,6 +3,7 @@ require('module-alias/register');
 const { Client, IntentsBitField } = require('discord.js');
 const eventHandler = require('@events/eventHandler');
 const setDefaultGlobalDispatcher = require('@modules/undici/setDefaultGlobalDispatcher');
+const setupExpressServer = require('@express/setupExpressServer');
 
 const client = new Client({
     intents: [
@@ -16,5 +17,6 @@ const client = new Client({
 
 eventHandler(client);
 setDefaultGlobalDispatcher();
+setupExpressServer();
 
 client.login(process.env.TOKEN);
