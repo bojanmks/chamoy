@@ -1,7 +1,7 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const sendTextReply = require("@modules/messaging/sendTextReply");
 const { default: axios } = require("axios");
-const { zeroTierApiUrl, zeroTierNetworkId } = require("@/config.json");
+const { zeroTierApiUrl, zeroTierNetworkId } = require("~/config.json");
 const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
 const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
 

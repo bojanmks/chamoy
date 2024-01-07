@@ -19,7 +19,7 @@
     "string-similarity": "^4.0.4"
   },
   "_moduleAliases": {
-    "@": ".",
+    "~": ".",
     "@jobs": "./src/jobs",
     "@events": "./src/events",
     "@commands": "./src/commands",

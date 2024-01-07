@@ -1,4 +1,4 @@
-const { targetUserId, serverId } = require('@/config.json');
+const { targetUserId, serverId } = require('~/config.json');
 
 module.exports = async (username, client) => {
     const server = await client.guilds.fetch(serverId);

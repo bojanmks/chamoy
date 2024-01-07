@@ -2,13 +2,12 @@
     "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-        "@": ["."],
-        "@jobs*": ["./src/jobs"],
-        "@events*": ["./src/events"],
-        "@commands*": ["./src/commands"],
-        "@modules*": ["./src/modules"],
-        "@util*": ["./src/util"],
-        "@assets*": ["./src/assets"]
+        "@jobs/*": ["./src/jobs/*"],
+        "@events/*": ["./src/events/*"],
+        "@commands/*": ["./src/commands/*"],
+        "@modules/*": ["./src/modules/*"],
+        "@util/*": ["./src/util/*"],
+        "@assets/*": ["./src/assets/*"]
       }
     }
   }
