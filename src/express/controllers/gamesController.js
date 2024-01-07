@@ -3,7 +3,7 @@ const gamesRepository = require("@modules/games/gamesRepository")
 const get_games = {
     route: '/',
     method: 'get',
-    callback : (req, res, next) => {
+    callback : () => {
         const games = gamesRepository.get();
         return games;
     }

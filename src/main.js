@@ -17,6 +17,6 @@ const client = new Client({
 
 eventHandler(client);
 setDefaultGlobalDispatcher();
-setupExpressServer();
+setupExpressServer(client);
 
 client.login(process.env.TOKEN);

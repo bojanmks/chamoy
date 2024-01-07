@@ -11,7 +11,7 @@ const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/share
 const app = express();
 app.use(cors());
 
-module.exports = () => {
+module.exports = (client) => {
     const controllerFilePaths = getAllFiles(path.join(__dirname, "controllers"));
 
     for (const controllerFilePath of controllerFilePaths) {
@@ -24,7 +24,7 @@ module.exports = () => {
         const controllerEndpoints = require(controllerFilePath);
 
         for (const endpointObject of Object.values(controllerEndpoints)) {
-            registerEndpoint(endpointObject, controllerBaseRoute);
+            registerEndpoint(endpointObject, controllerBaseRoute, client);
         }
     }
 
@@ -43,7 +43,7 @@ module.exports = () => {
 const ALLOWED_METHODS = ["get", "post", "put", "delete"];
 const DEFAULT_METHOD = "get";
 
-function registerEndpoint(endpointObject, baseRoute) {
+function registerEndpoint(endpointObject, baseRoute, client) {
     if (!endpointObject.method || !ALLOWED_METHODS.includes(endpointObject.method.toLowerCase())) {
         endpointObject.method = DEFAULT_METHOD;
     }
@@ -53,13 +53,13 @@ function registerEndpoint(endpointObject, baseRoute) {
     const fullRoute = baseRoute + endpointObject.route;
 
     app[endpointObject.method](fullRoute, (req, res, next) => {
-        handleEndpointCallback(endpointObject, req, res, next);
+        handleEndpointCallback(endpointObject, req, res, next, client);
     });
 
     console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
 }
 
-function handleEndpointCallback(endpointObject, req, res, next) {
+function handleEndpointCallback(endpointObject, req, res, next, client) {
     try {
         if (endpointObject.validator) {
             const validationResult = endpointObject.validator(req, res, next);
@@ -72,7 +72,7 @@ function handleEndpointCallback(endpointObject, req, res, next) {
             }
         }
     
-        const response = endpointObject.callback(req, res, next);
+        const response = endpointObject.callback(req, res, next, client);
 
         res.status(SUCCESS);
         res.send({
