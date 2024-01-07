@@ -10,6 +10,8 @@ const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/share
 const app = express();
 
 module.exports = () => {
+    app.options("*", cors());
+
     const controllerFilePaths = getAllFiles(path.join(__dirname, "controllers"));
 
     for (const controllerFilePath of controllerFilePaths) {
@@ -32,8 +34,6 @@ module.exports = () => {
             statusCode: NOT_FOUND
         });
     });
-
-    app.use(cors());
 
     app.listen(SERVER_PORT, () => {
         console.log(`✅ Express server is listening to port ${SERVER_PORT}`);
