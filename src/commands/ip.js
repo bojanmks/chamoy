@@ -3,7 +3,7 @@ const { zeroTierApiUrl, zeroTierNetworkId } = require("~/config.json");
 const generateBaseEmbed = require("@modules/embeds/generateBaseEmbed");
 const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
 const { ApplicationCommandOptionType } = require("discord.js");
-//const sendReply = require("@modules/messaging/sendReply");
+const sendReply = require("@modules/messaging/sendReply");
 
 module.exports = {
     name: 'ip',
