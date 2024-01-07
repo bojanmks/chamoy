@@ -4,6 +4,7 @@ const API_PREFIX = "/api";
 const path = require('path');
 const getAllFiles = require('@util/getAllFiles');
 const express = require('express');
+const cors = require('cors');
 const { UNEXPECTED_ERROR_API_RESPONSE } = require('@modules/errors/messages/errorMessages');
 const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/shared/constants/statusCodes');
 const app = express();
@@ -31,6 +32,8 @@ module.exports = () => {
             statusCode: NOT_FOUND
         });
     });
+
+    app.use(cors());
 
     app.listen(SERVER_PORT, () => {
         console.log(`✅ Express server is listening to port ${SERVER_PORT}`);
