@@ -52,14 +52,14 @@ function registerEndpoint(endpointObject, baseRoute, client) {
 
     const fullRoute = baseRoute + endpointObject.route;
 
-    app[endpointObject.method](fullRoute, (req, res, next) => {
-        handleEndpointCallback(endpointObject, req, res, next, client);
+    app[endpointObject.method](fullRoute, async (req, res, next) => {
+        await handleEndpointCallback(endpointObject, req, res, next, client);
     });
 
     console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
 }
 
-function handleEndpointCallback(endpointObject, req, res, next, client) {
+async function handleEndpointCallback(endpointObject, req, res, next, client) {
     try {
         if (endpointObject.validator) {
             const validationResult = endpointObject.validator(req, res, next);
@@ -72,7 +72,7 @@ function handleEndpointCallback(endpointObject, req, res, next, client) {
             }
         }
     
-        const response = endpointObject.callback(req, res, next, client);
+        const response = await endpointObject.callback(req, res, next, client);
 
         res.status(SUCCESS);
         res.send({
