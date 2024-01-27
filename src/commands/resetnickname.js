@@ -6,6 +6,7 @@ const sendDaysLeftMessage = require("@modules/usernameDecrement/messages/sendDay
 module.exports = {
     name: 'resetnickname',
     description: 'Resets the nickname',
+    deleted: true,
     callback: async (client, interaction) => {
         const newUsername = await handleUsernameReset(client, interaction);
 

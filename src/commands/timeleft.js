@@ -5,6 +5,7 @@ const sendDaysLeftMessage = require('@modules/usernameDecrement/messages/sendDay
 module.exports = {
     name: 'timeleft',
     description: 'Returns time left in days',
+    deleted: true,
     callback: (client, interaction) => {
         const username = getSavedUsername(getSavedUsername);
         const daysLeft = getDaysLeft(username);

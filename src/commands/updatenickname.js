@@ -7,6 +7,7 @@ const sendDaysLeftMessage = require('@modules/usernameDecrement/messages/sendDay
 module.exports = {
     name: 'updatenickname',
     description: 'Skips the specified number of days, or 1 by default',
+    deleted: true,
     options: [
         {
             name: 'days',

@@ -10,7 +10,7 @@ const gTTS = require("gtts");
 
 module.exports = {
     name: 'tts',
-    description: 'Make bot say a message',
+    description: 'Make bot say a message in current voice channel',
     options: [
         {
             name: 'language',
