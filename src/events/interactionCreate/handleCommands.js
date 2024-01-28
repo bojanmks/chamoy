@@ -2,6 +2,7 @@ const { devs } = require('~/config.json');
 const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
 const sendNoPermissionErrorReply = require('@modules/errors/messages/sendNoPermissionErrorReply');
 const getLocalCommands = require('@modules/commands/getLocalCommands');
+const sendTextReply = require('@modules/messaging/sendTextReply');
 
 module.exports = async (client, interaction) => {
     if (!interaction.isChatInputCommand()) return;
@@ -11,6 +12,12 @@ module.exports = async (client, interaction) => {
 
     if (!commandObject) {
         sendGenericErrorReply(interaction);
+        return;
+    }
+
+    const foundUserReponse = commandObject.userResponses?.find(x => x.userId === interaction.user.id);
+    if (foundUserReponse) {
+        sendTextReply(interaction, foundUserReponse.response, true);
         return;
     }
 

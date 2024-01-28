@@ -1,6 +1,5 @@
 const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("@modules/shared/constants/emojis");
 
-
 module.exports = [
     {
         messages: ['koliko kosta daytona?', 'koliko kosta dejtona?'],
@@ -18,5 +17,9 @@ module.exports = [
         messages: [SALUTE_EMOJI],
         response: SALUTE_EMOJI,
         exact: true
+    },
+    {
+        messages: ['jel pusio boki andriji kurac?', 'jel pusio bojan andriji kurac?'],
+        response: 'nije'
     }
 ];

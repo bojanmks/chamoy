@@ -1,10 +1,16 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const sendTextReply = require("@modules/messaging/sendTextReply");
-const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
+const { CHECK_EMOJI, CLOWN_EMOJI } = require("@modules/shared/constants/emojis");
 
 module.exports = {
     name: 'say',
     description: 'Make bot send a message',
+    userResponses: [
+        {
+            userId: '292050833640652801',
+            response: `desi ti jbt ${CLOWN_EMOJI}`
+        }
+    ],
     options: [
         {
             name: 'message',
