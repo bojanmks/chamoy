@@ -6,13 +6,6 @@ const { ApplicationCommandOptionType } = require("discord.js");
 module.exports = {
     name: 'gamesinteractive',
     description: 'Get interactive embed with game links',
-    options: [
-        {
-            name: 'ephemeral',
-            description: 'Should message be only visible to you',
-            type: ApplicationCommandOptionType.Boolean
-        }
-    ],
     callback: async (client, interaction) => {
         const response = generateGamesInteractiveEmbedResponse(client);
 
