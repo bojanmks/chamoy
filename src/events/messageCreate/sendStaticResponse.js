@@ -11,27 +11,31 @@ module.exports = async (client, message) => {
 
     const messageContent = message.content.trim();
 
-    const exactResponse = getExactResponse(messageContent);
+    const exactResponse = getExactResponse(message);
     if (exactResponse) {
         return message.reply(exactResponse.response);
     }
 
-    const recognizedResponse = getRecognizedResponse(messageContent);
+    const recognizedResponse = getRecognizedResponse(message);
     if (recognizedResponse) {
         message.reply(recognizedResponse.response);
     }
 }
 
-function getExactResponse(messageContent) {
-    const exactResponses = staticResponses.filter(x => x.exact);
+function getExactResponse(message) {
+    const messageContent = message.content.trim();
+
+    const exactResponses = applyUserFilter(staticResponses.filter(x => x.exact), message.author.id);
     const exactResponse = exactResponses.find(x => (!x.caseSensitive && x.messages.some(msg => msg.toLocaleLowerCase() === messageContent.toLowerCase()))
                                                 || (x.caseSensitive && x.messages.some(msg => msg === messageContent)));
     
     return exactResponse;
 }
 
-function getRecognizedResponse(messageContent) {
-    const responsesWithAccuracy = staticResponses.filter(x => !x.exact).map(x => ({
+function getRecognizedResponse(message) {
+    const messageContent = message.content.trim();
+
+    const responsesWithAccuracy = applyUserFilter(staticResponses.filter(x => !x.exact), message.author.id).map(x => ({
         messages: x.messages,
         response: x.response,
         accuracy: calculateAccuracy(x.messages, messageContent)
@@ -40,6 +44,10 @@ function getRecognizedResponse(messageContent) {
     const mostAccurateResponse = responsesWithAccuracy[0];
 
     return mostAccurateResponse.accuracy >= MINIMUM_ACCURACY ? mostAccurateResponse : null;
+}
+
+function applyUserFilter(responses, userId) {
+    return responses.filter(x => !x.forUserIds || x.forUserIds.includes(userId));
 }
 
 function calculateAccuracy(possibleMessages, messageContent) {
