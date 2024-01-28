@@ -7,7 +7,7 @@ module.exports = {
     description: 'Make bot send a message',
     userResponses: [
         {
-            userId: '292050833640652801',
+            userId: '478912904691974155',
             response: `desi ti jbt ${CLOWN_EMOJI}`
         }
     ],

@@ -19,7 +19,7 @@ module.exports = [
         exact: true
     },
     {
-        messages: ['jel pusio boki andriji kurac?', 'jel pusio bojan andriji kurac?'],
+        messages: ['jel pusio boki andriji kurac?', 'jel pusio bojan andriji kurac?', 'jel pusio boki andriji kurac na zakintosu?', 'jel pusio bojan andriji kurac na zakintosu?'],
         response: 'nije'
     }
 ];
