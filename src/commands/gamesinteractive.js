@@ -1,7 +1,6 @@
 const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
 const generateGamesInteractiveEmbedResponse = require("@modules/games/generateGamesInteractiveEmbedResponse");
 const sendReply = require("@modules/messaging/sendReply");
-const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
     name: 'gamesinteractive',
@@ -13,7 +12,7 @@ module.exports = {
             sendGenericErrorReply(interaction);
             return;
         }
-
+        
         await sendReply(interaction, response);
     }
 };

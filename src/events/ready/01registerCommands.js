@@ -74,7 +74,7 @@ async function createNewCommand(applicationCommands, newCommand) {
 async function updateExistingCommand(applicationCommands, id, updatedCommand) {
     await applicationCommands.edit(id, {
         description: updatedCommand.description,
-        options: updatedCommand.options
+        options: updatedCommand.options ?? []
     });
 }
 
