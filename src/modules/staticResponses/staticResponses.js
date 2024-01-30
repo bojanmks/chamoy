@@ -26,5 +26,10 @@ module.exports = [
         messages: ['jesam pusio andriji kurac?', 'jesam pusio andriji kurac?', 'jesam pusio andriji kurac na zakintosu?', 'jesam pusio andriji kurac na zakintosu?'],
         response: 'nisi',
         forUserIds: ['292050833640652801']
+    },
+    {
+        messages: ['jel mi pusio boki kurac?', 'jel mi pusio bojan kurac?', 'jel mi pusio boki kurac na zakintosu?', 'jel mi pusio bojan kurac na zakintosu?'],
+        response: 'nije',
+        forUserIds: ['478912904691974155']
     }
 ];
