@@ -31,5 +31,9 @@ module.exports = [
         messages: ['jel mi pusio boki kurac?', 'jel mi pusio bojan kurac?', 'jel mi pusio boki kurac na zakintosu?', 'jel mi pusio bojan kurac na zakintosu?'],
         response: 'nije',
         forUserIds: ['478912904691974155']
+    },
+    {
+        messages: ['rnbin sa n'],
+        response: `${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI} ${LAUGHING_CRYING_EMOJI}`
     }
 ];
