@@ -211,5 +211,16 @@
         "link": "https://drive.google.com/drive/u/0/folders/12iVehlhRcFcWjmB0RYQ6u6yRdh0aDv_o"
       }
     ]
+  },
+  {
+    "id": 14,
+    "name": "Content Warning",
+    "thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/2881650/header.jpg?t=1712153694",
+    "links": [
+      {
+        "name": "Content Warning",
+        "link": "https://1fichier.com/?7bt2esnqz1m3znueb8ff"
+      }
+    ]
   }
 ]
