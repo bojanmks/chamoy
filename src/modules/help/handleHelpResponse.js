@@ -2,7 +2,7 @@ const { devs } = require('../../../config.json');
 const getLocalCommands = require("@modules/commands/getLocalCommands");
 const sendReply = require("@modules/messaging/sendReply");
 const generateBaseEmbed = require('@modules/embeds/generateBaseEmbed');
-const { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder } = require('discord.js');
+const { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder, ApplicationCommandType } = require('discord.js');
 const { CURRENT_ENVIRONMENT } = require("@modules/shared/constants/environments");
 const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
 
@@ -10,7 +10,7 @@ const COMMANDS_PER_PAGE = 10;
 
 module.exports = async (client, interaction, userId) => {
     const commands = getLocalCommands(['commands'])
-        .filter(x => isCommandAvailable(x, userId))
+        .filter(x => isCommandAvailable(x, userId) && x.type === ApplicationCommandType.ChatInput)
         .sort((a, b) => a.name.localeCompare(b.name));
 
     if (!commands || !commands.length) {
