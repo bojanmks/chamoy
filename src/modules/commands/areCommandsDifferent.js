@@ -44,7 +44,7 @@ module.exports = (existingCommand, localCommand) => {
     };
   
     if (
-      existingCommand.description !== localCommand.description ||
+      existingCommand.description !== (localCommand.description || '') ||
       existingCommand.options?.length !== (localCommand.options?.length || 0) ||
       areOptionsDifferent(existingCommand.options, localCommand.options || [])
     ) {

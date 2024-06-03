@@ -9,7 +9,7 @@ const sendGenericErrorReply = require("@modules/errors/messages/sendGenericError
 const COMMANDS_PER_PAGE = 10;
 
 module.exports = async (client, interaction, userId) => {
-    const commands = getLocalCommands()
+    const commands = getLocalCommands(['commands'])
         .filter(x => isCommandAvailable(x, userId))
         .sort((a, b) => a.name.localeCompare(b.name));
 

@@ -10,6 +10,7 @@
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.16.1",
     "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
@@ -18,7 +19,8 @@
     "libsodium-wrappers": "^0.7.13",
     "module-alias": "^2.2.3",
     "node-schedule": "^2.1.1",
-    "string-similarity": "^4.0.4"
+    "string-similarity": "^4.0.4",
+    "text-on-gif": "^2.0.13"
   },
   "_moduleAliases": {
     "~": ".",

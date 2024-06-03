@@ -5,9 +5,9 @@ const getLocalCommands = require('@modules/commands/getLocalCommands');
 const sendTextReply = require('@modules/messaging/sendTextReply');
 
 module.exports = async (client, interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
-    const localCommands = getLocalCommands();
+    const localCommands = getLocalCommands(['commands']);
     const commandObject = localCommands.find((cmd) => cmd.name === interaction.commandName);
 
     if (!commandObject) {

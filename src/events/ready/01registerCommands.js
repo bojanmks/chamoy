@@ -5,7 +5,7 @@ const { CURRENT_ENVIRONMENT } = require('@modules/shared/constants/environments'
 
 module.exports = async (client) => {
     try {
-        const localCommands = getLocalCommands();
+        const localCommands = getLocalCommands(['commands']);
         const applicationCommands = await getApplicationCommands(client);
 
         await updateApplicationCommands(localCommands, applicationCommands);
@@ -19,7 +19,7 @@ module.exports = async (client) => {
 async function updateApplicationCommands(localCommands, applicationCommands) {
     for (const localCommand of localCommands) {
         const existingCommand = await applicationCommands.cache.find(
-            x => x.name === localCommand.name
+            x => x.name === localCommand.name && x.type === localCommand.type
         );
 
         if (existingCommand) {
@@ -67,7 +67,8 @@ async function createNewCommand(applicationCommands, newCommand) {
     await applicationCommands.create({
         name: newCommand.name,
         description: newCommand.description,
-        options: newCommand.options
+        options: newCommand.options,
+        type: newCommand.type
     });
 }
 

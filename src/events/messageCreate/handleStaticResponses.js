@@ -9,8 +9,6 @@ module.exports = async (client, message) => {
 
     if (!staticResponses || !staticResponses.length) return;
 
-    const messageContent = message.content.trim();
-
     const exactResponse = getExactResponse(message);
     if (exactResponse) {
         return message.reply(exactResponse.response);
