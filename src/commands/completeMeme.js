@@ -111,6 +111,8 @@ const sendTemporaryUrl = async (tempUrl, channel) => {
     };
 }
 
+const minTempMessageTimeElapsed = 1000;
+
 const handleFinishedResponse = async (channel, temporaryMessageData, finishedMemeData) => {
     if (!temporaryMessageData && finishedMemeData.fileUrl) {
         return await channel.send(finishedMemeData.fileUrl);
@@ -121,11 +123,10 @@ const handleFinishedResponse = async (channel, temporaryMessageData, finishedMem
         if (temporaryMessageData) {
             const timeElapsed = Date.now() - temporaryMessageData.time;
 
-            const minTimeElapsed = 1000;
-            if (minTimeElapsed > timeElapsed) {
-                // To handle cases where the finished attachment was uploaded quickly
+            if (minTempMessageTimeElapsed > timeElapsed) {
+                // To handle cases where the finished attachment was downloaded too quickly
                 // (editing the message too quickly can be weird)
-                await wait(minTimeElapsed - timeElapsed);
+                await wait(minTempMessageTimeElapsed - timeElapsed);
             }
 
             return await temporaryMessageData.message.edit({ content: '', ...attachmentData });
