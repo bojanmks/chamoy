@@ -105,7 +105,7 @@ const getFileExtension = (urlString) => {
 const handleTemporaryUrl = async (tempUrl, channel) => {
     const temporaryMessage = await channel.send(tempUrl)
 
-    // To handle cases where the attachemnt was uploaded quickly
+    // To handle cases where the finished attachment was uploaded quickly
     // (editing the message too quickly can be weird)
     await wait(500);
 
