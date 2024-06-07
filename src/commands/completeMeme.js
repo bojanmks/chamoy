@@ -72,7 +72,7 @@ module.exports = {
         const bottomText = interaction.options.get('bottomtext').value;
         const fontSize = interaction.options.get('fontsize')?.value ?? DEFAULT_FONT_SIZE;
 
-        let temporaryMessage = null;
+        let temporaryMessageData = null;
 
         const finishedMemeData = await captionSetter.setCaption(
             fileUrl,
@@ -81,11 +81,11 @@ module.exports = {
                 bottomCaption: bottomText,
                 fontSize: fontSize,
                 temporaryUrlHandler: async (url) => {
-                    temporaryMessage = await handleTemporaryUrl(url, message.channel);
+                    temporaryMessageData = await sendTemporaryUrl(url, message.channel);
                 }
             });
 
-        await handleFinishedResponse(message.channel, temporaryMessage, finishedMemeData);
+        await handleFinishedResponse(message.channel, temporaryMessageData, finishedMemeData);
 
         interaction.editReply("✅ Meme sent");
     }
@@ -102,25 +102,33 @@ const getFileExtension = (urlString) => {
     return extension.includes('/') ? '' : `.${extension}`;
 }
 
-const handleTemporaryUrl = async (tempUrl, channel) => {
+const sendTemporaryUrl = async (tempUrl, channel) => {
     const temporaryMessage = await channel.send(tempUrl)
 
-    // To handle cases where the finished attachment was uploaded quickly
-    // (editing the message too quickly can be weird)
-    await wait(500);
-
-    return temporaryMessage;
+    return {
+        message: temporaryMessage,
+        time: Date.now()
+    };
 }
 
-const handleFinishedResponse = async (channel, temporaryMessage, finishedMemeData) => {
-    if (!temporaryMessage && finishedMemeData.fileUrl) {
+const handleFinishedResponse = async (channel, temporaryMessageData, finishedMemeData) => {
+    if (!temporaryMessageData && finishedMemeData.fileUrl) {
         return await channel.send(finishedMemeData.fileUrl);
     }
     else if (finishedMemeData.file) {
         const attachmentData = { files: [{attachment: finishedMemeData.file, name: `meme.${finishedMemeData.extension}`}] };
 
-        if (temporaryMessage) {
-            return await temporaryMessage.edit({ content: '', ...attachmentData });
+        if (temporaryMessageData) {
+            const timeElapsed = Date.now() - temporaryMessageData.time;
+
+            const minTimeElapsed = 1000;
+            if (minTimeElapsed > timeElapsed) {
+                // To handle cases where the finished attachment was uploaded quickly
+                // (editing the message too quickly can be weird)
+                await wait(minTimeElapsed - timeElapsed);
+            }
+
+            return await temporaryMessageData.message.edit({ content: '', ...attachmentData });
         }
 
         await channel.send(attachmentData);
