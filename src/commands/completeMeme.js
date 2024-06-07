@@ -4,8 +4,8 @@ const sendTextReply = require("@modules/messaging/sendTextReply");
 const MemeCaptionSetterFactory = require("@modules/meme/caption-setters/MemeCaptionSetterFactory");
 const MemeFilePathProviderFactory = require("@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory");
 const completeMemeMessageStore = require("@modules/meme/completeMemeMessageStore");
-const generateBaseEmbed = require("@modules/embeds/generateBaseEmbed");
-const sendReply = require("@modules/messaging/sendReply");
+
+const DEFAULT_FONT_SIZE = 40;
 
 module.exports = {
     name: 'completememe',
@@ -69,22 +69,54 @@ module.exports = {
 
         const topText = interaction.options.get('toptext').value;
         const bottomText = interaction.options.get('bottomtext').value;
-        const fontSize = interaction.options.get('fontsize')?.value;
+        const fontSize = interaction.options.get('fontsize')?.value ?? DEFAULT_FONT_SIZE;
 
-        const finishedMemeData = await captionSetter.setCaption(fileUrl, { topCaption: topText, bottomCaption: bottomText, fontSize: fontSize });
+        let temporaryMessage = null;
 
-        await message.channel.send({ files: [{attachment: finishedMemeData.file, name: `meme.${finishedMemeData.extension}`}] });
+        const finishedMemeData = await captionSetter.setCaption(
+            fileUrl,
+            {
+                topCaption: topText,
+                bottomCaption: bottomText,
+                fontSize: fontSize,
+                temporaryUrlHandler: async (url) => {
+                    temporaryMessage = await handleTemporaryUrl(url, message.channel);
+                }
+            });
+
+        await handleFinishedResponse(message.channel, temporaryMessage, finishedMemeData);
+
         interaction.editReply("✅ Meme sent");
     }
 };
 
-function sendMessageNotPreparedMessage(interaction) {
+const sendMessageNotPreparedMessage = (interaction) => {
     return sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
 }
 
-function getFileExtension(urlString) {
+const getFileExtension = (urlString) => {
     const parsedUrl = new URL(urlString);
     const pathname = parsedUrl.pathname;
     const extension = pathname.split('.').pop();
     return extension.includes('/') ? '' : `.${extension}`;
+}
+
+const handleTemporaryUrl = async (tempUrl, channel) => {
+    const temporaryMessage = await channel.send(tempUrl)
+    return temporaryMessage;
+}
+
+const handleFinishedResponse = async (channel, temporaryMessage, finishedMemeData) => {
+    if (!temporaryMessage && finishedMemeData.fileUrl) {
+        return channel.send(finishedMemeData.fileUrl);
+    }
+    else if (finishedMemeData.file) {
+        const attachmentData = { files: [{attachment: finishedMemeData.file, name: `meme.${finishedMemeData.extension}`}] };
+
+        if (temporaryMessage) {
+            return temporaryMessage.edit({ content: '', ...attachmentData });
+        }
+
+        channel.send(attachmentData);
+    }
 }

@@ -1,7 +1,7 @@
 const TextOnGif = require("text-on-gif");
 
-class GifCaptionSetter {
-    async setCaption(filePath, { topCaption, bottomCaption, fontSize = 40 }) {
+class ManualGifCaptionSetter {
+    async setCaption(filePath, { topCaption, bottomCaption, fontSize }) {
         let buffer = null;
 
         const gif = new TextOnGif({
@@ -39,4 +39,4 @@ class GifCaptionSetter {
     }
 }
 
-module.exports = GifCaptionSetter;
+module.exports = ManualGifCaptionSetter;

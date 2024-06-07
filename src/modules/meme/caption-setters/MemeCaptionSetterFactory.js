@@ -1,9 +1,10 @@
-const GifCaptionSetter = require("./GifCaptionSetter");
+const EzGifGifCaptionSetter = require("./gif/EzGifGifCaptionSetter");
+const ManualGifCaptionSetter = require("./gif/ManualGifCaptionSetter");
 
 class MemeCaptionSetterFactory {
     makeCaptionSetter(data) {
         if (data === '.gif') {
-            return new GifCaptionSetter();
+            return new EzGifGifCaptionSetter(new ManualGifCaptionSetter());
         }
 
         return null;
