@@ -4,6 +4,7 @@ const sendTextReply = require("@modules/messaging/sendTextReply");
 const MemeCaptionSetterFactory = require("@modules/meme/caption-setters/MemeCaptionSetterFactory");
 const MemeFilePathProviderFactory = require("@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory");
 const completeMemeMessageStore = require("@modules/meme/completeMemeMessageStore");
+const wait = require("@modules/shared/wait");
 
 const DEFAULT_FONT_SIZE = 40;
 
@@ -103,6 +104,11 @@ const getFileExtension = (urlString) => {
 
 const handleTemporaryUrl = async (tempUrl, channel) => {
     const temporaryMessage = await channel.send(tempUrl)
+
+    // To handle cases where the attachemnt was uploaded quickly
+    // (editing the message too quickly can be weird)
+    await wait(500);
+
     return temporaryMessage;
 }
 
