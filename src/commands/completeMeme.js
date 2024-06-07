@@ -108,15 +108,13 @@ const handleTemporaryUrl = async (tempUrl, channel) => {
 
 const handleFinishedResponse = async (channel, temporaryMessage, finishedMemeData) => {
     if (!temporaryMessage && finishedMemeData.fileUrl) {
-        return channel.send(finishedMemeData.fileUrl);
+        return await channel.send(finishedMemeData.fileUrl);
     }
     else if (finishedMemeData.file) {
-        const attachmentData = { files: [{attachment: finishedMemeData.file, name: `meme.${finishedMemeData.extension}`}] };
+        await channel.send({ files: [{attachment: finishedMemeData.file, name: `meme.${finishedMemeData.extension}`}] });
 
         if (temporaryMessage) {
-            return temporaryMessage.edit({ content: '', ...attachmentData });
+            await temporaryMessage.delete();
         }
-
-        channel.send(attachmentData);
     }
 }

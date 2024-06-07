@@ -13,7 +13,7 @@ module.exports = {
         const embed = generateBaseEmbed(client, 'Meme prepared');
 
         embed.addFields({
-            name: 'Complete the meme with',
+            name: 'Complete the meme with:',
             value: '/completememe ``<toptext>`` ``<bottomtext>``',
             inline: false
         });
