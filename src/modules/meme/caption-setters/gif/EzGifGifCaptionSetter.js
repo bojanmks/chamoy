@@ -14,9 +14,9 @@ class EzGifGifCaptionSetter {
 
     async setCaption(filePath, { topCaption, bottomCaption, fontSize, temporaryUrlHandler }) {
         try {
-            const fileStreamResponse = await axios.get(filePath, { responseType: 'arraybuffer' });
-            const fileStream = fileStreamResponse.data;
-            const uploadedFileName = await uploadFile(fileStream);
+            const fileBufferResponse = await axios.get(filePath, { responseType: 'arraybuffer' });
+            const fileBuffer = fileBufferResponse.data;
+            const uploadedFileName = await uploadFile(fileBuffer);
 
             const setCaptionData = await setCaption(uploadedFileName, { topCaption, bottomCaption, fontSize });
             const captionedFilePath = await getCaptionedFilePath(uploadedFileName, setCaptionData);
@@ -25,10 +25,10 @@ class EzGifGifCaptionSetter {
                 await temporaryUrlHandler(`https:${captionedFilePath}`);
             }
 
-            const captionedFileStreamResponse = await axios.get(captionedFilePath, { responseType: 'arraybuffer' });
+            const captionedFileBufferResponse = await axios.get(captionedFilePath, { responseType: 'arraybuffer' });
 
             return {
-                file: captionedFileStreamResponse.data,
+                file: captionedFileBufferResponse.data,
                 extension: "gif"
             };
         } catch (error) {
@@ -41,9 +41,9 @@ class EzGifGifCaptionSetter {
     }
 }
 
-const uploadFile = async (fileStream) => {
+const uploadFile = async (fileBuffer) => {
     const formData = new FormData();
-    formData.append("new-image", fileStream, {
+    formData.append("new-image", fileBuffer, {
         filename: 'yourfile.gif',
         contentType: 'image/gif'
     });
