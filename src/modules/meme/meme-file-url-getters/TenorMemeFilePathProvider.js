@@ -15,11 +15,10 @@ class TenorMemeFilePathProvider {
 
         const $ = cheerio.load(html);
 
-        const metaTag = $(`meta[property='og:image']`);
+        const metaTag = $(`meta[itemprop='contentUrl']`);
+        const path = metaTag.attr('content');
 
-        const attributeValue = metaTag.attr("content");
-
-        return attributeValue;
+        return path;
     }
 }
 
