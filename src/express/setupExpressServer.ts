@@ -51,35 +51,34 @@ function registerEndpoint(endpointObject: any, baseRoute: any, client: any) {
     endpointObject.method = endpointObject.method.toLowerCase();
 
     const fullRoute = baseRoute + endpointObject.route;
-    const methodToInvoke: string = endpointObject.method;
+
+    let methodToInvoke: Function | null = null;
 
     switch (endpointObject.method) {
         case 'get':
-            app.get(fullRoute, async (req: any, res: any, next: any) => {
-                await handleEndpointCallback(endpointObject, req, res, next, client);
-            });
+            methodToInvoke = app.get;
             break;
 
         case 'post':
-            app.post(fullRoute, async (req: any, res: any, next: any) => {
-                await handleEndpointCallback(endpointObject, req, res, next, client);
-            });
+            methodToInvoke = app.post;
             break;
 
         case 'put':
-            app.put(fullRoute, async (req: any, res: any, next: any) => {
-                await handleEndpointCallback(endpointObject, req, res, next, client);
-            });
+            methodToInvoke = app.put;
             break;
 
         case 'delete':
-            app.delete(fullRoute, async (req: any, res: any, next: any) => {
-                await handleEndpointCallback(endpointObject, req, res, next, client);
-            });
+            methodToInvoke = app.delete;
             break;
     }
 
-    console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
+    if (methodToInvoke) {
+        methodToInvoke(fullRoute, async (req: any, res: any, next: any) => {
+            await handleEndpointCallback(endpointObject, req, res, next, client);
+        });
+
+        console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
+    }
 }
 
 async function handleEndpointCallback(endpointObject: any, req: any, res: any, next: any, client: any) {

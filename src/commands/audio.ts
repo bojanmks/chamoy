@@ -8,8 +8,9 @@ import path from 'path';
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
+import { Command } from 'src/models/commands/command';
 
-export default {
+const command: Command =  {
     name: 'audio',
     description: 'Play audio',
     options: [
@@ -63,6 +64,8 @@ export default {
         }
     }
 };
+
+export default command;
 
 function playAudio(connection: any, audio: any, onFinish: any) {
     const audioPlayer = createAudioPlayer({
