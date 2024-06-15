@@ -1,13 +1,13 @@
-const getDaysLeft = require('@modules/usernameDecrement/getDaysLeft');
-const getSavedUsername = require('@modules/usernameDecrement/getSavedUsername');
-const sendDaysLeftMessage = require('@modules/usernameDecrement/messages/sendDaysLeftMessage');
+import getDaysLeft from '@modules/usernameDecrement/getDaysLeft';
+import getSavedUsername from '@modules/usernameDecrement/getSavedUsername';
+import sendDaysLeftMessage from '@modules/usernameDecrement/messages/sendDaysLeftMessage';
 
-module.exports = {
+export default {
     name: 'timeleft',
     description: 'Returns time left in days',
     deleted: true,
-    callback: (client, interaction) => {
-        const username = getSavedUsername(getSavedUsername);
+    callback: (client: any, interaction: any) => {
+        const username = getSavedUsername();
         const daysLeft = getDaysLeft(username);
 
         sendDaysLeftMessage(daysLeft, interaction);

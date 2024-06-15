@@ -1,13 +1,13 @@
 
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const defaultPresence = require("@modules/presence/defaultPresence");
-const presenceRatelimitUtil = require("@modules/presence/presenceRatelimitUtil");
-const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
+import sendTextReply from "@modules/messaging/sendTextReply";
+import defaultPresence from "@modules/presence/defaultPresence";
+import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
+import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = {
+export default {
     name: 'resetpresence',
     description: 'Reset bot presence to the default presence',
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         presenceRatelimitUtil.onCanChangePresence(() => {
             client.user.setPresence(defaultPresence());
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`, true);

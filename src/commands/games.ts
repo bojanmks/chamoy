@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType } = require('discord.js');
-const gamesRepository = require('@modules/games/gamesRepository');
-const generateCommandChoices = require('@modules/commands/generateCommandChoices');
-const sendReply = require('@modules/messaging/sendReply');
-const generateGameEmbed = require('@modules/games/generateGameEmbed');
+import { ApplicationCommandOptionType } from 'discord.js';
+import gamesRepository from '@modules/games/gamesRepository';
+import generateCommandChoices from '@modules/commands/generateCommandChoices';
+import sendReply from '@modules/messaging/sendReply';
+import generateGameEmbed from '@modules/games/generateGameEmbed';
 
-module.exports = {
+export default {
     name: 'games',
     description: 'Get game links',
     options: [
@@ -21,7 +21,7 @@ module.exports = {
             type: ApplicationCommandOptionType.Boolean
         }
     ],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         const gameId = interaction.options.get('game').value;
         const ephemeral = interaction.options.get('ephemeral')?.value ?? false;
 

@@ -1,7 +1,7 @@
-const defaultPresence = require("@modules/presence/defaultPresence");
-const presenceRatelimitUtil = require("@modules/presence/presenceRatelimitUtil");
+import defaultPresence from "@modules/presence/defaultPresence";
+import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
 
-module.exports = (client) => {
+export default (client: any) => {
     presenceRatelimitUtil.onCanChangePresence(() => {
         client.user.setPresence(defaultPresence());
         console.log('✅ Default presence set');

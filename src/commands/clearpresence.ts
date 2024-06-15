@@ -1,13 +1,13 @@
-const {  PresenceUpdateStatus } = require("discord.js");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const setPresence = require("@modules/presence/setPresence");
-const presenceRatelimitUtil = require("@modules/presence/presenceRatelimitUtil");
-const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
+import { PresenceUpdateStatus } from "discord.js";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import setPresence from "@modules/presence/setPresence";
+import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
+import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = {
+export default {
     name: 'clearpresence',
     description: 'Clear bot presence',
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         presenceRatelimitUtil.onCanChangePresence(() => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);

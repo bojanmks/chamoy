@@ -1,11 +1,11 @@
-const { ApplicationCommandOptionType } = require("discord.js");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { default: axios } = require("axios");
-const { zeroTierApiUrl, zeroTierNetworkId } = require("~/config.json");
-const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
-const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
+import { ApplicationCommandOptionType } from "discord.js";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { default as axios } from "axios";
+import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
+import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
+import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = {
+export default {
     name: 'setnodename',
     description: 'Sets a name for a zero tier user',
     options: [
@@ -22,7 +22,7 @@ module.exports = {
             required: true
         }
     ],
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const nodeId = interaction.options.get('nodeid').value;
         const newName = interaction.options.get('name').value;
 
@@ -31,10 +31,10 @@ module.exports = {
         };
 
         await axios.post(`${zeroTierApiUrl}/network/${zeroTierNetworkId}/member/${nodeId}`, { name: newName }, { headers })
-            .then(_ => {
+            .then((_: any) => {
                 sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
             })
-            .catch(error => {
+            .catch((error: any) => {
                 console.error('❌ Error updating a zero tier node name:');
                 console.error(error);
                 sendGenericErrorReply(interaction);

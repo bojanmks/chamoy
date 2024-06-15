@@ -1,9 +1,9 @@
-const path = require('path');
-const getObjectsFromFilesInPath = require("@util/getObjectsFromFilesInPath");
+import path from "path";
+import getObjectsFromFilesInPath from "@util/getObjectsFromFilesInPath";
 
-module.exports = () => {
+export default async () => {
     const jobsPath = path.join(__dirname, '..', '..', 'jobs');
-    const jobs = getObjectsFromFilesInPath(jobsPath);
+    const jobs = await getObjectsFromFilesInPath(jobsPath);
 
     return jobs;
-};
+};;

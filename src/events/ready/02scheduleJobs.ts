@@ -1,9 +1,9 @@
-const schedule = require('node-schedule');
-const getJobs = require('@modules/jobs/getJobs');
-const { CURRENT_ENVIRONMENT } = require('@modules/shared/constants/environments');
+import schedule from 'node-schedule';
+import getJobs from '@modules/jobs/getJobs';
+import { CURRENT_ENVIRONMENT } from '@modules/shared/constants/environments';
 
-module.exports = (client) => {
-    const jobs = getJobs();
+export default async (client: any) => {
+    const jobs = await getJobs();
 
     for (const job of jobs) {
         if (job.deleted) continue;

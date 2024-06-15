@@ -1,10 +1,10 @@
-const languages = require('@assets/data/tts-languages.json');
+import languages from '@assets/data/tts-languages.json';
 
-module.exports = {
+export default {
     get: () => {
-        return languages.sort((a, b) => a.name.localeCompare(b.name));
+        return languages.sort((a: any, b: any) => a.name.localeCompare(b.name));
     },
-    find: (id) => {
-        return languages.find(x => x.id === id);
+    find: (id: any) => {
+        return languages.find((x: any) => x.id === id);
     }
 };

@@ -1,8 +1,8 @@
-const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
-const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = require("@modules/games/gamesConstants");
-const generateGamesInteractiveEmbedResponse = require("@modules/games/generateGamesInteractiveEmbedResponse");
+import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
+import { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } from "@modules/games/gamesConstants";
+import generateGamesInteractiveEmbedResponse from "@modules/games/generateGamesInteractiveEmbedResponse";
 
-module.exports = (client, interaction) => {
+export default (client: any, interaction: any) => {
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX)) {
         const selectedGameId = parseInt(interaction.values[0]);
         handleGameSelect(client, interaction, selectedGameId);
@@ -16,7 +16,7 @@ module.exports = (client, interaction) => {
     }
 }
 
-function handleGameSelect(client, interaction, selectedGameId) {
+function handleGameSelect(client: any, interaction: any, selectedGameId: any) {
     const response = generateGamesInteractiveEmbedResponse(client, selectedGameId);
 
     if (!response) {

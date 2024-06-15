@@ -1,7 +1,7 @@
-const { EmbedBuilder } = require("discord.js");
-const { EMBED_COLOR } = require("@modules/shared/constants/constants");
+import { EmbedBuilder } from "discord.js";
+import { EMBED_COLOR } from "@modules/shared/constants/constants";
 
-module.exports = (client, title) => {
+export default (client: any, title: any) => {
     return new EmbedBuilder()
         .setColor(`${EMBED_COLOR}`)
         .setAuthor({

@@ -1,17 +1,17 @@
+import path from 'path';
+import getAllFiles from '@util/getAllFiles';
+import express from 'express';
+import cors from 'cors';
+import { UNEXPECTED_ERROR_API_RESPONSE } from '@modules/errors/messages/errorMessages';
+import { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } from '@modules/shared/constants/statusCodes';
+
 const SERVER_PORT = process.env.EXPRESS_SERVER_PORT;
 const API_PREFIX = "/api";
-
-const path = require('path');
-const getAllFiles = require('@util/getAllFiles');
-const express = require('express');
-const cors = require('cors');
-const { UNEXPECTED_ERROR_API_RESPONSE } = require('@modules/errors/messages/errorMessages');
-const { USER_ERROR, SUCCESS, SERVER_ERROR, NOT_FOUND } = require('@modules/shared/constants/statusCodes');
 
 const app = express();
 app.use(cors());
 
-module.exports = (client) => {
+export default (client: any) => {
     const controllerFilePaths = getAllFiles(path.join(__dirname, "controllers"));
 
     for (const controllerFilePath of controllerFilePaths) {
@@ -28,7 +28,7 @@ module.exports = (client) => {
         }
     }
 
-    app.all("*", (req, res) => {
+    app.all("*", (req: any, res: any) => {
         res.status(NOT_FOUND);
         res.send({
             statusCode: NOT_FOUND
@@ -43,7 +43,7 @@ module.exports = (client) => {
 const ALLOWED_METHODS = ["get", "post", "put", "delete"];
 const DEFAULT_METHOD = "get";
 
-function registerEndpoint(endpointObject, baseRoute, client) {
+function registerEndpoint(endpointObject: any, baseRoute: any, client: any) {
     if (!endpointObject.method || !ALLOWED_METHODS.includes(endpointObject.method.toLowerCase())) {
         endpointObject.method = DEFAULT_METHOD;
     }
@@ -51,15 +51,38 @@ function registerEndpoint(endpointObject, baseRoute, client) {
     endpointObject.method = endpointObject.method.toLowerCase();
 
     const fullRoute = baseRoute + endpointObject.route;
+    const methodToInvoke: string = endpointObject.method;
 
-    app[endpointObject.method](fullRoute, async (req, res, next) => {
-        await handleEndpointCallback(endpointObject, req, res, next, client);
-    });
+    switch (endpointObject.method) {
+        case 'get':
+            app.get(fullRoute, async (req: any, res: any, next: any) => {
+                await handleEndpointCallback(endpointObject, req, res, next, client);
+            });
+            break;
+
+        case 'post':
+            app.post(fullRoute, async (req: any, res: any, next: any) => {
+                await handleEndpointCallback(endpointObject, req, res, next, client);
+            });
+            break;
+
+        case 'put':
+            app.put(fullRoute, async (req: any, res: any, next: any) => {
+                await handleEndpointCallback(endpointObject, req, res, next, client);
+            });
+            break;
+
+        case 'delete':
+            app.delete(fullRoute, async (req: any, res: any, next: any) => {
+                await handleEndpointCallback(endpointObject, req, res, next, client);
+            });
+            break;
+    }
 
     console.log(`🔗 Registered route: ${endpointObject.method.toUpperCase()} ${fullRoute}`);
 }
 
-async function handleEndpointCallback(endpointObject, req, res, next, client) {
+async function handleEndpointCallback(endpointObject: any, req: any, res: any, next: any, client: any) {
     try {
         if (endpointObject.validator) {
             const validationResult = endpointObject.validator(req, res, next);
@@ -89,7 +112,7 @@ async function handleEndpointCallback(endpointObject, req, res, next, client) {
     }
 }
 
-function generateValidationResponse(validationResult) {
+function generateValidationResponse(validationResult: any) {
     return {
         statusCode: validationResult.statusCode ? validationResult.statusCode : USER_ERROR,
         data: {

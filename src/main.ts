@@ -1,8 +1,10 @@
-require('dotenv').config();
-require('module-alias/register');
-const { Client, IntentsBitField } = require('discord.js');
-const eventHandler = require('@events/eventHandler');
-const setDefaultGlobalDispatcher = require('@modules/undici/setDefaultGlobalDispatcher');
+import 'module-alias/register';
+import dotenv from "dotenv";
+import { Client, IntentsBitField } from 'discord.js';
+import eventHandler from '@events/eventHandler';
+import setDefaultGlobalDispatcher from '@modules/undici/setDefaultGlobalDispatcher';
+
+dotenv.config();
 
 const client = new Client({
     intents: [

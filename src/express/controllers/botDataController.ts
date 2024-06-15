@@ -1,9 +1,9 @@
-const { default: axios } = require("axios");
+import { default as axios } from "axios";
 
 const get_data = {
     route: '/',
     method: 'get',
-    callback : async (req, res, next, client) => {
+    callback : async (req: any, res: any, next: any, client: any) => {
         const botActivity = client.presence?.activities?.length
             ? client.presence.activities[0]
             : null;
@@ -18,11 +18,11 @@ const get_data = {
     }
 }
 
-const imagePathToBase64 = async (imagePath) => {
+const imagePathToBase64 = async (imagePath: any) => {
     const response = await axios.get(imagePath, { responseType: 'arraybuffer' });
     return Buffer.from(response.data).toString('base64');
 }
 
-module.exports = {
+export default {
     get_data
 }

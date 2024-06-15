@@ -1,21 +1,21 @@
-const { devs } = require('~/config.json');
-const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
-const sendNoPermissionErrorReply = require('@modules/errors/messages/sendNoPermissionErrorReply');
-const getLocalCommands = require('@modules/commands/getLocalCommands');
-const sendTextReply = require('@modules/messaging/sendTextReply');
+import { devs } from '../../../config.json';
+import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
+import sendNoPermissionErrorReply from '@modules/errors/messages/sendNoPermissionErrorReply';
+import getLocalCommands from '@modules/commands/getLocalCommands';
+import sendTextReply from '@modules/messaging/sendTextReply';
 
-module.exports = async (client, interaction) => {
+export default async (client: any, interaction: any) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
-    const localCommands = getLocalCommands(['commands']);
-    const commandObject = localCommands.find((cmd) => cmd.name === interaction.commandName);
+    const localCommands = await getLocalCommands(['commands']);
+    const commandObject = localCommands.find((cmd: any) => cmd.name === interaction.commandName);
 
     if (!commandObject) {
         sendGenericErrorReply(interaction);
         return;
     }
 
-    const foundUserReponse = commandObject.userResponses?.find(x => x.userId === interaction.user.id);
+    const foundUserReponse = commandObject.userResponses?.find((x: any) => x.userId === interaction.user.id);
     if (foundUserReponse) {
         sendTextReply(interaction, foundUserReponse.response, true);
         return;
@@ -30,11 +30,11 @@ module.exports = async (client, interaction) => {
 
     try {
         await commandObject.callback(client, interaction);
-    } catch (e) {
+    } catch (e: any) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
         console.error(e);
 
-        if (!e.name.includes("ConnectTimeoutError")) {
+        if (!e?.name?.includes("ConnectTimeoutError")) {
             sendGenericErrorReply(interaction);
         }
     }

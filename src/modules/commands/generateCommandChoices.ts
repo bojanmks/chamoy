@@ -1,5 +1,5 @@
-module.exports = (data) => {
-    return data.filter(x => !x.deleted).map(x => ({
+export default (data: any) => {
+    return data.filter((x: any) => !x.deleted).map((x: any) => ({
         name: x.name,
         value: x.id
     }));

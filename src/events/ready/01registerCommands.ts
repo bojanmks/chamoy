@@ -1,11 +1,11 @@
-const areCommandsDifferent = require('@modules/commands/areCommandsDifferent');
-const getApplicationCommands = require('@modules/commands/getApplicationCommands');
-const getLocalCommands = require('@modules/commands/getLocalCommands');
-const { CURRENT_ENVIRONMENT } = require('@modules/shared/constants/environments');
+import areCommandsDifferent from '@modules/commands/areCommandsDifferent';
+import getApplicationCommands from '@modules/commands/getApplicationCommands';
+import getLocalCommands from '@modules/commands/getLocalCommands';
+import { CURRENT_ENVIRONMENT } from '@modules/shared/constants/environments';
 
-module.exports = async (client) => {
+export default async (client: any) => {
     try {
-        const localCommands = getLocalCommands(['commands']);
+        const localCommands = await getLocalCommands(['commands']);
         const applicationCommands = await getApplicationCommands(client);
 
         await updateApplicationCommands(localCommands, applicationCommands);
@@ -16,10 +16,10 @@ module.exports = async (client) => {
     }
 };
 
-async function updateApplicationCommands(localCommands, applicationCommands) {
+async function updateApplicationCommands(localCommands: any, applicationCommands: any) {
     for (const localCommand of localCommands) {
         const existingCommand = await applicationCommands.cache.find(
-            x => x.name === localCommand.name && x.type === localCommand.type
+            (x: any) => x.name === localCommand.name && x.type === localCommand.type
         );
 
         if (existingCommand) {
@@ -52,9 +52,9 @@ async function updateApplicationCommands(localCommands, applicationCommands) {
     }
 }
 
-async function removeNonExistantCommands(localCommands, applicationCommands) {
+async function removeNonExistantCommands(localCommands: any, applicationCommands: any) {
     const commandsToBeDeleted = await applicationCommands.cache.filter(
-        x => !localCommands.some(y => y.name === x.name)
+        (x: any) => !localCommands.some((y: any) => y.name === x.name)
     );
 
     for (const commandToBeDeleted of commandsToBeDeleted.values()) {
@@ -63,7 +63,7 @@ async function removeNonExistantCommands(localCommands, applicationCommands) {
     }
 }
 
-async function createNewCommand(applicationCommands, newCommand) {
+async function createNewCommand(applicationCommands: any, newCommand: any) {
     await applicationCommands.create({
         name: newCommand.name,
         description: newCommand.description,
@@ -72,13 +72,13 @@ async function createNewCommand(applicationCommands, newCommand) {
     });
 }
 
-async function updateExistingCommand(applicationCommands, id, updatedCommand) {
+async function updateExistingCommand(applicationCommands: any, id: any, updatedCommand: any) {
     await applicationCommands.edit(id, {
         description: updatedCommand.description,
         options: updatedCommand.options ?? []
     });
 }
 
-async function deleteExistingCommand(applicationCommands, id) {
+async function deleteExistingCommand(applicationCommands: any, id: any) {
     await applicationCommands.delete(id);
 }

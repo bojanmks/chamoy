@@ -1,17 +1,17 @@
-const { devs } = require('../../../config.json');
-const getLocalCommands = require("@modules/commands/getLocalCommands");
-const sendReply = require("@modules/messaging/sendReply");
-const generateBaseEmbed = require('@modules/embeds/generateBaseEmbed');
-const { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder, ApplicationCommandType } = require('discord.js');
-const { CURRENT_ENVIRONMENT } = require("@modules/shared/constants/environments");
-const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
+import { devs } from '../../../config.json';
+import getLocalCommands from "@modules/commands/getLocalCommands";
+import sendReply from "@modules/messaging/sendReply";
+import generateBaseEmbed from '@modules/embeds/generateBaseEmbed';
+import { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder, ApplicationCommandType } from 'discord.js';
+import { CURRENT_ENVIRONMENT } from "@modules/shared/constants/environments";
+import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
 
 const COMMANDS_PER_PAGE = 10;
 
-module.exports = async (client, interaction, userId) => {
-    const commands = getLocalCommands(['commands'])
-        .filter(x => isCommandAvailable(x, userId) && x.type === ApplicationCommandType.ChatInput)
-        .sort((a, b) => a.name.localeCompare(b.name));
+export default async (client: any, interaction: any, userId: any) => {
+    const commands = (await getLocalCommands(['commands']))
+        .filter((x: any) => isCommandAvailable(x, userId) && x.type === ApplicationCommandType.ChatInput)
+        .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
     if (!commands || !commands.length) {
         sendGenericErrorReply(interaction);
@@ -23,12 +23,12 @@ module.exports = async (client, interaction, userId) => {
 
     const collector = sentMessage.createMessageComponentCollector({ componentType: ComponentType.Button });
     
-    collector.on('collect', async existingInteraction => {
+    collector.on('collect', async (existingInteraction: any) => {
         goToPage(client, existingInteraction, commands, parseInt(existingInteraction.customId));
     });
 }
 
-function isCommandAvailable(command, userId) {
+function isCommandAvailable(command: any, userId: any) {
     if (command.environments && !command.environments.includes(CURRENT_ENVIRONMENT)) {
         return false;
     }
@@ -40,7 +40,7 @@ function isCommandAvailable(command, userId) {
     return true;
 }
 
-function generateMessage(client, commands, page = 0) {
+function generateMessage(client: any, commands: any, page = 0) {
     const embed = generateBaseEmbed(client, 'Commands');
 
     for (let command of commands.slice(COMMANDS_PER_PAGE * page, COMMANDS_PER_PAGE * (page + 1))) {
@@ -60,7 +60,7 @@ function generateMessage(client, commands, page = 0) {
     };
 }
 
-function commandNameWithParameters(command) {
+function commandNameWithParameters(command: any) {
     let commandName = "/" + command.name;
 
     if (!command.options?.length) {
@@ -68,12 +68,12 @@ function commandNameWithParameters(command) {
     }
 
     // required parameters
-    for (let param of command.options.filter(x => x.required)) {
+    for (let param of command.options.filter((x: any) => x.required)) {
         commandName += ` \`\`<${param.name}>\`\``;
     }
 
     // optional parameters
-    for (let param of command.options.filter(x => !x.required)) {
+    for (let param of command.options.filter((x: any) => !x.required)) {
         commandName += ` \`\`[${param.name}]\`\``;
     }
 
@@ -90,7 +90,7 @@ const FORWARD_BUTTON = new ButtonBuilder()
     .setLabel('Next')
     .setEmoji('➡️');
 
-function generateMessageActions(commands, page) {
+function generateMessageActions(commands: any, page: any) {
     const actions = new ActionRowBuilder();
 
     const isFirstPage = page === 0;
@@ -109,7 +109,7 @@ function generateMessageActions(commands, page) {
     return actions;
 }
 
-function goToPage(client, interaction, commands, page) {
+function goToPage(client: any, interaction: any, commands: any, page: any) {
     const message = generateMessage(client, commands, page);
     interaction.update(message);
 }

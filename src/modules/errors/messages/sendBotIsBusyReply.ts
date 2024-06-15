@@ -1,6 +1,6 @@
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { BOT_IS_BUSY_ERROR_RESPONSE } = require("@modules/errors/messages/errorMessages");
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { BOT_IS_BUSY_ERROR_RESPONSE } from "@modules/errors/messages/errorMessages";
 
-module.exports = (interaction) => {
+export default (interaction: any) => {
     sendTextReply(interaction, BOT_IS_BUSY_ERROR_RESPONSE, true);
 };

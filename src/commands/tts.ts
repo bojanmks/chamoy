@@ -1,14 +1,14 @@
-const { ApplicationCommandOptionType } = require("discord.js");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { CHECK_EMOJI, X_EMOJI } = require("@modules/shared/constants/emojis");
-const generateCommandChoices = require("@modules/commands/generateCommandChoices");
-const ttsLanguagesRepository = require("@modules/tts/ttsLanguagesRepository");
-const busyUtil = require("@modules/busy/busyUtil");
-const sendBotIsBusyReply = require("@modules/errors/messages/sendBotIsBusyReply");
-const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
+import { ApplicationCommandOptionType } from "discord.js";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { CHECK_EMOJI, X_EMOJI } from "@modules/shared/constants/emojis";
+import generateCommandChoices from "@modules/commands/generateCommandChoices";
+import ttsLanguagesRepository from "@modules/tts/ttsLanguagesRepository";
+import busyUtil from "@modules/busy/busyUtil";
+import sendBotIsBusyReply from "@modules/errors/messages/sendBotIsBusyReply";
+import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 const gTTS = require("gtts");
 
-module.exports = {
+export default {
     name: 'tts',
     description: 'Make bot say a message in current voice channel',
     options: [
@@ -26,7 +26,7 @@ module.exports = {
             required: true
         }
     ],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         const serverId = interaction.guildId;
         if (busyUtil.isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
@@ -54,7 +54,7 @@ module.exports = {
                 busyUtil.toggleBusy(serverId);
             });
 
-            sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${ttsLanguagesRepository.find(language).name}**`, true);
+            sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${ttsLanguagesRepository.find(language)?.name}**`, true);
         }
         catch (error) {
             connection.disconnect();
@@ -64,7 +64,7 @@ module.exports = {
     }
 };
 
-function playAudio(connection, message, language, onFinish) {
+function playAudio(connection: any, message: any, language: any, onFinish: any) {
     const audioPlayer = createAudioPlayer({
         behaviors: {
             noSubscriber: NoSubscriberBehavior.Pause

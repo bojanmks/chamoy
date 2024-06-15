@@ -1,8 +1,8 @@
-const EzGifGifCaptionSetter = require("./gif/EzGifGifCaptionSetter");
-const ManualGifCaptionSetter = require("./gif/ManualGifCaptionSetter");
+import EzGifGifCaptionSetter from "./gif/EzGifGifCaptionSetter";
+import ManualGifCaptionSetter from "./gif/ManualGifCaptionSetter";
 
 class MemeCaptionSetterFactory {
-    makeCaptionSetter(data) {
+    makeCaptionSetter(data: any) {
         if (data === '.gif') {
             return new EzGifGifCaptionSetter(new ManualGifCaptionSetter());
         }
@@ -11,4 +11,4 @@ class MemeCaptionSetterFactory {
     }
 }
 
-module.exports = MemeCaptionSetterFactory;
+export default MemeCaptionSetterFactory;

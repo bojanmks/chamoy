@@ -1,10 +1,10 @@
-const audioList = require('@assets/data/audio.json');
+import audioList from '@assets/data/audio.json';
 
-module.exports = {
+export default {
     get: () => {
-        return audioList.sort((a, b) => a.name.localeCompare(b.name));
+        return audioList.sort((a: any, b: any) => a.name.localeCompare(b.name));
     },
-    find: (id) => {
-        return audioList.find(x => x.id === id);
+    find: (id: any) => {
+        return audioList.find((x: any) => x.id === id);
     }
 };

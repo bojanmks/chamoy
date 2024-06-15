@@ -1,10 +1,10 @@
-const changeUserUsername = require("@modules/usernameDecrement/changeUserUsername");
-const getSavedUsername = require("@modules/usernameDecrement/getSavedUsername");
-const saveUsername = require("@modules/usernameDecrement/saveUsername");
-const getUpdatedUsername = require("@modules/usernameDecrement/getUpdatedUsername");
+import changeUserUsername from "@modules/usernameDecrement/changeUserUsername";
+import getSavedUsername from "@modules/usernameDecrement/getSavedUsername";
+import saveUsername from "@modules/usernameDecrement/saveUsername";
+import getUpdatedUsername from "@modules/usernameDecrement/getUpdatedUsername";
 
-module.exports = async (client, numberOfDays = 1) => {
-    const currentUsername = getSavedUsername(getSavedUsername);
+export default async (client: any, numberOfDays = 1) => {
+    const currentUsername = getSavedUsername();
     const newUsername = getUpdatedUsername(currentUsername, numberOfDays);
 
     const success = await changeUserUsername(newUsername, client);

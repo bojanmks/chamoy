@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus } = require("discord.js");
-const setPresence = require("@modules/presence/setPresence");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const presenceRatelimitUtil = require("@modules/presence/presenceRatelimitUtil");
-const { CHECK_EMOJI } = require("@modules/shared/constants/emojis");
+import { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus } from "discord.js";
+import setPresence from "@modules/presence/setPresence";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
+import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = {
+export default {
     name: 'setpresence',
     description: 'Set bot presence',
     options: [
@@ -63,7 +63,7 @@ module.exports = {
             ]
         }
     ],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         presenceRatelimitUtil.onCanChangePresence(() => {
             const activityName = interaction.options.get('name').value;
             const activityType = interaction.options.get('type').value;

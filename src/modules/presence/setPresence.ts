@@ -1,4 +1,4 @@
-module.exports = (client, activityName, activityType, status) => {
+export default (client: any, activityName: any, activityType: any, status: any) => {
     client.user.setPresence({
         activities: [
             {

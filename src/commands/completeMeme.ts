@@ -1,14 +1,14 @@
-const { ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
-const { X_EMOJI } = require("@modules/shared/constants/emojis");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const MemeCaptionSetterFactory = require("@modules/meme/caption-setters/MemeCaptionSetterFactory");
-const MemeFilePathProviderFactory = require("@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory");
-const completeMemeMessageStore = require("@modules/meme/completeMemeMessageStore");
-const wait = require("@modules/shared/wait");
+import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
+import { X_EMOJI } from "@modules/shared/constants/emojis";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import MemeCaptionSetterFactory from "@modules/meme/caption-setters/MemeCaptionSetterFactory";
+import MemeFilePathProviderFactory from "@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory";
+import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
+import wait from "@modules/shared/wait";
 
 const DEFAULT_FONT_SIZE = 40;
 
-module.exports = {
+export default {
     name: 'completememe',
     description: 'Complete meme',
     type: ApplicationCommandType.ChatInput,
@@ -32,7 +32,7 @@ module.exports = {
             required: false
         }
     ],
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const userId = interaction.user.id;
         const messageId = completeMemeMessageStore.findMessageByUser(userId);
 
@@ -80,7 +80,7 @@ module.exports = {
                 topCaption: topText,
                 bottomCaption: bottomText,
                 fontSize: fontSize,
-                temporaryUrlHandler: async (url) => {
+                temporaryUrlHandler: async (url: any) => {
                     temporaryMessageData = await sendTemporaryUrl(url, message.channel);
                 }
             });
@@ -91,18 +91,18 @@ module.exports = {
     }
 };
 
-const sendMessageNotPreparedMessage = (interaction) => {
+const sendMessageNotPreparedMessage = (interaction: any) => {
     return sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
 }
 
-const getFileExtension = (urlString) => {
+const getFileExtension = (urlString: any) => {
     const parsedUrl = new URL(urlString);
     const pathname = parsedUrl.pathname;
     const extension = pathname.split('.').pop();
-    return extension.includes('/') ? '' : `.${extension}`;
+    return extension?.includes('/') ? '' : `.${extension}`;
 }
 
-const sendTemporaryUrl = async (tempUrl, channel) => {
+const sendTemporaryUrl = async (tempUrl: any, channel: any) => {
     const temporaryMessage = await channel.send(tempUrl)
 
     return {
@@ -113,7 +113,7 @@ const sendTemporaryUrl = async (tempUrl, channel) => {
 
 const minTempMessageTimeElapsed = 1000;
 
-const handleFinishedResponse = async (channel, temporaryMessageData, finishedMemeData) => {
+const handleFinishedResponse = async (channel: any, temporaryMessageData: any, finishedMemeData: any) => {
     if (!temporaryMessageData && finishedMemeData.fileUrl) {
         return await channel.send(finishedMemeData.fileUrl);
     }

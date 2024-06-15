@@ -1,7 +1,7 @@
-const gamesRepository = require('@modules/games/gamesRepository');
-const generateBaseEmbed = require('@modules/embeds/generateBaseEmbed');
+import gamesRepository from '@modules/games/gamesRepository';
+import generateBaseEmbed from '@modules/embeds/generateBaseEmbed';
 
-module.exports = (client, gameId) => {
+export default (client: any, gameId: any) => {
     const game = gamesRepository.find(gameId);
 
     if (!game) {
@@ -14,8 +14,8 @@ module.exports = (client, gameId) => {
     return embed;
 }
 
-function addLinksToEmbed(embed, game) {
-    const activeLinks = game.links.filter(x => !x.deleted);
+function addLinksToEmbed(embed: any, game: any) {
+    const activeLinks = game.links.filter((x: any) => !x.deleted);
     for(let i in activeLinks) {
         addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
     }
@@ -25,7 +25,7 @@ function addLinksToEmbed(embed, game) {
     }
 }
 
-function addLinkToEmbed(embed, ordinalNumber, linkObject) {
+function addLinkToEmbed(embed: any, ordinalNumber: any, linkObject: any) {
     let fieldValue = "``" + ordinalNumber + ".``  " + `[${linkObject.name}](${linkObject.link})`;
 
     if (linkObject.description) {

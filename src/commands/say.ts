@@ -1,8 +1,8 @@
-const { ApplicationCommandOptionType } = require("discord.js");
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { CHECK_EMOJI, CLOWN_EMOJI } = require("@modules/shared/constants/emojis");
+import { ApplicationCommandOptionType } from "discord.js";
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { CHECK_EMOJI, CLOWN_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = {
+export default {
     name: 'say',
     description: 'Make bot send a message',
     userResponses: [
@@ -19,7 +19,7 @@ module.exports = {
             required: true
         }
     ],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         const messageToSend = interaction.options.get('message').value;
         interaction.channel.send(messageToSend);
 

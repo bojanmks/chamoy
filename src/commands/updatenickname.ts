@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType } = require('discord.js');
-const getDaysLeft = require('@modules/usernameDecrement/getDaysLeft');
-const handleUsernameDecrement = require('@modules/usernameDecrement/handleUsernameDecrement');
-const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
-const sendDaysLeftMessage = require('@modules/usernameDecrement/messages/sendDaysLeftMessage');
+import { ApplicationCommandOptionType } from 'discord.js';
+import getDaysLeft from '@modules/usernameDecrement/getDaysLeft';
+import handleUsernameDecrement from '@modules/usernameDecrement/handleUsernameDecrement';
+import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
+import sendDaysLeftMessage from '@modules/usernameDecrement/messages/sendDaysLeftMessage';
 
-module.exports = {
+export default {
     name: 'updatenickname',
     description: 'Skips the specified number of days, or 1 by default',
     deleted: true,
@@ -15,7 +15,7 @@ module.exports = {
             type: ApplicationCommandOptionType.Number
         }
     ],
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const numberOfDays = getNumberOfDaysParameter(interaction);
         const newUsername = await handleUsernameDecrement(client, numberOfDays);
 
@@ -28,7 +28,7 @@ module.exports = {
     }
 };
 
-function getNumberOfDaysParameter(interaction) {
+function getNumberOfDaysParameter(interaction: any) {
     let numberOfDays = interaction.options.get('days')?.value ?? 1;
 
     if (numberOfDays < 1) {

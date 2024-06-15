@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = (username) => {
+export default (username: any) => {
     const filePath = path.join(__dirname, '..', '..', 'assets', 'data', 'username.txt');
     fs.writeFileSync(filePath, username, 'utf-8');
 };

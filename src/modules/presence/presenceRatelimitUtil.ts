@@ -1,14 +1,13 @@
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { X_EMOJI } from "@modules/shared/constants/emojis";
 
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { X_EMOJI } = require("@modules/shared/constants/emojis");
-
-let lastPresenceChangeTime;
+let lastPresenceChangeTime: number;
 
 const PRESENCE_CHANGE_COOLDOWN_IN_SECONDS = 15;
 
-module.exports = {
-    setPresenceChangeTime(time = null) {
-        if (!time) time = new Date();
+export default {
+    setPresenceChangeTime(time: number | null = null) {
+        if (!time) time = Date.now();
         lastPresenceChangeTime = time;
     },
     canChangePresence() {
@@ -17,7 +16,7 @@ module.exports = {
         const secondsSinceLastChange = getSecondsSinceLastChange();
         return secondsSinceLastChange >= PRESENCE_CHANGE_COOLDOWN_IN_SECONDS;
     },
-    async onCanChangePresence(successCallback, errorCallback = null) {
+    async onCanChangePresence(successCallback: any, errorCallback: Function | null = null) {
         if (this.canChangePresence()) {
             this.setPresenceChangeTime();
             await successCallback();
@@ -26,14 +25,14 @@ module.exports = {
             await errorCallback(PRESENCE_CHANGE_COOLDOWN_IN_SECONDS - getSecondsSinceLastChange());
         }
     },
-    sendPresenceChangeTimeLeftReply(interaction) {
+    sendPresenceChangeTimeLeftReply(interaction: any) {
         const secondsLeft = PRESENCE_CHANGE_COOLDOWN_IN_SECONDS - getSecondsSinceLastChange();
         const roundedSeconds = Math.ceil(secondsLeft);
         sendTextReply(interaction, `${X_EMOJI} Please wait ${roundedSeconds} seconds`, true);
     }
 };
 
-function getSecondsSinceLastChange() {
+function getSecondsSinceLastChange(): number {
     if (!lastPresenceChangeTime) return PRESENCE_CHANGE_COOLDOWN_IN_SECONDS + 1;
-    return (new Date() - lastPresenceChangeTime) / 1000;
+    return (Date.now() - lastPresenceChangeTime) / 1000;
 }

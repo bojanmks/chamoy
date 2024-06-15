@@ -1,5 +1,5 @@
-const { setGlobalDispatcher, Agent } = require('undici');
+import { setGlobalDispatcher, Agent } from 'undici';
 
-module.exports = () => {
+export default () => {
     setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }));
 };

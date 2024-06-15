@@ -1,6 +1,6 @@
 const { MAX_USERNAME, ALPHABET } = require("@modules/shared/constants/constants");
 
-module.exports = (username, numberOfDays = 1) => {
+export default (username: any, numberOfDays = 1) => {
     let newUsername = username;
 
     for (let i = 0; i < numberOfDays; i++) {
@@ -10,9 +10,9 @@ module.exports = (username, numberOfDays = 1) => {
         const numbersString = newUsername.replace(/[^0-9]/g, '');
 
         if (numbersString) {
-            newUsername = alterNumbers(letters, numbersString, numberOfDays);
+            newUsername = alterNumbers(letters, numbersString);
         } else {
-            newUsername = alterLetters(letters, numberOfDays);
+            newUsername = alterLetters(letters);
         }
     }
 
@@ -23,7 +23,7 @@ module.exports = (username, numberOfDays = 1) => {
     return newUsername;
 };
 
-function alterNumbers(letters, numbersString) {
+function alterNumbers(letters: any, numbersString: any) {
     let newUsername = letters;
 
     let numbers = parseInt(numbersString);
@@ -36,7 +36,7 @@ function alterNumbers(letters, numbersString) {
     return newUsername;
 }
 
-function alterLetters(letters) {
+function alterLetters(letters: any) {
     let charactersArray = letters.split('');
     let lastCharacter = charactersArray.pop();
     

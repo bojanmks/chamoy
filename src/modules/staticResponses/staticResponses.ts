@@ -1,6 +1,6 @@
-const { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } = require("@modules/shared/constants/emojis");
+import { LAUGHING_CRYING_EMOJI, SALUTE_EMOJI } from "@modules/shared/constants/emojis";
 
-module.exports = [
+export default [
     {
         messages: ['koliko kosta daytona?', 'koliko kosta dejtona?'],
         response: 'kosta 50 soma'

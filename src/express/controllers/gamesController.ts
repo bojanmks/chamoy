@@ -1,4 +1,4 @@
-const gamesRepository = require("@modules/games/gamesRepository")
+import gamesRepository from "@modules/games/gamesRepository";
 
 const get_games = {
     route: '/',
@@ -9,6 +9,6 @@ const get_games = {
     }
 }
 
-module.exports = {
+export default {
     get_games
-}
+};

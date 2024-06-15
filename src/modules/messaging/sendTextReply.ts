@@ -1,6 +1,6 @@
-const sendReply = require("@modules/messaging/sendReply");
+import sendReply from "@modules/messaging/sendReply";
 
-module.exports = (interaction, content, ephemeral = false) => {
+export default (interaction: any, content: any, ephemeral = false) => {
     const replyContent = {
         content,
         ephemeral

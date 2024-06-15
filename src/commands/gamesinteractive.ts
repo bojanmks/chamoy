@@ -1,11 +1,11 @@
-const sendGenericErrorReply = require("@modules/errors/messages/sendGenericErrorReply");
-const generateGamesInteractiveEmbedResponse = require("@modules/games/generateGamesInteractiveEmbedResponse");
-const sendReply = require("@modules/messaging/sendReply");
+import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
+import generateGamesInteractiveEmbedResponse from "@modules/games/generateGamesInteractiveEmbedResponse";
+import sendReply from "@modules/messaging/sendReply";
 
-module.exports = {
+export default {
     name: 'gamesinteractive',
     description: 'Get interactive embed with game links',
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const response = generateGamesInteractiveEmbedResponse(client);
 
         if (!response) {

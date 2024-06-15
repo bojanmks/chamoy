@@ -1,11 +1,11 @@
-const sendTextReply = require("@modules/messaging/sendTextReply");
-const { DEVELOPMENT_ENVIRONMENT } = require("@modules/shared/constants/environments");
+import sendTextReply from "@modules/messaging/sendTextReply";
+import { DEVELOPMENT_ENVIRONMENT } from "@modules/shared/constants/environments";
 
-module.exports = {
+export default {
     name: 'ping',
     description: '🏓',
     environments: [DEVELOPMENT_ENVIRONMENT],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         sendTextReply(interaction, 'pong', true);
     }
 };

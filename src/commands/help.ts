@@ -1,9 +1,9 @@
-const handleHelpResponse = require("@modules/help/handleHelpResponse");
+import handleHelpResponse from "@modules/help/handleHelpResponse";
 
-module.exports = {
+export default {
     name: 'help',
     description: 'Lists all commands',
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         await handleHelpResponse(client, interaction, interaction.user.id);
     }
 };

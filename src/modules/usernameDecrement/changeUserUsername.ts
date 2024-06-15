@@ -1,6 +1,6 @@
-const { targetUserId, serverId } = require('~/config.json');
+import { targetUserId, serverId } from '../../../config.json';
 
-module.exports = async (username, client) => {
+export default async (username: any, client: any) => {
     const server = await client.guilds.fetch(serverId);
     if (!server) return false;
     
@@ -9,7 +9,7 @@ module.exports = async (username, client) => {
 
     let result = true;
 
-    await targetUser.setNickname(username).catch(err => {
+    await targetUser.setNickname(username).catch((err: any) => {
         result = false;
         console.error(`❌ There was an error setting a users nickname:`);
         console.error(err);

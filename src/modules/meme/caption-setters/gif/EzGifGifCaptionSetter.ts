@@ -1,6 +1,6 @@
-const { default: axios } = require("axios");
-const cheerio = require("cheerio");
-const FormData = require('form-data');
+import { default as axios } from "axios";
+import cheerio from "cheerio";
+import FormData from 'form-data';
 
 const ezgifBaseUrl = 'https://ezgif.com';
 
@@ -8,11 +8,16 @@ class EzGifGifCaptionSetter {
 
     fallbackCaptionSetter;
 
-    constructor(fallbackCaptionSetter) {
+    constructor(fallbackCaptionSetter: any) {
         this.fallbackCaptionSetter = fallbackCaptionSetter;
     }
 
-    async setCaption(filePath, { topCaption, bottomCaption, fontSize, temporaryUrlHandler }) {
+    async setCaption(filePath: any, {
+        topCaption,
+        bottomCaption,
+        fontSize,
+        temporaryUrlHandler
+    }: any) {
         try {
             const fileBufferResponse = await axios.get(filePath, { responseType: 'arraybuffer' });
             const fileBuffer = fileBufferResponse.data;
@@ -41,7 +46,7 @@ class EzGifGifCaptionSetter {
     }
 }
 
-const uploadFile = async (fileBuffer) => {
+const uploadFile = async (fileBuffer: any) => {
     const formData = new FormData();
     formData.append("new-image", fileBuffer, {
         filename: 'yourfile.gif',
@@ -58,7 +63,11 @@ const uploadFile = async (fileBuffer) => {
     return fileName;
 }
 
-const setCaption = async (fileName, { topCaption, bottomCaption, fontSize }) => {
+const setCaption = async (fileName: any, {
+    topCaption,
+    bottomCaption,
+    fontSize
+}: any) => {
     const setCaptionEndpoint = `${ezgifBaseUrl}/add-text/${fileName}`;
 
     const bodyJson = {
@@ -95,7 +104,7 @@ const setCaption = async (fileName, { topCaption, bottomCaption, fontSize }) => 
     }
 }
 
-const sendSetCaptionRequest = async (bodyJson, endpoint) => {
+const sendSetCaptionRequest = async (bodyJson: any, endpoint: any) => {
     const headers = { 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8' };
     const formData = createFormDataFromJson(bodyJson);
 
@@ -104,7 +113,7 @@ const sendSetCaptionRequest = async (bodyJson, endpoint) => {
     return response.data;
 }
 
-const getCaptionedFilePath = async (fileName, dataFromSetCaption) => {
+const getCaptionedFilePath = async (fileName: any, dataFromSetCaption: any): Promise<string> => {
     const bodyJson = {
         "file": fileName,
         "f1": {
@@ -134,13 +143,13 @@ const getCaptionedFilePath = async (fileName, dataFromSetCaption) => {
     const $ = cheerio.load(repsonseHtml);
     const captionedFilePath = $('p.outfile img').attr('src');
 
-    return captionedFilePath;
+    return captionedFilePath || '';
 }
 
-function createFormDataFromJson(jsonObject) {
+function createFormDataFromJson(jsonObject: any) {
     const formData = new FormData();
     
-    const appendFormData = (data, rootKey) => {
+    const appendFormData = (data: any, rootKey: any) => {
       if (typeof data === 'object' && data !== null) {
         for (const key in data) {
           appendFormData(data[key], rootKey ? `${rootKey}[${key}]` : key);
@@ -155,4 +164,4 @@ function createFormDataFromJson(jsonObject) {
     return formData;
 }
 
-module.exports = EzGifGifCaptionSetter;
+export default EzGifGifCaptionSetter;

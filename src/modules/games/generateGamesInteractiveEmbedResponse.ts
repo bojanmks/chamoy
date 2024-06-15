@@ -1,16 +1,16 @@
-const generateBaseEmbed = require("@modules/embeds/generateBaseEmbed");
-const gamesRepository = require("@modules/games/gamesRepository");
-const generateGameEmbed = require("@modules/games/generateGameEmbed");
-const generateRandomString = require("@modules/shared/generateRandomString");
-const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = require("./gamesConstants");
+import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
+import gamesRepository from "@modules/games/gamesRepository";
+import generateGameEmbed from "@modules/games/generateGameEmbed";
+import generateRandomString from "@modules/shared/generateRandomString";
+import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } from "./gamesConstants";
 
 const REFRESH_BUTTON = new ButtonBuilder()
     .setStyle(ButtonStyle.Secondary)
     .setLabel('Refresh')
     .setEmoji('🔃');
 
-module.exports = (client, selectedGameId = null) => {
+export default (client: any, selectedGameId = null) => {
     let embed;
 
     if (selectedGameId) {
@@ -37,7 +37,7 @@ module.exports = (client, selectedGameId = null) => {
     };
 }
 
-function generateEmbedComponents(selectedGameId) {
+function generateEmbedComponents(selectedGameId: any) {
     const games = gamesRepository.get();
 
     const generatedActionRows = [];

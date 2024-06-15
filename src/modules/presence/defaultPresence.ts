@@ -1,6 +1,6 @@
 const { ActivityType, PresenceUpdateStatus } = require("discord.js");
 
-module.exports = () => {
+export default () => {
     return {
         activities: [
             {

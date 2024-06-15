@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+import fs from "fs";
+import path from "path";
 
-module.exports = () => {
+export default () => {
     const filePath = path.join(__dirname, '..', '..', 'assets', 'data', 'username.txt');
     let usernameBuffer = fs.readFileSync(filePath);
-    username = usernameBuffer.toString();
+    const username = usernameBuffer.toString();
 
     return username;
-};
+};;

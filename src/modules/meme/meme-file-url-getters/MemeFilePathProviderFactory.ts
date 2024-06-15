@@ -1,9 +1,9 @@
-const TenorMemeFilePathProvider = require("./TenorMemeFilePathProvider");
+import TenorMemeFilePathProvider from "./TenorMemeFilePathProvider";
 
 class MemeFilePathProviderFactory {
     message;
 
-    constructor(message) {
+    constructor(message: any) {
         this.message = message;
     }
 
@@ -24,4 +24,4 @@ class MemeFilePathProviderFactory {
     }
 }
 
-module.exports = MemeFilePathProviderFactory;
+export default MemeFilePathProviderFactory;

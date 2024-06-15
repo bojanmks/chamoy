@@ -1,15 +1,15 @@
-const { ApplicationCommandOptionType } = require('discord.js');
-const audioRepository = require('@modules/audio/audioRepository');
-const busyUtil = require('@modules/busy/busyUtil');
-const sendBotIsBusyReply = require('@modules/errors/messages/sendBotIsBusyReply');
-const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
-const sendTextReply = require('@modules/messaging/sendTextReply');
-const path = require('path');
-const { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
-const generateCommandChoices = require('@modules/commands/generateCommandChoices');
-const { X_EMOJI, PLAY_EMOJI } = require('@modules/shared/constants/emojis');
+import { ApplicationCommandOptionType } from 'discord.js';
+import audioRepository from '@modules/audio/audioRepository';
+import busyUtil from '@modules/busy/busyUtil';
+import sendBotIsBusyReply from '@modules/errors/messages/sendBotIsBusyReply';
+import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
+import sendTextReply from '@modules/messaging/sendTextReply';
+import path from 'path';
+import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
+import generateCommandChoices from '@modules/commands/generateCommandChoices';
+import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
 
-module.exports = {
+export default {
     name: 'audio',
     description: 'Play audio',
     options: [
@@ -21,7 +21,7 @@ module.exports = {
             choices: generateCommandChoices(audioRepository.get())
         }
     ],
-    callback: (client, interaction) => {
+    callback: (client: any, interaction: any) => {
         const serverId = interaction.guildId;
 
         if (busyUtil.isBusy(serverId)) {
@@ -64,7 +64,7 @@ module.exports = {
     }
 };
 
-function playAudio(connection, audio, onFinish) {
+function playAudio(connection: any, audio: any, onFinish: any) {
     const audioPlayer = createAudioPlayer({
         behaviors: {
             noSubscriber: NoSubscriberBehavior.Pause

@@ -1,11 +1,11 @@
-const { default: axios } = require("axios");
-const cheerio = require("cheerio");
+import { default as axios } from "axios";
+import cheerio from "cheerio";
 
 class TenorMemeFilePathProvider {
 
     message;
 
-    constructor(message) {
+    constructor(message: any) {
         this.message = message;
     }
 
@@ -22,4 +22,4 @@ class TenorMemeFilePathProvider {
     }
 }
 
-module.exports = TenorMemeFilePathProvider;
+export default TenorMemeFilePathProvider;

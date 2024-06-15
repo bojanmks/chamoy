@@ -1,11 +1,11 @@
-const { default: axios } = require("axios");
-const { zeroTierApiUrl, zeroTierNetworkId } = require("~/config.json");
-const generateBaseEmbed = require("@modules/embeds/generateBaseEmbed");
-const sendGenericErrorReply = require('@modules/errors/messages/sendGenericErrorReply');
-const { ApplicationCommandOptionType } = require("discord.js");
-const sendReply = require("@modules/messaging/sendReply");
+import { default as axios } from "axios";
+import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
+import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
+import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
+import { ApplicationCommandOptionType } from "discord.js";
+import sendReply from "@modules/messaging/sendReply";
 
-module.exports = {
+export default {
     name: 'ip',
     description: 'Get the list of zero tier network members',
     options: [
@@ -20,7 +20,7 @@ module.exports = {
             type: ApplicationCommandOptionType.Boolean
         }
     ],
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const keyword = interaction.options.get('keyword')?.value ?? "";
         const ephemeral = interaction.options.get('ephemeral')?.value ?? true;
 
@@ -29,10 +29,10 @@ module.exports = {
         };
 
         await axios.get(`${zeroTierApiUrl}/network/${zeroTierNetworkId}/member`, { headers })
-            .then(data => {
-                const members = data.data.filter(x => x.nodeId?.includes(keyword)
+            .then((data: any) => {
+                const members = data.data.filter((x: any) => x.nodeId?.includes(keyword)
                                                    || x.name?.includes(keyword)
-                                                   || x.config?.ipAssignments.some(ipAs => ipAs.includes(keyword)));
+                                                   || x.config?.ipAssignments.some((ipAs: any) => ipAs.includes(keyword)));
 
                 const embed = generateBaseEmbed(client, 'IP');
                 generateEmbed(embed, members);
@@ -42,7 +42,7 @@ module.exports = {
                     ephemeral: ephemeral
                 });
             })
-            .catch(error => {
+            .catch((error: any) => {
                 console.error('❌ Error fetching zero tier members:');
                 console.error(error);
                 sendGenericErrorReply(interaction);
@@ -50,7 +50,7 @@ module.exports = {
     }
 };
 
-function generateEmbed(embed, members) {
+function generateEmbed(embed: any, members: any) {
     embed.addFields(
         {
             name: 'Network ID',
@@ -58,17 +58,17 @@ function generateEmbed(embed, members) {
         },
         {
             name: 'Node ID',
-            value: members.map(x => x.nodeId).join('\n'),
+            value: members.map((x: any) => x.nodeId).join('\n'),
             inline: true
         },
         {
             name: 'Name',
-            value: members.map(x => x.name || "/").join('\n'),
+            value: members.map((x: any) => x.name || "/").join('\n'),
             inline: true
         },
         {
             name: 'IP',
-            value: members.map(x => x.config.ipAssignments.join(', ')).join('\n'),
+            value: members.map((x: any) => x.config.ipAssignments.join(', ')).join('\n'),
             inline: true
         }
     );

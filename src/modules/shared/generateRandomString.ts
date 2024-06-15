@@ -1,4 +1,4 @@
-module.exports = (length = 10) => {
+export default (length = 10) => {
     let result = '';
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -12,4 +12,4 @@ module.exports = (length = 10) => {
     }
     
     return result;
-}
+};;

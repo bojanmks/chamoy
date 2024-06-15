@@ -1,12 +1,12 @@
-const { ApplicationCommandType } = require("discord.js");
-const completeMemeMessageStore = require("@modules/meme/completeMemeMessageStore");
-const generateBaseEmbed = require("@modules/embeds/generateBaseEmbed");
-const sendReply = require("@modules/messaging/sendReply");
+import { ApplicationCommandType } from "discord.js";
+import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
+import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
+import sendReply from "@modules/messaging/sendReply";
 
-module.exports = {
+export default {
     name: 'Meme',
     type: ApplicationCommandType.Message,
-    callback: async (client, interaction) => {
+    callback: async (client: any, interaction: any) => {
         const message = interaction.targetMessage;
         completeMemeMessageStore.addMessage(message.author.id, message.id);
 

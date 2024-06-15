@@ -1,4 +1,4 @@
-module.exports = (interaction, data) => {
+export default (interaction: any, data: any) => {
     if (interaction.deferred) {
         return interaction.editReply(data);
     }

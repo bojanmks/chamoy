@@ -1,5 +1,5 @@
-const sendTextReply = require("@modules/messaging/sendTextReply");
+import sendTextReply from "@modules/messaging/sendTextReply";
 
-module.exports = (daysLeft, interaction) => {
+export default (daysLeft: any, interaction: any) => {
     sendTextReply(interaction, `${daysLeft} days left`, true);
 };

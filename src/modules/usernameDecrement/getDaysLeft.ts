@@ -1,7 +1,6 @@
 const { ALPHABET } = require("@modules/shared/constants/constants");
 
-
-module.exports = (username) => {
+export default (username: any) => {
     let daysLeft = 0;
 
     const letters = username.replace(/[^a-z]/gi, '');
