@@ -32,5 +32,11 @@
     "@util": "./src/util",
     "@assets": "./src/assets",
     "@express": "./src/express"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "ts-migrate": "^0.1.35",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
