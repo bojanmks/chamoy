@@ -2,11 +2,14 @@ import { ApplicationCommandType } from "discord.js";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendReply from "@modules/messaging/sendReply";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'Meme',
-    type: ApplicationCommandType.Message,
-    callback: async (client: any, interaction: any) => {
+class MemeContextMenuCommand extends BaseCommand {
+    name: string = 'Meme';
+    description: string | null = null;
+    override type: ApplicationCommandType = ApplicationCommandType.Message;
+    
+    async callback(client: any, interaction: any): Promise<void> {
         const message = interaction.targetMessage;
         completeMemeMessageStore.addMessage(message.author.id, message.id);
 
@@ -23,4 +26,9 @@ export default {
             ephemeral: true
         });
     }
-};
+
+}
+
+const command = new MemeContextMenuCommand();
+
+export default command;

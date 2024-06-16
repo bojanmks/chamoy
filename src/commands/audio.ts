@@ -8,12 +8,13 @@ import path from 'path';
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
-import { Command } from 'src/models/commands/command';
+import { BaseCommand } from '@models/commands/BaseCommand';
 
-const command: Command =  {
-    name: 'audio',
-    description: 'Play audio',
-    options: [
+class AudioCommand extends BaseCommand {
+    name: string = 'audio';
+    description: string = 'Play audio';
+
+    override options: any[] = [
         {
             name: 'name',
             description: 'Name of the audio',
@@ -21,8 +22,9 @@ const command: Command =  {
             required: true,
             choices: generateCommandChoices(audioRepository.get())
         }
-    ],
-    callback: (client: any, interaction: any) => {
+    ];
+
+    callback(client: any, interaction: any): void {
         const serverId = interaction.guildId;
 
         if (busyUtil.isBusy(serverId)) {
@@ -50,7 +52,7 @@ const command: Command =  {
         try {
             busyUtil.toggleBusy(serverId);
 
-            playAudio(connection, audio, () => {
+            this.playAudio(connection, audio, () => {
                 connection.disconnect();
                 busyUtil.toggleBusy(serverId);
             });
@@ -63,28 +65,30 @@ const command: Command =  {
             throw error;
         }
     }
-};
+
+    private playAudio(connection: any, audio: any, onFinish: any) {
+        const audioPlayer = createAudioPlayer({
+            behaviors: {
+                noSubscriber: NoSubscriberBehavior.Pause
+            }
+        });
+    
+        const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
+        const absoluteFilePath = path.resolve(relativeFilePath);
+        const audioResource = createAudioResource(absoluteFilePath);
+    
+        connection.subscribe(audioPlayer);
+    
+        audioPlayer.play(audioResource);
+    
+        audioPlayer.on(AudioPlayerStatus.Idle, () => {
+            if (onFinish) {
+                onFinish();
+            }
+        });
+    }
+}
+
+const command = new AudioCommand();
 
 export default command;
-
-function playAudio(connection: any, audio: any, onFinish: any) {
-    const audioPlayer = createAudioPlayer({
-        behaviors: {
-            noSubscriber: NoSubscriberBehavior.Pause
-        }
-    });
-
-    const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
-    const absoluteFilePath = path.resolve(relativeFilePath);
-    const audioResource = createAudioResource(absoluteFilePath);
-
-    connection.subscribe(audioPlayer);
-
-    audioPlayer.play(audioResource);
-
-    audioPlayer.on(AudioPlayerStatus.Idle, () => {
-        if (onFinish) {
-            onFinish();
-        }
-    });
-}

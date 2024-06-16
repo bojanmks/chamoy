@@ -1,9 +1,15 @@
+import { BaseCommand } from "@models/commands/BaseCommand";
 import handleHelpResponse from "@modules/help/handleHelpResponse";
 
-export default {
-    name: 'help',
-    description: 'Lists all commands',
-    callback: async (client: any, interaction: any) => {
+class HelpCommand extends BaseCommand {
+    name: string = 'help';
+    description: string = 'Lists all commands';
+    
+    async callback(client: any, interaction: any): Promise<void> {
         await handleHelpResponse(client, interaction, interaction.user.id);
     }
-};
+}
+
+const command = new HelpCommand();
+
+export default command;

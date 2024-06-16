@@ -44,8 +44,8 @@ export default (existingCommand: any, localCommand: any) => {
     };
   
     if (
-      existingCommand.description !== (localCommand.description || '') ||
-      existingCommand.options?.length !== (localCommand.options?.length || 0) ||
+      (existingCommand.description || '') !== (localCommand.description || '') ||
+      (existingCommand.options?.length || 0) !== (localCommand.options?.length || 0) ||
       areOptionsDifferent(existingCommand.options, localCommand.options || [])
     ) {
       return true;

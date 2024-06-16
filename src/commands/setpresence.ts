@@ -3,11 +3,13 @@ import setPresence from "@modules/presence/setPresence";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'setpresence',
-    description: 'Set bot presence',
-    options: [
+class SetPresenceCommand extends BaseCommand {
+    name: string = 'setpresence';
+    description: string | null = 'Set bot presence';
+    
+    override options: any[] | null = [
         {
             name: 'name',
             description: 'Activity name',
@@ -62,8 +64,9 @@ export default {
                 }
             ]
         }
-    ],
-    callback: (client: any, interaction: any) => {
+    ];
+
+    callback(client: any, interaction: any): void {
         presenceRatelimitUtil.onCanChangePresence(() => {
             const activityName = interaction.options.get('name').value;
             const activityType = interaction.options.get('type').value;
@@ -76,4 +79,8 @@ export default {
             presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
         });
     }
-};
+}
+
+const command = new SetPresenceCommand();
+
+export default command;

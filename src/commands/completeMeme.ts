@@ -5,14 +5,15 @@ import MemeCaptionSetterFactory from "@modules/meme/caption-setters/MemeCaptionS
 import MemeFilePathProviderFactory from "@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import wait from "@modules/shared/wait";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
 const DEFAULT_FONT_SIZE = 40;
 
-export default {
-    name: 'completememe',
-    description: 'Complete meme',
-    type: ApplicationCommandType.ChatInput,
-    options: [
+class CompleteMemeCommand extends BaseCommand {
+    name: string = 'completememe';
+    description: string = 'Complete meme';
+
+    override options: any[] | null = [
         {
             name: 'toptext',
             description: 'Top text',
@@ -31,8 +32,9 @@ export default {
             type: ApplicationCommandOptionType.Number,
             required: false
         }
-    ],
-    callback: async (client: any, interaction: any) => {
+    ];
+    
+    async callback(client: any, interaction: any): Promise<void> {
         const userId = interaction.user.id;
         const messageId = completeMemeMessageStore.findMessageByUser(userId);
 
@@ -89,7 +91,8 @@ export default {
 
         interaction.editReply("✅ Meme sent");
     }
-};
+
+}
 
 const sendMessageNotPreparedMessage = (interaction: any) => {
     return sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
@@ -135,3 +138,7 @@ const handleFinishedResponse = async (channel: any, temporaryMessageData: any, f
         await channel.send(attachmentData);
     }
 }
+
+const command = new CompleteMemeCommand();
+
+export default command;

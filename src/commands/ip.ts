@@ -4,11 +4,13 @@ import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import { ApplicationCommandOptionType } from "discord.js";
 import sendReply from "@modules/messaging/sendReply";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'ip',
-    description: 'Get the list of zero tier network members',
-    options: [
+class IpCommand extends BaseCommand {
+    name: string = 'ip';
+    description: string = 'Get the list of zero tier network members';
+
+    override options: any[] | null = [
         {
             name: 'keyword',
             description: 'Search by node id, name or ip',
@@ -19,8 +21,9 @@ export default {
             description: 'Should message be only visible to you',
             type: ApplicationCommandOptionType.Boolean
         }
-    ],
-    callback: async (client: any, interaction: any) => {
+    ];
+    
+    async callback(client: any, interaction: any): Promise<void> {
         const keyword = interaction.options.get('keyword')?.value ?? "";
         const ephemeral = interaction.options.get('ephemeral')?.value ?? true;
 
@@ -48,7 +51,8 @@ export default {
                 sendGenericErrorReply(interaction);
             });
     }
-};
+
+}
 
 function generateEmbed(embed: any, members: any) {
     embed.addFields(
@@ -73,3 +77,7 @@ function generateEmbed(embed: any, members: any) {
         }
     );
 }
+
+const command = new IpCommand();
+
+export default command;

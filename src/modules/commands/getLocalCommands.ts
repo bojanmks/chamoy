@@ -1,12 +1,10 @@
 import path from 'path';
 import getObjectsFromFilesInPath from '@util/getObjectsFromFilesInPath';
-import { ApplicationCommandType } from 'discord.js';
+import { Command } from '@models/commands/Command';
 
-export default async (folders = ['commands']) => {
+export default async (folders = ['commands']): Promise<Command[]> => {
     const commandsPath = path.join(__dirname, '..', '..', ...folders);
-    const localCommands = await getObjectsFromFilesInPath(commandsPath);
-    
-    localCommands.forEach((c: any) => c.type ??= ApplicationCommandType.ChatInput);
+    const localCommands: Command[] = await getObjectsFromFilesInPath(commandsPath);
 
-    return localCommands.filter((x: any) => !x.deleted);
+    return localCommands.filter((x: Command) => !x.deleted);
 };

@@ -6,12 +6,14 @@ import ttsLanguagesRepository from "@modules/tts/ttsLanguagesRepository";
 import busyUtil from "@modules/busy/busyUtil";
 import sendBotIsBusyReply from "@modules/errors/messages/sendBotIsBusyReply";
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
+import { BaseCommand } from "@models/commands/BaseCommand";
 const gTTS = require("gtts");
 
-export default {
-    name: 'tts',
-    description: 'Make bot say a message in current voice channel',
-    options: [
+class TtsCommand extends BaseCommand {
+    name: string = 'tts';
+    description: string | null = 'Make bot say a message in current voice channel';
+
+    override options: any[] | null = [
         {
             name: 'language',
             description: 'Language',
@@ -25,8 +27,9 @@ export default {
             type: ApplicationCommandOptionType.String,
             required: true
         }
-    ],
-    callback: (client: any, interaction: any) => {
+    ];
+    
+    callback(client: any, interaction: any): void {
         const serverId = interaction.guildId;
         if (busyUtil.isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
@@ -62,7 +65,7 @@ export default {
             throw error;
         }
     }
-};
+}
 
 function playAudio(connection: any, message: any, language: any, onFinish: any) {
     const audioPlayer = createAudioPlayer({
@@ -86,3 +89,7 @@ function playAudio(connection: any, message: any, language: any, onFinish: any) 
         }
     });
 }
+
+const command = new TtsCommand();
+
+export default command;

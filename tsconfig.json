@@ -8,10 +8,12 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "outDir": "./dist",
     "paths": {
       "@jobs/*": ["./src/jobs/*"],
       "@events/*": ["./src/events/*"],
       "@commands/*": ["./src/commands/*"],
+      "@models/*": ["./src/models/*"],
       "@modules/*": ["./src/modules/*"],
       "@util/*": ["./src/util/*"],
       "@assets/*": ["./src/assets/*"],

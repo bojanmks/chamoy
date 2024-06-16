@@ -2,12 +2,13 @@ import getDaysLeft from "@modules/usernameDecrement/getDaysLeft";
 import handleUsernameReset from "@modules/usernameDecrement/handleUsernameReset";
 import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
 import sendDaysLeftMessage from "@modules/usernameDecrement/messages/sendDaysLeftMessage";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'resetnickname',
-    description: 'Resets the nickname',
-    deleted: true,
-    callback: async (client: any, interaction: any) => {
+class ResetNicknameCommand extends BaseCommand {
+    name: string = 'resetnickname';
+    description: string | null = 'Resets the nickname';
+    
+    async callback(client: any, interaction: any): Promise<void> {
         const newUsername = await handleUsernameReset(client, interaction);
 
         if (!newUsername) {
@@ -17,4 +18,9 @@ export default {
         const daysLeft = getDaysLeft(newUsername);
         sendDaysLeftMessage(daysLeft, interaction);
     }
-};
+
+}
+
+const command = new ResetNicknameCommand();
+
+export default command;

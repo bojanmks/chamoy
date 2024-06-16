@@ -3,11 +3,13 @@ import gamesRepository from '@modules/games/gamesRepository';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import sendReply from '@modules/messaging/sendReply';
 import generateGameEmbed from '@modules/games/generateGameEmbed';
+import { BaseCommand } from '@models/commands/BaseCommand';
 
-export default {
-    name: 'games',
-    description: 'Get game links',
-    options: [
+class GamesCommand extends BaseCommand {
+    name: string = 'games';
+    description: string = 'Get game links';
+    
+    override options: any[] | null = [
         {
             name: 'game',
             description: 'Name of the game',
@@ -20,8 +22,9 @@ export default {
             description: 'Should message be only visible to you',
             type: ApplicationCommandOptionType.Boolean
         }
-    ],
-    callback: (client: any, interaction: any) => {
+    ];
+
+    callback(client: any, interaction: any): void {
         const gameId = interaction.options.get('game').value;
         const ephemeral = interaction.options.get('ephemeral')?.value ?? false;
 
@@ -32,4 +35,9 @@ export default {
             ephemeral: ephemeral
         });
     }
-};
+
+}
+
+const command = new GamesCommand();
+
+export default command;

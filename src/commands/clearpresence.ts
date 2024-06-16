@@ -3,11 +3,13 @@ import sendTextReply from "@modules/messaging/sendTextReply";
 import setPresence from "@modules/presence/setPresence";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'clearpresence',
-    description: 'Clear bot presence',
-    callback: (client: any, interaction: any) => {
+class ClearPresenceCommand extends BaseCommand {
+    name: string = 'clearpresence';
+    description: string = 'Clear bot presence';
+    
+    callback(client: any, interaction: any): void {
         presenceRatelimitUtil.onCanChangePresence(() => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);
@@ -15,4 +17,8 @@ export default {
             presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
         });
     }
-};
+}
+
+const command = new ClearPresenceCommand();
+
+export default command;

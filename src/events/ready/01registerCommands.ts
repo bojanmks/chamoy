@@ -1,7 +1,9 @@
+import { Command } from '@models/commands/Command';
 import areCommandsDifferent from '@modules/commands/areCommandsDifferent';
 import getApplicationCommands from '@modules/commands/getApplicationCommands';
 import getLocalCommands from '@modules/commands/getLocalCommands';
 import { CURRENT_ENVIRONMENT } from '@modules/shared/constants/environments';
+import { ApplicationCommandManager, ApplicationCommand, GuildResolvable } from 'discord.js';
 
 export default async (client: any) => {
     try {
@@ -16,14 +18,17 @@ export default async (client: any) => {
     }
 };
 
-async function updateApplicationCommands(localCommands: any, applicationCommands: any) {
+async function updateApplicationCommands(
+    localCommands: Command[],
+    applicationCommands: ApplicationCommandManager<ApplicationCommand<{guild: GuildResolvable}>, {guild: GuildResolvable}, null> | undefined
+) {
     for (const localCommand of localCommands) {
-        const existingCommand = await applicationCommands.cache.find(
+        const existingCommand = await applicationCommands?.cache.find(
             (x: any) => x.name === localCommand.name && x.type === localCommand.type
         );
 
         if (existingCommand) {
-            if (localCommand.environments && !localCommand.environments.includes(CURRENT_ENVIRONMENT)) {
+            if (localCommand.environments && !localCommand.environments.includes(CURRENT_ENVIRONMENT!)) {
                 await deleteExistingCommand(applicationCommands, existingCommand.id);
                 console.log(`✅ Command deleted: ${localCommand.name}`);
                 continue;
@@ -45,19 +50,22 @@ async function updateApplicationCommands(localCommands: any, applicationCommands
             continue;
         }
 
-        if (!localCommand.environments || localCommand.environments.includes(CURRENT_ENVIRONMENT)) {
+        if (!localCommand.environments || localCommand.environments.includes(CURRENT_ENVIRONMENT!)) {
             await createNewCommand(applicationCommands, localCommand);
             console.log(`✅ Command registered: ${localCommand.name}`);
         }
     }
 }
 
-async function removeNonExistantCommands(localCommands: any, applicationCommands: any) {
-    const commandsToBeDeleted = await applicationCommands.cache.filter(
+async function removeNonExistantCommands(
+    localCommands: Command[],
+    applicationCommands: ApplicationCommandManager<ApplicationCommand<{guild: GuildResolvable}>, {guild: GuildResolvable}, null> | undefined
+) {
+    const commandsToBeDeleted = await applicationCommands?.cache.filter(
         (x: any) => !localCommands.some((y: any) => y.name === x.name)
     );
 
-    for (const commandToBeDeleted of commandsToBeDeleted.values()) {
+    for (const commandToBeDeleted of (commandsToBeDeleted?.values() || [])) {
         await deleteExistingCommand(applicationCommands, commandToBeDeleted.id);
         console.log(`✅ Command deleted: ${commandToBeDeleted.name}`);
     }

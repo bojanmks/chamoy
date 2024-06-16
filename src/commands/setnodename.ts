@@ -4,11 +4,13 @@ import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
+import { BaseCommand } from "@models/commands/BaseCommand";
 
-export default {
-    name: 'setnodename',
-    description: 'Sets a name for a zero tier user',
-    options: [
+class SetNodeNameCommand extends BaseCommand {
+    name: string = 'setnodename';
+    description: string | null = 'Sets a name for a zero tier user';
+    
+    override options: any[] | null = [
         {
             name: 'nodeid',
             description: 'User node ID',
@@ -21,8 +23,9 @@ export default {
             type: ApplicationCommandOptionType.String,
             required: true
         }
-    ],
-    callback: async (client: any, interaction: any) => {
+    ];
+
+    async callback(client: any, interaction: any): Promise<void> {
         const nodeId = interaction.options.get('nodeid').value;
         const newName = interaction.options.get('name').value;
 
@@ -40,4 +43,8 @@ export default {
                 sendGenericErrorReply(interaction);
             });
     }
-};
+}
+
+const command = new SetNodeNameCommand();
+
+export default command;

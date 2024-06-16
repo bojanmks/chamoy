@@ -1,11 +1,13 @@
+import { BaseCommand } from "@models/commands/BaseCommand";
 import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
 import generateGamesInteractiveEmbedResponse from "@modules/games/generateGamesInteractiveEmbedResponse";
 import sendReply from "@modules/messaging/sendReply";
 
-export default {
-    name: 'gamesinteractive',
-    description: 'Get interactive embed with game links',
-    callback: async (client: any, interaction: any) => {
+class GamesInteractiveCommand extends BaseCommand {
+    name: string = 'gamesinteractive';
+    description: string = 'Get interactive embed with game links';
+    
+    async callback(client: any, interaction: any): Promise<void> {
         const response = generateGamesInteractiveEmbedResponse(client);
 
         if (!response) {
@@ -15,4 +17,8 @@ export default {
         
         await sendReply(interaction, response);
     }
-};
+}
+
+const command = new GamesInteractiveCommand();
+
+export default command;
