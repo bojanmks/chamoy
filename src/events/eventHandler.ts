@@ -1,7 +1,8 @@
 import path from 'path';
 import getAllFiles from '@util/getAllFiles';
+import { Client } from 'discord.js';
 
-export default (client: any) => {
+export default (client: Client) => {
     const eventFolders = getAllFiles(path.join(__dirname, '..', 'events'), true);
 
     for (const eventFolder of eventFolders) {
@@ -20,7 +21,7 @@ export default (client: any) => {
         
         const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
 
-        client.on(eventName, async (arg: any) => {
+        client.on(eventName!, async (arg: any) => {
             for (const eventFile of eventFiles) {
                 const eventFunction = (await import(eventFile)).default;
                 await eventFunction(client, arg);

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import { CHECK_EMOJI, CLOWN_EMOJI } from "@modules/shared/constants/emojis";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
@@ -23,9 +23,9 @@ class SayCommand extends BaseCommand {
         }
     ];
     
-    callback(client: any, interaction: any): void {
-        const messageToSend = interaction.options.get('message').value;
-        interaction.channel.send(messageToSend);
+    execute(client: Client, interaction: CommandInteraction): void {
+        const messageToSend = interaction.options.get('message')!.value as string;
+        interaction.channel?.send(messageToSend);
 
         sendTextReply(interaction, `${CHECK_EMOJI} Message sent`, true);
     }

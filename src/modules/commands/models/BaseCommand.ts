@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from "discord.js";
+import { ApplicationCommandType, Client, CommandInteraction } from "discord.js";
 import { Command } from "./Command";
 
 export abstract class BaseCommand implements Command {
@@ -12,5 +12,5 @@ export abstract class BaseCommand implements Command {
     onlyDevs: boolean = false;
     userResponses: any[] | null = null;
 
-    abstract callback(client: any, interaction: any): void;
+    abstract execute(client: Client, interaction: CommandInteraction): void;
 }

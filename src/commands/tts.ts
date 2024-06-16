@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from "discord.js";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import { CHECK_EMOJI, X_EMOJI } from "@modules/shared/constants/emojis";
 import generateCommandChoices from "@modules/commands/generateCommandChoices";
@@ -29,24 +29,25 @@ class TtsCommand extends BaseCommand {
         }
     ];
     
-    callback(client: any, interaction: any): void {
+    execute(client: Client, interaction: CommandInteraction): void {
         const serverId = interaction.guildId;
         if (busyUtil.isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
         }
 
-        const usersVoiceChannel = interaction.member.voice.channel;
+        const interactionUser = interaction.member as GuildMember;
+        const usersVoiceChannel = interactionUser.voice.channel;
         if (!usersVoiceChannel) {
             return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
         }
 
-        const language = interaction.options.get('language').value;
-        const messageToSay = interaction.options.get('message').value;
+        const language = interaction.options.get('language')!.value;
+        const messageToSay = interaction.options.get('message')!.value;
 
         const connection = joinVoiceChannel({
             channelId: usersVoiceChannel.id,
-            guildId: serverId,
-            adapterCreator: interaction.guild.voiceAdapterCreator
+            guildId: serverId!,
+            adapterCreator: interaction.guild!.voiceAdapterCreator
         });
 
         try {

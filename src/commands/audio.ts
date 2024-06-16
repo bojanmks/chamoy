@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from 'discord.js';
+import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from 'discord.js';
 import audioRepository from '@modules/audio/audioRepository';
 import busyUtil from '@modules/busy/busyUtil';
 import sendBotIsBusyReply from '@modules/errors/messages/sendBotIsBusyReply';
@@ -24,19 +24,20 @@ class AudioCommand extends BaseCommand {
         }
     ];
 
-    callback(client: any, interaction: any): void {
+    execute(client: Client, interaction: CommandInteraction): void {
         const serverId = interaction.guildId;
 
         if (busyUtil.isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
         }
 
-        const usersVoiceChannel = interaction.member.voice.channel;
+        const interactionUser = interaction.member as GuildMember;
+        const usersVoiceChannel = interactionUser.voice.channel;
         if (!usersVoiceChannel) {
             return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
         }
 
-        const audioId = interaction.options.get('name').value;
+        const audioId = interaction.options.get('name')?.value;
         const audio = audioRepository.find(audioId);
 
         if (!audio) {
@@ -45,8 +46,8 @@ class AudioCommand extends BaseCommand {
 
         const connection = joinVoiceChannel({
             channelId: usersVoiceChannel.id,
-            guildId: serverId,
-            adapterCreator: interaction.guild.voiceAdapterCreator
+            guildId: serverId!,
+            adapterCreator: interaction.guild!.voiceAdapterCreator
         });
 
         try {

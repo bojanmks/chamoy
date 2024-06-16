@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from "discord.js";
+import { ApplicationCommandType, Client, MessageContextMenuCommandInteraction } from "discord.js";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendReply from "@modules/messaging/sendReply";
@@ -9,7 +9,7 @@ class MemeContextMenuCommand extends BaseCommand {
     description: string | null = null;
     override type: ApplicationCommandType = ApplicationCommandType.Message;
     
-    async callback(client: any, interaction: any): Promise<void> {
+    async execute(client: Client, interaction: MessageContextMenuCommandInteraction): Promise<void> {
         const message = interaction.targetMessage;
         completeMemeMessageStore.addMessage(message.author.id, message.id);
 

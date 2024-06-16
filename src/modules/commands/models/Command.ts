@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from "discord.js";
+import { ApplicationCommandType, Client, CommandInteraction } from "discord.js";
 
 export interface Command {
     name: string;
@@ -9,5 +9,5 @@ export interface Command {
     environments: string[] | null;
     onlyDevs: boolean;
     userResponses: any[] | null;
-    callback(client: any, interaction: any): void;
+    execute(client: Client, interaction: CommandInteraction): void;
 }

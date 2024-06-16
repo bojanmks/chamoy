@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from 'discord.js';
+import { ApplicationCommandOptionType, Client, CommandInteraction } from 'discord.js';
 import gamesRepository from '@modules/games/gamesRepository';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import sendReply from '@modules/messaging/sendReply';
@@ -24,8 +24,8 @@ class GamesCommand extends BaseCommand {
         }
     ];
 
-    callback(client: any, interaction: any): void {
-        const gameId = interaction.options.get('game').value;
+    execute(client: Client, interaction: CommandInteraction): void {
+        const gameId = interaction.options.get('game')?.value;
         const ephemeral = interaction.options.get('ephemeral')?.value ?? false;
 
         const embed = generateGameEmbed(client, gameId);

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
@@ -25,9 +25,9 @@ class SetNodeNameCommand extends BaseCommand {
         }
     ];
 
-    async callback(client: any, interaction: any): Promise<void> {
-        const nodeId = interaction.options.get('nodeid').value;
-        const newName = interaction.options.get('name').value;
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
+        const nodeId = interaction.options.get('nodeid')!.value;
+        const newName = interaction.options.get('name')!.value;
 
         const headers = {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY

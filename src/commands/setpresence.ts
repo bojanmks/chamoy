@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus } from "discord.js";
+import { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus, Client, CommandInteraction } from "discord.js";
 import setPresence from "@modules/presence/setPresence";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
@@ -66,11 +66,11 @@ class SetPresenceCommand extends BaseCommand {
         }
     ];
 
-    callback(client: any, interaction: any): void {
+    execute(client: Client, interaction: CommandInteraction): void {
         presenceRatelimitUtil.onCanChangePresence(() => {
-            const activityName = interaction.options.get('name').value;
-            const activityType = interaction.options.get('type').value;
-            const status = interaction.options.get('status').value;
+            const activityName = interaction.options.get('name')!.value;
+            const activityType = interaction.options.get('type')!.value;
+            const status = interaction.options.get('status')!.value;
 
             setPresence(client, activityName, activityType, status);
 

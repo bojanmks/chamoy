@@ -29,7 +29,7 @@ export default async (client: any, interaction: any) => {
     }
 
     try {
-        await commandObject.callback(client, interaction);
+        await commandObject.execute(client, interaction);
     } catch (e: any) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
         console.error(e);

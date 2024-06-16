@@ -1,4 +1,4 @@
-import { PresenceUpdateStatus } from "discord.js";
+import { Client, CommandInteraction, PresenceUpdateStatus } from "discord.js";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import setPresence from "@modules/presence/setPresence";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
@@ -9,7 +9,7 @@ class ClearPresenceCommand extends BaseCommand {
     name: string = 'clearpresence';
     description: string = 'Clear bot presence';
     
-    callback(client: any, interaction: any): void {
+    execute(client: Client, interaction: CommandInteraction): void {
         presenceRatelimitUtil.onCanChangePresence(() => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);

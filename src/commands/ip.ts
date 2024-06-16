@@ -2,7 +2,7 @@ import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
 import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import sendReply from "@modules/messaging/sendReply";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
@@ -23,7 +23,7 @@ class IpCommand extends BaseCommand {
         }
     ];
     
-    async callback(client: any, interaction: any): Promise<void> {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const keyword = interaction.options.get('keyword')?.value ?? "";
         const ephemeral = interaction.options.get('ephemeral')?.value ?? true;
 

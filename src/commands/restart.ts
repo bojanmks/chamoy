@@ -3,6 +3,7 @@ import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorRepl
 import sendTextReply from '@modules/messaging/sendTextReply';
 import { PRODUCTION_ENVIRONMENT } from '@modules/shared/constants/environments';
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import { Client, CommandInteraction } from "discord.js";
 
 class RestartCommand extends BaseCommand {
     name: string = 'restart';
@@ -10,7 +11,7 @@ class RestartCommand extends BaseCommand {
     override onlyDevs: boolean = true;
     override environments: string[] | null = [PRODUCTION_ENVIRONMENT];
     
-    async callback(client: any, interaction: any): Promise<void> {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);
 
         const body = {

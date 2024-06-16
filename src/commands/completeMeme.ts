@@ -1,8 +1,8 @@
-import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandType, ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import { X_EMOJI } from "@modules/shared/constants/emojis";
 import sendTextReply from "@modules/messaging/sendTextReply";
-import MemeCaptionSetterFactory from "@modules/meme/caption-setters/MemeCaptionSetterFactory";
-import MemeFilePathProviderFactory from "@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory";
+import MemeCaptionSetterFactory from "@modules/meme/models/caption-setters/MemeCaptionSetterFactory";
+import MemeFilePathProviderFactory from "@modules/meme/models/meme-file-url-getters/MemeFilePathProviderFactory";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import wait from "@modules/shared/wait";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
@@ -34,7 +34,7 @@ class CompleteMemeCommand extends BaseCommand {
         }
     ];
     
-    async callback(client: any, interaction: any): Promise<void> {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const userId = interaction.user.id;
         const messageId = completeMemeMessageStore.findMessageByUser(userId);
 
@@ -42,7 +42,7 @@ class CompleteMemeCommand extends BaseCommand {
             return sendMessageNotPreparedMessage(interaction);
         }
 
-        const message = await interaction.channel.messages.fetch(messageId);
+        const message = await interaction.channel?.messages.fetch(messageId);
 
         if (!message || !message.content) {
             return sendMessageNotPreparedMessage(interaction);
@@ -59,7 +59,8 @@ class CompleteMemeCommand extends BaseCommand {
         const fileUrl = await urlProvider.getUrl();
 
         if (!fileUrl) {
-            return interaction.editReply(`${X_EMOJI} An error occured while fetching the file url`);
+            interaction.editReply(`${X_EMOJI} An error occured while fetching the file url`);
+            return;
         }
 
         const fileExtension = getFileExtension(fileUrl);
@@ -67,11 +68,12 @@ class CompleteMemeCommand extends BaseCommand {
         const captionSetter = new MemeCaptionSetterFactory().makeCaptionSetter(fileExtension);
 
         if (!captionSetter) {
-            return interaction.editReply(`${X_EMOJI} Unsupported file type`);
+            interaction.editReply(`${X_EMOJI} Unsupported file type`);
+            return;
         }
 
-        const topText = interaction.options.get('toptext').value;
-        const bottomText = interaction.options.get('bottomtext').value;
+        const topText = interaction.options.get('toptext')?.value;
+        const bottomText = interaction.options.get('bottomtext')?.value;
         const fontSize = interaction.options.get('fontsize')?.value ?? DEFAULT_FONT_SIZE;
 
         let temporaryMessageData = null;
