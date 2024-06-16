@@ -7,25 +7,29 @@ import busyUtil from "@modules/busy/busyUtil";
 import sendBotIsBusyReply from "@modules/errors/messages/sendBotIsBusyReply";
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import { CommandParameter } from "@modules/commands/models/CommandParameter";
 const gTTS = require("gtts");
 
 class TtsCommand extends BaseCommand {
     name: string = 'tts';
     description: string | null = 'Make bot say a message in current voice channel';
 
-    override options: any[] | null = [
+    override options: CommandParameter[] | null = [
         {
             name: 'language',
             description: 'Language',
             type: ApplicationCommandOptionType.String,
             required: true,
-            choices: generateCommandChoices(ttsLanguagesRepository.get())
+            choices: generateCommandChoices(ttsLanguagesRepository.get()),
+            default: undefined
         },
         {
             name: 'message',
             description: 'Message to say',
             type: ApplicationCommandOptionType.String,
-            required: true
+            required: true,
+            default: undefined,
+            choices: null
         }
     ];
     
@@ -41,8 +45,8 @@ class TtsCommand extends BaseCommand {
             return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
         }
 
-        const language = interaction.options.get('language')!.value;
-        const messageToSay = interaction.options.get('message')!.value;
+        const language = this.getParameter<string>(interaction, 'language');
+        const messageToSay = this.getParameter<string>(interaction, 'message');
 
         const connection = joinVoiceChannel({
             channelId: usersVoiceChannel.id,

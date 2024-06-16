@@ -2,9 +2,10 @@ import { devs } from '../../../config.json';
 import getLocalCommands from "@modules/commands/getLocalCommands";
 import sendReply from "@modules/messaging/sendReply";
 import generateBaseEmbed from '@modules/embeds/generateBaseEmbed';
-import { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder, ApplicationCommandType } from 'discord.js';
+import { ButtonBuilder, ButtonStyle, ComponentType, ActionRowBuilder, ApplicationCommandType, Client } from 'discord.js';
 import { CURRENT_ENVIRONMENT } from "@modules/shared/constants/environments";
 import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
+import { Command } from '@modules/commands/models/Command';
 
 const COMMANDS_PER_PAGE = 10;
 
@@ -40,13 +41,13 @@ function isCommandAvailable(command: any, userId: any) {
     return true;
 }
 
-function generateMessage(client: any, commands: any, page = 0) {
+function generateMessage(client: Client, commands: Command[], page = 0): any {
     const embed = generateBaseEmbed(client, 'Commands');
 
     for (let command of commands.slice(COMMANDS_PER_PAGE * page, COMMANDS_PER_PAGE * (page + 1))) {
         embed.addFields({
             name: commandNameWithParameters(command),
-            value: command.description,
+            value: command.description!,
             inline: false
         });
     }
@@ -60,7 +61,7 @@ function generateMessage(client: any, commands: any, page = 0) {
     };
 }
 
-function commandNameWithParameters(command: any) {
+function commandNameWithParameters(command: Command): string {
     let commandName = "/" + command.name;
 
     if (!command.options?.length) {

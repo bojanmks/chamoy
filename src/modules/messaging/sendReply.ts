@@ -1,4 +1,6 @@
-export default (interaction: any, data: any) => {
+import { CommandInteraction, InteractionEditReplyOptions, InteractionReplyOptions, MessagePayload } from "discord.js";
+
+export default (interaction: CommandInteraction, data: string | MessagePayload | InteractionReplyOptions) => {
     if (interaction.deferred) {
         return interaction.editReply(data);
     }

@@ -4,17 +4,20 @@ import sendTextReply from "@modules/messaging/sendTextReply";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import { CommandParameter } from "@modules/commands/models/CommandParameter";
 
 class SetPresenceCommand extends BaseCommand {
     name: string = 'setpresence';
     description: string | null = 'Set bot presence';
     
-    override options: any[] | null = [
+    override options: CommandParameter[] | null = [
         {
             name: 'name',
             description: 'Activity name',
             type: ApplicationCommandOptionType.String,
-            required: true
+            required: true,
+            default: undefined,
+            choices: null
         },
         {
             name: 'type',
@@ -42,7 +45,8 @@ class SetPresenceCommand extends BaseCommand {
                     name: 'Watching',
                     value: ActivityType.Watching
                 }
-            ]
+            ],
+            default: undefined
         },
         {
             name: 'status',
@@ -62,15 +66,16 @@ class SetPresenceCommand extends BaseCommand {
                     name: 'Online',
                     value: PresenceUpdateStatus.Online
                 }
-            ]
+            ],
+            default: undefined
         }
     ];
 
     execute(client: Client, interaction: CommandInteraction): void {
         presenceRatelimitUtil.onCanChangePresence(() => {
-            const activityName = interaction.options.get('name')!.value;
-            const activityType = interaction.options.get('type')!.value;
-            const status = interaction.options.get('status')!.value;
+            const activityName = this.getParameter<string>(interaction, 'name');
+            const activityType = this.getParameter<number>(interaction, 'type');
+            const status = this.getParameter<string>(interaction, 'status');
 
             setPresence(client, activityName, activityType, status);
 

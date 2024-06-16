@@ -6,6 +6,7 @@ import MemeFilePathProviderFactory from "@modules/meme/models/meme-file-url-gett
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import wait from "@modules/shared/wait";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import { CommandParameter } from "@modules/commands/models/CommandParameter";
 
 const DEFAULT_FONT_SIZE = 40;
 
@@ -13,24 +14,30 @@ class CompleteMemeCommand extends BaseCommand {
     name: string = 'completememe';
     description: string = 'Complete meme';
 
-    override options: any[] | null = [
+    override options: CommandParameter[] | null = [
         {
             name: 'toptext',
             description: 'Top text',
             type: ApplicationCommandOptionType.String,
-            required: true
+            required: true,
+            default: undefined,
+            choices: null
         },
         {
             name: 'bottomtext',
             description: 'Bottom text',
             type: ApplicationCommandOptionType.String,
-            required: true
+            required: true,
+            default: undefined,
+            choices: null
         },
         {
             name: 'fontsize',
             description: 'Font size',
             type: ApplicationCommandOptionType.Number,
-            required: false
+            required: false,
+            default: DEFAULT_FONT_SIZE,
+            choices: null
         }
     ];
     
@@ -72,9 +79,9 @@ class CompleteMemeCommand extends BaseCommand {
             return;
         }
 
-        const topText = interaction.options.get('toptext')?.value;
-        const bottomText = interaction.options.get('bottomtext')?.value;
-        const fontSize = interaction.options.get('fontsize')?.value ?? DEFAULT_FONT_SIZE;
+        const topText = this.getParameter<string>(interaction, 'toptext');
+        const bottomText = this.getParameter<string>(interaction, 'bottomtext');
+        const fontSize = this.getParameter<number>(interaction, 'fontsize');
 
         let temporaryMessageData = null;
 

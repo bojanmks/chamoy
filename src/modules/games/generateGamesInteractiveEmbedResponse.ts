@@ -2,7 +2,7 @@ import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import gamesRepository from "@modules/games/gamesRepository";
 import generateGameEmbed from "@modules/games/generateGameEmbed";
 import generateRandomString from "@modules/shared/generateRandomString";
-import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, MessagePayload, InteractionReplyOptions } from "discord.js";
 import { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } from "./gamesConstants";
 
 const REFRESH_BUTTON = new ButtonBuilder()
@@ -10,7 +10,7 @@ const REFRESH_BUTTON = new ButtonBuilder()
     .setLabel('Refresh')
     .setEmoji('🔃');
 
-export default (client: any, selectedGameId = null) => {
+export default (client: Client, selectedGameId = null): any => {
     let embed;
 
     if (selectedGameId) {

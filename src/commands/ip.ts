@@ -5,27 +5,34 @@ import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorRepl
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import sendReply from "@modules/messaging/sendReply";
 import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import { CommandParameter } from "@modules/commands/models/CommandParameter";
 
 class IpCommand extends BaseCommand {
     name: string = 'ip';
     description: string = 'Get the list of zero tier network members';
 
-    override options: any[] | null = [
+    override options: CommandParameter[] | null = [
         {
             name: 'keyword',
             description: 'Search by node id, name or ip',
-            type: ApplicationCommandOptionType.String
+            type: ApplicationCommandOptionType.String,
+            required: false,
+            default: "",
+            choices: null
         },
         {
             name: 'ephemeral',
             description: 'Should message be only visible to you',
-            type: ApplicationCommandOptionType.Boolean
+            type: ApplicationCommandOptionType.Boolean,
+            required: false,
+            default: true,
+            choices: null
         }
     ];
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
-        const keyword = interaction.options.get('keyword')?.value ?? "";
-        const ephemeral = interaction.options.get('ephemeral')?.value ?? true;
+        const keyword = this.getParameter<string>(interaction, 'keyword');
+        const ephemeral = this.getParameter<boolean>(interaction, 'ephemeral');
 
         const headers = {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
@@ -42,7 +49,7 @@ class IpCommand extends BaseCommand {
 
                 sendReply(interaction, {
                     embeds: [embed],
-                    ephemeral: ephemeral
+                    ephemeral: ephemeral as boolean
                 });
             })
             .catch((error: any) => {

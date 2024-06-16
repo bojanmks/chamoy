@@ -9,18 +9,20 @@ import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioR
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
 import { BaseCommand } from '@modules/commands/models/BaseCommand';
+import { CommandParameter } from '@modules/commands/models/CommandParameter';
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';
     description: string = 'Play audio';
 
-    override options: any[] = [
+    override options: CommandParameter[] = [
         {
             name: 'name',
             description: 'Name of the audio',
             type: ApplicationCommandOptionType.Number,
+            choices: generateCommandChoices(audioRepository.get()),
             required: true,
-            choices: generateCommandChoices(audioRepository.get())
+            default: undefined
         }
     ];
 
