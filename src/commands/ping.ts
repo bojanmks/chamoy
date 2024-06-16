@@ -1,4 +1,4 @@
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import { DEVELOPMENT_ENVIRONMENT } from "@modules/shared/constants/environments";
 

@@ -8,7 +8,7 @@ import path from 'path';
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
-import { BaseCommand } from '@models/commands/BaseCommand';
+import { BaseCommand } from '@modules/commands/models/BaseCommand';
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';

@@ -3,7 +3,7 @@ import getDaysLeft from '@modules/usernameDecrement/getDaysLeft';
 import handleUsernameDecrement from '@modules/usernameDecrement/handleUsernameDecrement';
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import sendDaysLeftMessage from '@modules/usernameDecrement/messages/sendDaysLeftMessage';
-import { BaseCommand } from '@models/commands/BaseCommand';
+import { BaseCommand } from '@modules/commands/models/BaseCommand';
 
 class UpdateNicknameCommand extends BaseCommand {
     name: string = 'updatenickname';

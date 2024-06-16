@@ -3,7 +3,7 @@ import setPresence from "@modules/presence/setPresence";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 class SetPresenceCommand extends BaseCommand {
     name: string = 'setpresence';

@@ -6,7 +6,7 @@ import ttsLanguagesRepository from "@modules/tts/ttsLanguagesRepository";
 import busyUtil from "@modules/busy/busyUtil";
 import sendBotIsBusyReply from "@modules/errors/messages/sendBotIsBusyReply";
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 const gTTS = require("gtts");
 
 class TtsCommand extends BaseCommand {

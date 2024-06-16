@@ -4,7 +4,7 @@ import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import { ApplicationCommandOptionType } from "discord.js";
 import sendReply from "@modules/messaging/sendReply";
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 class IpCommand extends BaseCommand {
     name: string = 'ip';

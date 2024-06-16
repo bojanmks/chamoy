@@ -1,6 +1,6 @@
 import path from 'path';
 import getObjectsFromFilesInPath from '@util/getObjectsFromFilesInPath';
-import { Command } from '@models/commands/Command';
+import { Command } from '@modules/commands/models/Command';
 
 export default async (folders = ['commands']): Promise<Command[]> => {
     const commandsPath = path.join(__dirname, '..', '..', ...folders);

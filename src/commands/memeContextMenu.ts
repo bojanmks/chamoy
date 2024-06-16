@@ -2,7 +2,7 @@ import { ApplicationCommandType } from "discord.js";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
 import sendReply from "@modules/messaging/sendReply";
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 class MemeContextMenuCommand extends BaseCommand {
     name: string = 'Meme';

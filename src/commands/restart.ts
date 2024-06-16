@@ -2,7 +2,7 @@ import { default as axios } from "axios";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import sendTextReply from '@modules/messaging/sendTextReply';
 import { PRODUCTION_ENVIRONMENT } from '@modules/shared/constants/environments';
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 class RestartCommand extends BaseCommand {
     name: string = 'restart';

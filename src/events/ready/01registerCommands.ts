@@ -1,4 +1,4 @@
-import { Command } from '@models/commands/Command';
+import { Command } from '@modules/commands/models/Command';
 import areCommandsDifferent from '@modules/commands/areCommandsDifferent';
 import getApplicationCommands from '@modules/commands/getApplicationCommands';
 import getLocalCommands from '@modules/commands/getLocalCommands';

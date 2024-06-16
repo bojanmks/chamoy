@@ -1,4 +1,4 @@
-import { BaseCommand } from '@models/commands/BaseCommand';
+import { BaseCommand } from '@modules/commands/models/BaseCommand';
 import getDaysLeft from '@modules/usernameDecrement/getDaysLeft';
 import getSavedUsername from '@modules/usernameDecrement/getSavedUsername';
 import sendDaysLeftMessage from '@modules/usernameDecrement/messages/sendDaysLeftMessage';

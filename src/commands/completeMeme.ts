@@ -5,7 +5,7 @@ import MemeCaptionSetterFactory from "@modules/meme/caption-setters/MemeCaptionS
 import MemeFilePathProviderFactory from "@modules/meme/meme-file-url-getters/MemeFilePathProviderFactory";
 import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
 import wait from "@modules/shared/wait";
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 const DEFAULT_FONT_SIZE = 40;
 

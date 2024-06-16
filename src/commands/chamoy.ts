@@ -1,4 +1,4 @@
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 import sendReply from "@modules/messaging/sendReply";
 
 class ChamoyCommand extends BaseCommand {

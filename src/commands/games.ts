@@ -3,7 +3,7 @@ import gamesRepository from '@modules/games/gamesRepository';
 import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import sendReply from '@modules/messaging/sendReply';
 import generateGameEmbed from '@modules/games/generateGameEmbed';
-import { BaseCommand } from '@models/commands/BaseCommand';
+import { BaseCommand } from '@modules/commands/models/BaseCommand';
 
 class GamesCommand extends BaseCommand {
     name: string = 'games';

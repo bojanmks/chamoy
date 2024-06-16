@@ -1,4 +1,4 @@
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 import handleHelpResponse from "@modules/help/handleHelpResponse";
 
 class HelpCommand extends BaseCommand {

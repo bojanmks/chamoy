@@ -1,5 +1,5 @@
 
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 import sendTextReply from "@modules/messaging/sendTextReply";
 import defaultPresence from "@modules/presence/defaultPresence";
 import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";

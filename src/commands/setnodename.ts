@@ -4,7 +4,7 @@ import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
 import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
-import { BaseCommand } from "@models/commands/BaseCommand";
+import { BaseCommand } from "@modules/commands/models/BaseCommand";
 
 class SetNodeNameCommand extends BaseCommand {
     name: string = 'setnodename';
