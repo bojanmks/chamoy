@@ -14,6 +14,10 @@ export default async (client: any, oldState: VoiceState, newState: VoiceState) =
         return;
     }
 
+    if (oldState.channel?.id) {
+        return;
+    }
+
     const channelId: string = newState.channel.id;
     const userId: string = newState.id;
     const serverId: string = newState.guild.id;
