@@ -10,6 +10,7 @@ import generateCommandChoices from '@modules/commands/generateCommandChoices';
 import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
 import { BaseCommand } from '@modules/commands/models/BaseCommand';
 import { CommandParameter } from '@modules/commands/models/CommandParameter';
+import { MyAudioPlayer } from '@modules/audio/MyAudioPlayer';
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';
@@ -53,11 +54,17 @@ class AudioCommand extends BaseCommand {
         });
 
         try {
-            busyUtil.toggleBusy(serverId);
+            busyUtil.setBusy(serverId);
 
-            this.playAudio(connection, audio, () => {
+            const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
+            const absoluteFilePath = path.resolve(relativeFilePath);
+            const audioResource = createAudioResource(absoluteFilePath);
+
+            const audioPlayer = new MyAudioPlayer();
+
+            audioPlayer.playAudio(connection, audioResource, () => {
                 connection.disconnect();
-                busyUtil.toggleBusy(serverId);
+                busyUtil.setNotBusy(serverId);
             });
 
             sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
@@ -67,28 +74,6 @@ class AudioCommand extends BaseCommand {
             busyUtil.setNotBusy(serverId);
             throw error;
         }
-    }
-
-    private playAudio(connection: any, audio: any, onFinish: any) {
-        const audioPlayer = createAudioPlayer({
-            behaviors: {
-                noSubscriber: NoSubscriberBehavior.Pause
-            }
-        });
-    
-        const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
-        const absoluteFilePath = path.resolve(relativeFilePath);
-        const audioResource = createAudioResource(absoluteFilePath);
-    
-        connection.subscribe(audioPlayer);
-    
-        audioPlayer.play(audioResource);
-    
-        audioPlayer.on(AudioPlayerStatus.Idle, () => {
-            if (onFinish) {
-                onFinish();
-            }
-        });
     }
 }
 

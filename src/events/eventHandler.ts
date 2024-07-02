@@ -21,10 +21,15 @@ export default (client: Client) => {
         
         const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
 
-        client.on(eventName!, async (arg: any) => {
+        client.on(eventName!, async (arg1: any, arg2: any) => {
             for (const eventFile of eventFiles) {
                 const eventFunction = (await import(eventFile)).default;
-                await eventFunction(client, arg);
+
+                try {
+                    await eventFunction(client, arg1, arg2);
+                } catch (error) {
+                    console.error(`❌ There was an handling the the ${eventFile} event`);
+                }
             }
         })
     }
