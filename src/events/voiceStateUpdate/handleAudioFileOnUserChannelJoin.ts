@@ -6,6 +6,10 @@ import { VoiceState } from "discord.js";
 import path from "path";
 
 export default async (client: any, oldState: VoiceState, newState: VoiceState) => {
+    if (newState.member?.user.bot) {
+        return;
+    }
+
     if (!newState.channel?.id) {
         return;
     }
