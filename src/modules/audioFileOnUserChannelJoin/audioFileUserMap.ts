@@ -4,7 +4,7 @@ const audioFileUserMap: any[] = [
         audioFiles: [
             {
                 fileName: 'get_yo_yellow_ass_over_here.mp3',
-                chance: 100
+                chance: 10
             }
         ]
     },
@@ -13,7 +13,7 @@ const audioFileUserMap: any[] = [
         audioFiles: [
             {
                 fileName: 'get_yo_yellow_ass_over_here.mp3',
-                chance: 100
+                chance: 10
             }
         ]
     }
