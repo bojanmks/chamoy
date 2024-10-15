@@ -212,11 +212,16 @@
       },
       {
         "name": "Modovi",
-        "link": "https://thunderstore.io/c/lethal-company/p/lignjari/lignjari_modpack/"
+        "link": "https://thunderstore.io/c/lethal-company/p/lignjari/lignjari_modpack/",
+        "description": "Poslednji update 15.10.2024."
       },
       {
         "name": "Instrukcije",
         "link": "https://docs.google.com/presentation/d/1kjOvVM2RaUA_I4LOip4QS7w0jFwzjEX12XTxSSaPUvU/edit?usp=drive_link"
+      },
+      {
+        "name": "Update modova instrukcije",
+        "link": "https://docs.google.com/presentation/d/1VL8ID1GBEkEYHBHUxI20y5KsYECEYhWAjaQgGhGKEs0/edit?usp=sharing"
       }
     ]
   },
