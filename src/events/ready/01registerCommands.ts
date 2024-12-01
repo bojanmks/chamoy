@@ -1,4 +1,4 @@
-import { ApplicationCommandManager, ApplicationCommand, GuildResolvable } from 'discord.js';
+import { ApplicationCommandManager, ApplicationCommand, GuildResolvable, ApplicationCommandOptionType } from 'discord.js';
 import useEnvironments from '@modules/environments/useEnvironments';
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import { Command } from '@modules/commands/useCommands';
@@ -74,11 +74,11 @@ async function removeNonExistantCommands(
     }
 }
 
-async function createNewCommand(applicationCommands: any, newCommand: any) {
+async function createNewCommand(applicationCommands: any, newCommand: Command) {
     await applicationCommands.create({
         name: newCommand.name,
         description: newCommand.description,
-        options: newCommand.options,
+        options: newCommand.computedOptions,
         type: newCommand.type
     });
 }
@@ -86,7 +86,7 @@ async function createNewCommand(applicationCommands: any, newCommand: any) {
 async function updateExistingCommand(applicationCommands: any, id: any, updatedCommand: any) {
     await applicationCommands.edit(id, {
         description: updatedCommand.description,
-        options: updatedCommand.options ?? []
+        options: updatedCommand.computedOptions
     });
 }
 

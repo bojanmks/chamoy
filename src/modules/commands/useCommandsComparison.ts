@@ -1,8 +1,11 @@
-const areCommandsDifferent = (existingCommand: any, localCommand: any) => {
+import { ApplicationCommand, GuildResolvable } from "discord.js";
+import { Command } from "./useCommands";
+
+const areCommandsDifferent = (existingCommand: ApplicationCommand<{ guild: GuildResolvable }>, localCommand: Command) => {
     if (
         (existingCommand.description || '') !== (localCommand.description || '') ||
-        (existingCommand.options?.length || 0) !== (localCommand.options?.length || 0) ||
-        areOptionsDifferent(existingCommand.options, localCommand.options || [])
+        (existingCommand.options?.length || 0) !== (localCommand.computedOptions?.length || 0) ||
+        areOptionsDifferent(existingCommand.options, localCommand.computedOptions || [])
       ) {
         return true;
       }

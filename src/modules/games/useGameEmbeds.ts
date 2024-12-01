@@ -74,8 +74,7 @@ const makeInteractiveGameEmbed = (client: Client, selectedGameId: number | null 
 
     return {
         embeds: [embed],
-        components: components,
-        ephemeral: false
+        components: components
     };
 }
 

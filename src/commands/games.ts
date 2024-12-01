@@ -22,14 +22,11 @@ class GamesCommand extends BaseCommand {
             type: ApplicationCommandOptionType.Number,
             required: true,
             choices: makeCommandChoices(getGames())
-        },
-        {
-            name: 'ephemeral',
-            description: 'Should message be only visible to you',
-            type: ApplicationCommandOptionType.Boolean,
-            default: false
         }
     ];
+
+    override hasEphemeralParameter?: boolean | undefined = true;
+    override ephemeralParameterDefaultValue?: boolean | undefined = false;
 
     execute(client: Client, interaction: CommandInteraction): void {
         const gameId = this.getParameter<number>(interaction, 'game');

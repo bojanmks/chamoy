@@ -19,6 +19,8 @@ export default async (client: any, interaction: any) => {
         return;
     }
 
+    await interaction.deferReply({ ephemeral: commandObject.hasEphemeralResponse || (commandObject.hasEphemeralParameter && commandObject.getParameter<boolean>(interaction, 'ephemeral')) });
+
     const foundUserReponse = commandObject.userResponses?.find((x: any) => x.userId === interaction.user.id);
     if (foundUserReponse) {
         sendTextReply(interaction, foundUserReponse.response, true);

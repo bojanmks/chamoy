@@ -5,7 +5,7 @@ import useEmbeds from "@modules/embeds/useEmbeds";
 import useEnvironments from '@modules/environments/useEnvironments';
 import useErrorReplying from '@modules/errors/useErrorReplying';
 import useReplying from '@modules/messaging/useReplying';
-import { ApplicationCommandType, ComponentType, Client, ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
+import { ApplicationCommandType, ComponentType, Client, ButtonBuilder, ButtonStyle, ActionRowBuilder, InteractionResponse, Message } from "discord.js";
 
 const { sendReply } = useReplying();
 const { makeBaseEmbed } = useEmbeds();
@@ -16,10 +16,16 @@ const { DEVS } = useConfig();
 
 const COMMANDS_PER_PAGE = 10;
 
-const handleHelpResponse = async (client: any, interaction: any, userId: any) => {
+const getAvailableCommandsForUser = async (userId: any) => {
     const commands = (await getLocalCommands(['commands']))
         .filter((x: any) => isCommandAvailable(x, userId) && x.type === ApplicationCommandType.ChatInput)
         .sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+    return commands;
+}
+
+const handleHelpResponse = async (client: any, interaction: any, userId: any) => {
+    const commands = await getAvailableCommandsForUser(userId);
 
     if (!commands || !commands.length) {
         sendGenericErrorReply(interaction);
@@ -27,16 +33,11 @@ const handleHelpResponse = async (client: any, interaction: any, userId: any) =>
     }
 
     const message = generateMessage(client, commands);
-    const sentMessage = await sendReply(interaction, message);
 
-    const collector = sentMessage.createMessageComponentCollector({ componentType: ComponentType.Button });
-    
-    collector.on('collect', async (existingInteraction: any) => {
-        goToPage(client, existingInteraction, commands, parseInt(existingInteraction.customId));
-    });
+    return message;
 }
 
-function isCommandAvailable(command: any, userId: any) {
+const isCommandAvailable = (command: any, userId: any) => {
     if (command.environments && !command.environments.includes(CURRENT_ENVIRONMENT)) {
         return false;
     }
@@ -48,7 +49,7 @@ function isCommandAvailable(command: any, userId: any) {
     return true;
 }
 
-function generateMessage(client: Client, commands: Command[], page = 0): any {
+const generateMessage = (client: Client, commands: Command[], page = 0): any => {
     const embed = makeBaseEmbed(client, 'Commands');
 
     for (let command of commands.slice(COMMANDS_PER_PAGE * page, COMMANDS_PER_PAGE * (page + 1))) {
@@ -68,20 +69,20 @@ function generateMessage(client: Client, commands: Command[], page = 0): any {
     };
 }
 
-function commandNameWithParameters(command: Command): string {
+const commandNameWithParameters = (command: Command): string => {
     let commandName = "/" + command.name;
 
-    if (!command.options?.length) {
+    if (!command.computedOptions?.length) {
         return commandName;
     }
 
     // required parameters
-    for (let param of command.options.filter((x: any) => x.required)) {
+    for (let param of command.computedOptions.filter((x: any) => x.required)) {
         commandName += ` \`\`<${param.name}>\`\``;
     }
 
     // optional parameters
-    for (let param of command.options.filter((x: any) => !x.required)) {
+    for (let param of command.computedOptions.filter((x: any) => !x.required)) {
         commandName += ` \`\`[${param.name}]\`\``;
     }
 
@@ -98,7 +99,7 @@ const FORWARD_BUTTON = new ButtonBuilder()
     .setLabel('Next')
     .setEmoji('➡️');
 
-function generateMessageActions(commands: any, page: any) {
+const generateMessageActions = (commands: any, page: any) => {
     const actions = new ActionRowBuilder();
 
     const isFirstPage = page === 0;
@@ -117,13 +118,24 @@ function generateMessageActions(commands: any, page: any) {
     return actions;
 }
 
-function goToPage(client: any, interaction: any, commands: any, page: any) {
+const goToPage = (client: any, interaction: any, commands: any, page: any) => {
     const message = generateMessage(client, commands, page);
     interaction.update(message);
 }
 
+const listenToHelpEmbedInteractions = async (client: Client, userId: any, helpEmbedMessage: Message<boolean> | InteractionResponse<boolean>) => {
+    const commands = await getAvailableCommandsForUser(userId);
+
+    const collector = helpEmbedMessage.createMessageComponentCollector({ componentType: ComponentType.Button });
+    
+    collector.on('collect', async (existingInteraction: any) => {
+        goToPage(client, existingInteraction, commands, parseInt(existingInteraction.customId));
+    });
+}
+
 export default () => {
     return {
-        handleHelpResponse
+        handleHelpResponse,
+        listenToHelpEmbedInteractions
     }
 }

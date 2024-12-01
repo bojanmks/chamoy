@@ -9,7 +9,15 @@ export interface Command {
     environments?: string[];
     onlyDevs?: boolean;
     userResponses?: CommandUserResponse[];
+    hasEphemeralResponse?: boolean;
+    hasEphemeralParameter?: boolean;
+    ephemeralParameterDefaultValue?: boolean;
+
     execute(client: Client, interaction: CommandInteraction): void;
+
+    get computedOptions(): CommandParameter[];
+
+    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | null
 }
 
 export interface CommandParameter {
@@ -42,16 +50,35 @@ abstract class BaseCommand implements Command {
     onlyDevs?: boolean | undefined;
     userResponses?: CommandUserResponse[] | undefined;
 
+    hasEphemeralResponse?: boolean | undefined;
+    hasEphemeralParameter?: boolean | undefined;
+    ephemeralParameterDefaultValue?: boolean | undefined = false;
+
     abstract execute(client: Client, interaction: CommandInteraction): void;
 
-    protected getParameter<T>(interaction: CommandInteraction, parameterName: string): T | null {
+    get computedOptions(): CommandParameter[] {
+        const commandOptions = [...(this.options ?? [])];
+
+        if (this.hasEphemeralParameter) {
+            commandOptions.push({
+                name: 'ephemeral',
+                description: 'Should message be only visible to you',
+                type: ApplicationCommandOptionType.Boolean,
+                default: this.ephemeralParameterDefaultValue ?? false
+            })
+        }
+
+        return commandOptions;
+    }
+
+    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | null {
         const optionObject = interaction.options.get(parameterName);
 
         if (optionObject) {
             return optionObject.value as T;
         }
 
-        const defaultValue = this.options?.find(o => o.name === parameterName)?.default;
+        const defaultValue = this.computedOptions?.find(o => o.name === parameterName)?.default;
 
         if (defaultValue !== undefined) {
             return defaultValue as T;

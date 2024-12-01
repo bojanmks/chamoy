@@ -22,14 +22,11 @@ class IpCommand extends BaseCommand {
             description: 'Search by node id, name or ip',
             type: ApplicationCommandOptionType.String,
             default: ""
-        },
-        {
-            name: 'ephemeral',
-            description: 'Should message be only visible to you',
-            type: ApplicationCommandOptionType.Boolean,
-            default: true
         }
     ];
+
+    override hasEphemeralParameter?: boolean | undefined = true;
+    override ephemeralParameterDefaultValue?: boolean | undefined = true;
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const keyword = this.getParameter<string>(interaction, 'keyword');

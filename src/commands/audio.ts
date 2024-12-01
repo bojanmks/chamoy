@@ -46,7 +46,7 @@ class AudioCommand extends BaseCommand {
             return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
         }
 
-        const audioId = interaction.options.get('name')?.value;
+        const audioId = this.getParameter<number>(interaction, 'name');
         const audio = findAudioTrack(audioId);
 
         if (!audio) {

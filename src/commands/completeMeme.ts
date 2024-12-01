@@ -62,12 +62,10 @@ class CompleteMemeCommand extends BaseCommand {
             return sendTextReply(interaction, `${X_EMOJI} Unknown file source`, true);
         }
 
-        interaction.deferReply({ ephemeral: true });
-
         const fileUrl = await urlProvider.getUrl();
 
         if (!fileUrl) {
-            interaction.editReply(`${X_EMOJI} An error occured while fetching the file url`);
+            sendTextReply(interaction, `${X_EMOJI} An error occured while fetching the file url`);
             return;
         }
 
@@ -76,7 +74,7 @@ class CompleteMemeCommand extends BaseCommand {
         const captionSetter = new MemeCaptionSetterFactory().makeCaptionSetter(fileExtension);
 
         if (!captionSetter) {
-            interaction.editReply(`${X_EMOJI} Unsupported file type`);
+            sendTextReply(interaction, `${X_EMOJI} Unsupported file type`);
             return;
         }
 
@@ -99,7 +97,7 @@ class CompleteMemeCommand extends BaseCommand {
 
         await handleFinishedResponse(message.channel, temporaryMessageData, finishedMemeData);
 
-        interaction.editReply("✅ Meme sent");
+        sendTextReply(interaction, "✅ Meme sent");
     }
 
 }

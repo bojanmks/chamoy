@@ -4,7 +4,7 @@ const sendReply = (interaction: CommandInteraction, data: string | MessagePayloa
     if (interaction.deferred) {
         return interaction.editReply(data);
     }
-
+    
     if (interaction.replied) {
         return interaction.followUp(data);
     }

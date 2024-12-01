@@ -13,6 +13,7 @@ class MemeContextMenuCommand extends BaseCommand {
     name: string = 'Meme';
     
     override type: ApplicationCommandType = ApplicationCommandType.Message;
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     async execute(client: Client, interaction: MessageContextMenuCommandInteraction): Promise<void> {
         const message = interaction.targetMessage;
@@ -28,7 +29,7 @@ class MemeContextMenuCommand extends BaseCommand {
 
         sendReply(interaction, {
             embeds: [embed],
-            ephemeral: true
+            ephemeral: this.hasEphemeralResponse
         });
     }
 
