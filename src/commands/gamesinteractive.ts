@@ -13,6 +13,9 @@ class GamesInteractiveCommand extends BaseCommand {
     name: string = 'gamesinteractive';
     description: string = 'Get interactive embed with game links';
     
+    override hasEphemeralParameter?: boolean | undefined = true;
+    override ephemeralParameterDefaultValue?: boolean | undefined = false;
+
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const response = makeInteractiveGameEmbed(client);
 
@@ -21,7 +24,7 @@ class GamesInteractiveCommand extends BaseCommand {
             return;
         }
         
-        await sendReply(interaction, response);
+        await sendReply(interaction, { ...response, ephemeral: this.getParameter<boolean>(interaction, 'ephemeral') });
     }
 }
 

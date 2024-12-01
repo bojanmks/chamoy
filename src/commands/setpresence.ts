@@ -72,6 +72,8 @@ class SetPresenceCommand extends BaseCommand {
         }
     ];
 
+    override hasEphemeralResponse?: boolean | undefined = true;
+
     execute(client: Client, interaction: CommandInteraction): void {
         onCanChangePresence(() => {
             const activityName = this.getParameter<string>(interaction, 'name');

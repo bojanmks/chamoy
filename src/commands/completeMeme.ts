@@ -41,6 +41,8 @@ class CompleteMemeCommand extends BaseCommand {
             default: DEFAULT_FONT_SIZE
         }
     ];
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const userId = interaction.user.id;

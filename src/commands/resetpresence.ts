@@ -14,6 +14,8 @@ const { BaseCommand } = useCommands();
 class ResetPresenceCommand extends BaseCommand {
     name: string = 'resetpresence';
     override description?: string = 'Reset bot presence to the default presence';
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     execute(client: Client, interaction: CommandInteraction): void {
         onCanChangePresence(() => {

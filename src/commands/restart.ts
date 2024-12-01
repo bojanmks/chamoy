@@ -15,6 +15,8 @@ class RestartCommand extends BaseCommand {
     description?: string = 'Restarts the bot';
     override onlyDevs: boolean = true;
     override environments?: string[] = [PRODUCTION_ENVIRONMENT];
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);

@@ -12,6 +12,8 @@ class PingCommand extends BaseCommand {
     description?: string = '🏓';
     
     override environments?: string[] = [DEVELOPMENT_ENVIRONMENT];
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     execute(client: Client, interaction: CommandInteraction): void {
         sendTextReply(interaction, 'pong', true);

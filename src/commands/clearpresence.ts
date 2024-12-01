@@ -14,6 +14,8 @@ const { BaseCommand } = useCommands();
 class ClearPresenceCommand extends BaseCommand {
     name: string = 'clearpresence';
     description: string = 'Clear bot presence';
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     execute(client: Client, interaction: CommandInteraction): void {
         onCanChangePresence(() => {

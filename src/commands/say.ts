@@ -26,6 +26,8 @@ class SayCommand extends BaseCommand {
             response: `desi ti jbt ${CLOWN_EMOJI}`
         }
     ];
+
+    override hasEphemeralResponse?: boolean | undefined = true;
     
     execute(client: Client, interaction: CommandInteraction): void {
         const messageToSend = this.getParameter<string>(interaction, 'message')!;

@@ -31,6 +31,8 @@ class SetNodeNameCommand extends BaseCommand {
         }
     ];
 
+    override hasEphemeralResponse?: boolean | undefined = true;
+
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const nodeId = this.getParameter<string>(interaction, 'nodeid');
         const newName = this.getParameter<string>(interaction, 'name');

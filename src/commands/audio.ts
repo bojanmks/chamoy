@@ -33,6 +33,8 @@ class AudioCommand extends BaseCommand {
         }
     ];
 
+    override hasEphemeralResponse?: boolean | undefined = true;
+
     execute(client: Client, interaction: CommandInteraction): void {
         const serverId = interaction.guildId;
 
