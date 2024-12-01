@@ -1,15 +1,16 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import { default as axios } from "axios";
-import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
 import useReplying from "@modules/messaging/useReplying";
 import useEmojis from "@modules/emojis/useEmojis";
 import useErrorReplying from "@modules/errors/useErrorReplying";
 import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useZeroTier from "@modules/zeroTier/useZeroTier";
 
 const { sendTextReply } = useReplying();
 const { CHECK_EMOJI } = useEmojis();
 const { sendGenericErrorReply } = useErrorReplying();
 const { BaseCommand } = useCommands();
+const { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } = useZeroTier();
 
 class SetNodeNameCommand extends BaseCommand {
     name: string = 'setnodename';
@@ -38,7 +39,7 @@ class SetNodeNameCommand extends BaseCommand {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
         };
 
-        await axios.post(`${zeroTierApiUrl}/network/${zeroTierNetworkId}/member/${nodeId}`, { name: newName }, { headers })
+        await axios.post(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member/${nodeId}`, { name: newName }, { headers })
             .then((_: any) => {
                 sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
             })

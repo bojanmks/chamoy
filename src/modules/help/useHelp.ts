@@ -1,6 +1,6 @@
 import { Command } from '@modules/commands/useCommands';
-import { devs } from '../../../config.json';
 import useCommandsStore from '@modules/commands/useCommandsStore';
+import useConfig from '@modules/config/useConfig';
 import useEmbeds from "@modules/embeds/useEmbeds";
 import useEnvironments from '@modules/environments/useEnvironments';
 import useErrorReplying from '@modules/errors/useErrorReplying';
@@ -12,6 +12,7 @@ const { makeBaseEmbed } = useEmbeds();
 const { sendGenericErrorReply } = useErrorReplying();
 const { CURRENT_ENVIRONMENT } = useEnvironments();
 const { getLocalCommands } = useCommandsStore();
+const { DEVS } = useConfig();
 
 const COMMANDS_PER_PAGE = 10;
 
@@ -40,7 +41,7 @@ function isCommandAvailable(command: any, userId: any) {
         return false;
     }
 
-    if (command.onlyDevs && !devs.includes(userId)) {
+    if (command.onlyDevs && !DEVS.includes(userId)) {
         return false;
     }
 

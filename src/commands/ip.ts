@@ -1,15 +1,16 @@
 import { default as axios } from "axios";
-import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import useEmbeds from "@modules/embeds/useEmbeds";
 import useReplying from "@modules/messaging/useReplying";
 import useErrorReplying from "@modules/errors/useErrorReplying";
 import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useZeroTier from "@modules/zeroTier/useZeroTier";
 
 const { makeBaseEmbed } = useEmbeds();
 const { sendReply } = useReplying();
 const { sendGenericErrorReply } = useErrorReplying();
 const { BaseCommand } = useCommands();
+const { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } = useZeroTier();
 
 class IpCommand extends BaseCommand {
     name: string = 'ip';
@@ -38,7 +39,7 @@ class IpCommand extends BaseCommand {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
         };
 
-        await axios.get(`${zeroTierApiUrl}/network/${zeroTierNetworkId}/member`, { headers })
+        await axios.get(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member`, { headers })
             .then((data: any) => {
                 const members = data.data.filter((x: any) => x.nodeId?.includes(keyword)
                                                    || x.name?.includes(keyword)
@@ -65,7 +66,7 @@ function generateEmbed(embed: any, members: any) {
     embed.addFields(
         {
             name: 'Network ID',
-            value: zeroTierNetworkId
+            value: ZERO_TIER_NETWORK_ID
         },
         {
             name: 'Node ID',

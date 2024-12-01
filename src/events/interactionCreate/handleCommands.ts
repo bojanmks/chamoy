@@ -1,11 +1,12 @@
-import { devs } from '../../../config.json';
 import useReplying from '@modules/messaging/useReplying';
 import useErrorReplying from '@modules/errors/useErrorReplying';
 import useCommandsStore from '@modules/commands/useCommandsStore';
+import useConfig from '@modules/config/useConfig';
 
 const { sendTextReply } = useReplying();
 const { sendGenericErrorReply, sendNoPermissionErrorReply } = useErrorReplying();
 const { getLocalCommands } = useCommandsStore();
+const { DEVS } = useConfig();
 
 export default async (client: any, interaction: any) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
@@ -25,7 +26,7 @@ export default async (client: any, interaction: any) => {
     }
 
     if (commandObject.onlyDevs) {
-        if (!devs.includes(interaction.user.id)) {
+        if (!DEVS.includes(interaction.user.id)) {
             sendNoPermissionErrorReply(interaction);
             return;
         }
