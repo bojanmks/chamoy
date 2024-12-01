@@ -28,7 +28,7 @@ export default (client: Client) => {
                 try {
                     await eventFunction(client, arg1, arg2);
                 } catch (error) {
-                    console.error(`❌ There was an handling the the ${eventFile} event`);
+                    console.error(`❌ There was an handling the the ${eventFile} event: ${error}`);
                 }
             }
         })
