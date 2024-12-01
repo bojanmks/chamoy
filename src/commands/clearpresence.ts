@@ -1,20 +1,26 @@
 import { Client, CommandInteraction, PresenceUpdateStatus } from "discord.js";
-import sendTextReply from "@modules/messaging/sendTextReply";
-import setPresence from "@modules/presence/setPresence";
-import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
-import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
+import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
+import usePresence from "@modules/presence/usePresence";
+import useReplying from "@modules/messaging/useReplying";
+import useEmojis from "@modules/emojis/useEmojis";
+import useCommands from "@modules/commands/useCommands";
+
+const { setPresence } = usePresence();
+const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
+const { sendTextReply } = useReplying();
+const { CHECK_EMOJI } = useEmojis();
+const { BaseCommand } = useCommands();
 
 class ClearPresenceCommand extends BaseCommand {
     name: string = 'clearpresence';
     description: string = 'Clear bot presence';
     
     execute(client: Client, interaction: CommandInteraction): void {
-        presenceRatelimitUtil.onCanChangePresence(() => {
+        onCanChangePresence(() => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);
         }, () => {
-            presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
+            sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }

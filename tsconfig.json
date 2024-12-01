@@ -16,7 +16,8 @@
       "@modules/*": ["./src/modules/*"],
       "@util/*": ["./src/util/*"],
       "@assets/*": ["./src/assets/*"],
-      "@express/*": ["./src/express/*"]
+      "@data/*": ["./src/data/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   }
 }

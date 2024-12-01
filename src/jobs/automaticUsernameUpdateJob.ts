@@ -1,6 +1,7 @@
 
-import { PRODUCTION_ENVIRONMENT } from "@modules/shared/constants/environments";
-import handleUsernameDecrement from "@modules/usernameDecrement/handleUsernameDecrement";
+import useEnvironments from "@modules/environments/useEnvironments";
+
+const { PRODUCTION_ENVIRONMENT } = useEnvironments();
 
 export default {
     name: 'Automatic username update',
@@ -8,10 +9,6 @@ export default {
     environments: [PRODUCTION_ENVIRONMENT],
     deleted: true,
     callback: async (client: any) => {
-        const newUsername = await handleUsernameDecrement(client);
-        
-        if (newUsername) {
-            console.log(`✅ Username was automatically updated to '${newUsername}' at ${new Date().toUTCString()}`);
-        }
+        //
     }
 };

@@ -1,8 +1,11 @@
 import { devs } from '../../../config.json';
-import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
-import sendNoPermissionErrorReply from '@modules/errors/messages/sendNoPermissionErrorReply';
-import getLocalCommands from '@modules/commands/getLocalCommands';
-import sendTextReply from '@modules/messaging/sendTextReply';
+import useReplying from '@modules/messaging/useReplying';
+import useErrorReplying from '@modules/errors/useErrorReplying';
+import useCommandsStore from '@modules/commands/useCommandsStore';
+
+const { sendTextReply } = useReplying();
+const { sendGenericErrorReply, sendNoPermissionErrorReply } = useErrorReplying();
+const { getLocalCommands } = useCommandsStore();
 
 export default async (client: any, interaction: any) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;

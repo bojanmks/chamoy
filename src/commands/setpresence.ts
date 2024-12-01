@@ -1,23 +1,26 @@
 import { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus, Client, CommandInteraction } from "discord.js";
-import setPresence from "@modules/presence/setPresence";
-import sendTextReply from "@modules/messaging/sendTextReply";
-import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
-import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import { CommandParameter } from "@modules/commands/models/CommandParameter";
+import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
+import usePresence from "@modules/presence/usePresence";
+import useReplying from "@modules/messaging/useReplying";
+import useEmojis from "@modules/emojis/useEmojis";
+import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+
+const { setPresence } = usePresence();
+const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
+const { sendTextReply } = useReplying();
+const { CHECK_EMOJI } = useEmojis();
+const { BaseCommand } = useCommands();
 
 class SetPresenceCommand extends BaseCommand {
     name: string = 'setpresence';
-    description: string | null = 'Set bot presence';
+    description?: string = 'Set bot presence';
     
-    override options: CommandParameter[] | null = [
+    override options?: CommandParameter[] = [
         {
             name: 'name',
             description: 'Activity name',
             type: ApplicationCommandOptionType.String,
-            required: true,
-            default: undefined,
-            choices: null
+            required: true
         },
         {
             name: 'type',
@@ -45,8 +48,7 @@ class SetPresenceCommand extends BaseCommand {
                     name: 'Watching',
                     value: ActivityType.Watching
                 }
-            ],
-            default: undefined
+            ]
         },
         {
             name: 'status',
@@ -66,13 +68,12 @@ class SetPresenceCommand extends BaseCommand {
                     name: 'Online',
                     value: PresenceUpdateStatus.Online
                 }
-            ],
-            default: undefined
+            ]
         }
     ];
 
     execute(client: Client, interaction: CommandInteraction): void {
-        presenceRatelimitUtil.onCanChangePresence(() => {
+        onCanChangePresence(() => {
             const activityName = this.getParameter<string>(interaction, 'name');
             const activityType = this.getParameter<number>(interaction, 'type');
             const status = this.getParameter<string>(interaction, 'status');
@@ -81,7 +82,7 @@ class SetPresenceCommand extends BaseCommand {
 
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
         }, () => {
-            presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
+            sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }

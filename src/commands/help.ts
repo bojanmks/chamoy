@@ -1,6 +1,9 @@
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import handleHelpResponse from "@modules/help/handleHelpResponse";
+import useCommands from "@modules/commands/useCommands";
+import useHelp from "@modules/help/useHelp";
 import { Client, CommandInteraction } from "discord.js";
+
+const { handleHelpResponse } = useHelp();
+const { BaseCommand } = useCommands();
 
 class HelpCommand extends BaseCommand {
     name: string = 'help';

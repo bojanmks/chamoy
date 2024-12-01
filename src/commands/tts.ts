@@ -1,41 +1,46 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from "discord.js";
-import sendTextReply from "@modules/messaging/sendTextReply";
-import { CHECK_EMOJI, X_EMOJI } from "@modules/shared/constants/emojis";
-import generateCommandChoices from "@modules/commands/generateCommandChoices";
-import ttsLanguagesRepository from "@modules/tts/ttsLanguagesRepository";
-import busyUtil from "@modules/busy/busyUtil";
-import sendBotIsBusyReply from "@modules/errors/messages/sendBotIsBusyReply";
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import { CommandParameter } from "@modules/commands/models/CommandParameter";
+import useBusy from "@modules/busy/useBusy";
+import useReplying from "@modules/messaging/useReplying";
+import useTtsLanguages from "@modules/tts/useTtsLanguages";
+import useEmojis from "@modules/emojis/useEmojis";
+import useErrorReplying from "@modules/errors/useErrorReplying";
+import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCommandChoices from "@modules/commands/useCommandChoices";
+
 const gTTS = require("gtts");
+
+const { isBusy, setBusy, setNotBusy } = useBusy();
+const { sendTextReply } = useReplying();
+const { getTtsLanguges, findTtsLanguage } = useTtsLanguages();
+const { CHECK_EMOJI, X_EMOJI } = useEmojis();
+const { sendBotIsBusyReply } = useErrorReplying();
+const { BaseCommand } = useCommands();
+const { makeCommandChoices } = useCommandChoices();
 
 class TtsCommand extends BaseCommand {
     name: string = 'tts';
-    description: string | null = 'Make bot say a message in current voice channel';
+    override description?: string = 'Make bot say a message in current voice channel';
 
-    override options: CommandParameter[] | null = [
+    override options?: CommandParameter[] = [
         {
             name: 'language',
             description: 'Language',
             type: ApplicationCommandOptionType.String,
             required: true,
-            choices: generateCommandChoices(ttsLanguagesRepository.get()),
-            default: undefined
+            choices: makeCommandChoices(getTtsLanguges())
         },
         {
             name: 'message',
             description: 'Message to say',
             type: ApplicationCommandOptionType.String,
-            required: true,
-            default: undefined,
-            choices: null
+            required: true
         }
     ];
     
     execute(client: Client, interaction: CommandInteraction): void {
         const serverId = interaction.guildId;
-        if (busyUtil.isBusy(serverId)) {
+        if (isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
         }
 
@@ -55,18 +60,18 @@ class TtsCommand extends BaseCommand {
         });
 
         try {
-            busyUtil.toggleBusy(serverId);
+            setBusy(serverId);
 
             playAudio(connection, messageToSay, language, () => {
                 connection.disconnect();
-                busyUtil.toggleBusy(serverId);
+                setNotBusy(serverId);
             });
 
-            sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${ttsLanguagesRepository.find(language)?.name}**`, true);
+            sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`, true);
         }
         catch (error) {
             connection.disconnect();
-            busyUtil.setNotBusy(serverId);
+            setNotBusy(serverId);
             throw error;
         }
     }

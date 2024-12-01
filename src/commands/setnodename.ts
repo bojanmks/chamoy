@@ -1,32 +1,32 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
-import sendTextReply from "@modules/messaging/sendTextReply";
 import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
-import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
-import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import { CommandParameter } from "@modules/commands/models/CommandParameter";
+import useReplying from "@modules/messaging/useReplying";
+import useEmojis from "@modules/emojis/useEmojis";
+import useErrorReplying from "@modules/errors/useErrorReplying";
+import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+
+const { sendTextReply } = useReplying();
+const { CHECK_EMOJI } = useEmojis();
+const { sendGenericErrorReply } = useErrorReplying();
+const { BaseCommand } = useCommands();
 
 class SetNodeNameCommand extends BaseCommand {
     name: string = 'setnodename';
-    description: string | null = 'Sets a name for a zero tier user';
+    description?: string = 'Sets a name for a zero tier user';
     
-    override options: CommandParameter[] | null = [
+    override options?: CommandParameter[] = [
         {
             name: 'nodeid',
             description: 'User node ID',
             type: ApplicationCommandOptionType.String,
-            required: true,
-            default: undefined,
-            choices: null
+            required: true
         },
         {
             name: 'name',
             description: 'New name',
             type: ApplicationCommandOptionType.String,
-            required: true,
-            default: undefined,
-            choices: null
+            required: true
         }
     ];
 

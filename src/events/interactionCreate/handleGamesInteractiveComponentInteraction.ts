@@ -1,6 +1,10 @@
-import sendGenericErrorReply from "@modules/errors/messages/sendGenericErrorReply";
-import { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } from "@modules/games/gamesConstants";
-import generateGamesInteractiveEmbedResponse from "@modules/games/generateGamesInteractiveEmbedResponse";
+import useErrorReplying from "@modules/errors/useErrorReplying";
+import useGameEmbeds from "@modules/games/useGameEmbeds";
+import useGamesConstants from "@modules/games/useGamesConstants";
+
+const { sendGenericErrorReply } = useErrorReplying();
+const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = useGamesConstants();
+const { makeInteractiveGameEmbed } = useGameEmbeds();
 
 export default (client: any, interaction: any) => {
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX)) {
@@ -17,7 +21,7 @@ export default (client: any, interaction: any) => {
 }
 
 function handleGameSelect(client: any, interaction: any, selectedGameId: any) {
-    const response = generateGamesInteractiveEmbedResponse(client, selectedGameId);
+    const response = makeInteractiveGameEmbed(client, selectedGameId);
 
     if (!response) {
         sendGenericErrorReply(interaction);

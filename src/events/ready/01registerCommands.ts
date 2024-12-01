@@ -1,9 +1,12 @@
-import { Command } from '@modules/commands/models/Command';
-import areCommandsDifferent from '@modules/commands/areCommandsDifferent';
-import getApplicationCommands from '@modules/commands/getApplicationCommands';
-import getLocalCommands from '@modules/commands/getLocalCommands';
-import { CURRENT_ENVIRONMENT } from '@modules/shared/constants/environments';
 import { ApplicationCommandManager, ApplicationCommand, GuildResolvable } from 'discord.js';
+import useEnvironments from '@modules/environments/useEnvironments';
+import useCommandsStore from '@modules/commands/useCommandsStore';
+import { Command } from '@modules/commands/useCommands';
+import useCommandsComparison from '@modules/commands/useCommandsComparison';
+
+const { CURRENT_ENVIRONMENT } = useEnvironments();
+const { getLocalCommands, getApplicationCommands } = useCommandsStore();
+const { areCommandsDifferent } = useCommandsComparison();
 
 export default async (client: any) => {
     try {

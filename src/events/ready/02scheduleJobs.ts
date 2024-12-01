@@ -1,6 +1,9 @@
 import schedule from 'node-schedule';
-import getJobs from '@modules/jobs/getJobs';
-import { CURRENT_ENVIRONMENT } from '@modules/shared/constants/environments';
+import useJobs from '@modules/jobs/useJobs';
+import useEnvironments from '@modules/environments/useEnvironments';
+
+const { getJobs } = useJobs();
+const { CURRENT_ENVIRONMENT } = useEnvironments();
 
 export default async (client: any) => {
     const jobs = await getJobs();

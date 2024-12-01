@@ -1,16 +1,23 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from 'discord.js';
-import audioRepository from '@modules/audio/audioRepository';
-import busyUtil from '@modules/busy/busyUtil';
-import sendBotIsBusyReply from '@modules/errors/messages/sendBotIsBusyReply';
-import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
-import sendTextReply from '@modules/messaging/sendTextReply';
 import path from 'path';
-import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
-import generateCommandChoices from '@modules/commands/generateCommandChoices';
-import { X_EMOJI, PLAY_EMOJI } from '@modules/shared/constants/emojis';
-import { BaseCommand } from '@modules/commands/models/BaseCommand';
-import { CommandParameter } from '@modules/commands/models/CommandParameter';
-import { MyAudioPlayer } from '@modules/audio/MyAudioPlayer';
+import { joinVoiceChannel, createAudioResource } from '@discordjs/voice';
+import useBusy from '@modules/busy/useBusy';
+import useReplying from '@modules/messaging/useReplying';
+import useAudioTracks from '@modules/audio/useAudioTracks';
+import useAudioPlayer from '@modules/audio/useAudioPlayer';
+import useEmojis from '@modules/emojis/useEmojis';
+import useErrorReplying from '@modules/errors/useErrorReplying';
+import useCommands, { CommandParameter } from '@modules/commands/useCommands';
+import useCommandChoices from '@modules/commands/useCommandChoices';
+
+const { isBusy, setBusy, setNotBusy } = useBusy();
+const { sendTextReply } = useReplying();
+const { getAudioTracks, findAudioTrack } = useAudioTracks();
+const { MyAudioPlayer } = useAudioPlayer();
+const { X_EMOJI, PLAY_EMOJI } = useEmojis();
+const { sendBotIsBusyReply, sendGenericErrorReply } = useErrorReplying();
+const { BaseCommand } = useCommands();
+const { makeCommandChoices } = useCommandChoices();
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';
@@ -21,16 +28,15 @@ class AudioCommand extends BaseCommand {
             name: 'name',
             description: 'Name of the audio',
             type: ApplicationCommandOptionType.Number,
-            choices: generateCommandChoices(audioRepository.get()),
-            required: true,
-            default: undefined
+            choices: makeCommandChoices(getAudioTracks()),
+            required: true
         }
     ];
 
     execute(client: Client, interaction: CommandInteraction): void {
         const serverId = interaction.guildId;
 
-        if (busyUtil.isBusy(serverId)) {
+        if (isBusy(serverId)) {
             return sendBotIsBusyReply(interaction);
         }
 
@@ -41,7 +47,7 @@ class AudioCommand extends BaseCommand {
         }
 
         const audioId = interaction.options.get('name')?.value;
-        const audio = audioRepository.find(audioId);
+        const audio = findAudioTrack(audioId);
 
         if (!audio) {
             return sendGenericErrorReply(interaction);
@@ -54,7 +60,7 @@ class AudioCommand extends BaseCommand {
         });
 
         try {
-            busyUtil.setBusy(serverId);
+            setBusy(serverId);
 
             const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
             const absoluteFilePath = path.resolve(relativeFilePath);
@@ -64,14 +70,14 @@ class AudioCommand extends BaseCommand {
 
             audioPlayer.playAudio(connection, audioResource, () => {
                 connection.disconnect();
-                busyUtil.setNotBusy(serverId);
+                setNotBusy(serverId);
             });
 
             sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
         }
         catch (error) {
             connection.disconnect();
-            busyUtil.setNotBusy(serverId);
+            setNotBusy(serverId);
             throw error;
         }
     }

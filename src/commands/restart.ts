@@ -1,15 +1,20 @@
 import { default as axios } from "axios";
-import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
-import sendTextReply from '@modules/messaging/sendTextReply';
-import { PRODUCTION_ENVIRONMENT } from '@modules/shared/constants/environments';
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
 import { Client, CommandInteraction } from "discord.js";
+import useReplying from "@modules/messaging/useReplying";
+import useErrorReplying from "@modules/errors/useErrorReplying";
+import useEnvironments from "@modules/environments/useEnvironments";
+import useCommands from "@modules/commands/useCommands";
+
+const { sendTextReply } = useReplying();
+const { sendGenericErrorReply } = useErrorReplying();
+const { PRODUCTION_ENVIRONMENT } = useEnvironments();
+const { BaseCommand } = useCommands();
 
 class RestartCommand extends BaseCommand {
     name: string = 'restart';
-    description: string | null = 'Restarts the bot';
+    description?: string = 'Restarts the bot';
     override onlyDevs: boolean = true;
-    override environments: string[] | null = [PRODUCTION_ENVIRONMENT];
+    override environments?: string[] = [PRODUCTION_ENVIRONMENT];
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);

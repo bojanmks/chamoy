@@ -1,21 +1,26 @@
-
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import sendTextReply from "@modules/messaging/sendTextReply";
-import defaultPresence from "@modules/presence/defaultPresence";
-import presenceRatelimitUtil from "@modules/presence/presenceRatelimitUtil";
-import { CHECK_EMOJI } from "@modules/shared/constants/emojis";
+import useCommands from "@modules/commands/useCommands";
+import useEmojis from "@modules/emojis/useEmojis";
+import useReplying from "@modules/messaging/useReplying";
+import usePresence from "@modules/presence/usePresence";
+import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
 import { Client, CommandInteraction } from "discord.js";
+
+const { defaultPresence } = usePresence();
+const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
+const { sendTextReply } = useReplying();
+const { CHECK_EMOJI } = useEmojis();
+const { BaseCommand } = useCommands();
 
 class ResetPresenceCommand extends BaseCommand {
     name: string = 'resetpresence';
-    description: string | null = 'Reset bot presence to the default presence';
+    override description?: string = 'Reset bot presence to the default presence';
     
     execute(client: Client, interaction: CommandInteraction): void {
-        presenceRatelimitUtil.onCanChangePresence(() => {
-            client.user?.setPresence(defaultPresence());
+        onCanChangePresence(() => {
+            client.user?.setPresence(defaultPresence);
             sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`, true);
         }, () => {
-            presenceRatelimitUtil.sendPresenceChangeTimeLeftReply(interaction);
+            sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }

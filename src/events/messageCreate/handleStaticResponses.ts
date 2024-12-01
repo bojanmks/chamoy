@@ -1,12 +1,14 @@
-import staticResponses from '@modules/staticResponses/staticResponses';
+import useMessageRecognitionResponses from '@modules/messageRecognitionResponses/useMessageRecognitionResponses';
 import stringSimilarity from 'string-similarity';
+
+const { messageRecognitionResponses } = useMessageRecognitionResponses();
 
 const MINIMUM_ACCURACY = .85;
 
 export default async (client: any, message: any) => {
     if (message.author.bot) return;
 
-    if (!staticResponses || !staticResponses.length) return;
+    if (!messageRecognitionResponses || !messageRecognitionResponses.length) return;
 
     const exactResponse = getExactResponse(message);
     if (exactResponse) {
@@ -22,7 +24,7 @@ export default async (client: any, message: any) => {
 function getExactResponse(message: any) {
     const messageContent = message.content.trim();
 
-    const exactResponses = applyUserFilter(staticResponses.filter((x: any) => x.exact), message.author.id);
+    const exactResponses = applyUserFilter(messageRecognitionResponses.filter((x: any) => x.exact), message.author.id);
     const exactResponse = exactResponses.find((x: any) => (!x.caseSensitive && x.messages.some((msg: any) => msg.toLocaleLowerCase() === messageContent.toLowerCase()))
                                                 || (x.caseSensitive && x.messages.some((msg: any) => msg === messageContent)));
     
@@ -32,7 +34,7 @@ function getExactResponse(message: any) {
 function getRecognizedResponse(message: any) {
     const messageContent = message.content.trim();
 
-    const responsesWithAccuracy = applyUserFilter(staticResponses.filter((x: any) => !x.exact), message.author.id).map((x: any) => ({
+    const responsesWithAccuracy = applyUserFilter(messageRecognitionResponses.filter((x: any) => !x.exact), message.author.id).map((x: any) => ({
         messages: x.messages,
         response: x.response,
         accuracy: calculateAccuracy(x.messages, messageContent)

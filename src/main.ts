@@ -2,7 +2,7 @@ import 'module-alias/register';
 import dotenv from "dotenv";
 import { Client, IntentsBitField } from 'discord.js';
 import eventHandler from '@events/eventHandler';
-import setDefaultGlobalDispatcher from '@modules/undici/setDefaultGlobalDispatcher';
+import useIndiciSettings from '@lib/undici/useUndiciSettings';
 
 dotenv.config();
 
@@ -17,6 +17,9 @@ const client = new Client({
 });
 
 eventHandler(client);
-setDefaultGlobalDispatcher();
+
+const { setExtendedTimeoutGlobalDispatcher } = useIndiciSettings();
+
+setExtendedTimeoutGlobalDispatcher();
 
 client.login(process.env.TOKEN);

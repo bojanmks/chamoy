@@ -1,32 +1,32 @@
 import { default as axios } from "axios";
 import { zeroTierApiUrl, zeroTierNetworkId } from "../../config.json";
-import generateBaseEmbed from "@modules/embeds/generateBaseEmbed";
-import sendGenericErrorReply from '@modules/errors/messages/sendGenericErrorReply';
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
-import sendReply from "@modules/messaging/sendReply";
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import { CommandParameter } from "@modules/commands/models/CommandParameter";
+import useEmbeds from "@modules/embeds/useEmbeds";
+import useReplying from "@modules/messaging/useReplying";
+import useErrorReplying from "@modules/errors/useErrorReplying";
+import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+
+const { makeBaseEmbed } = useEmbeds();
+const { sendReply } = useReplying();
+const { sendGenericErrorReply } = useErrorReplying();
+const { BaseCommand } = useCommands();
 
 class IpCommand extends BaseCommand {
     name: string = 'ip';
     description: string = 'Get the list of zero tier network members';
 
-    override options: CommandParameter[] | null = [
+    override options?: CommandParameter[] = [
         {
             name: 'keyword',
             description: 'Search by node id, name or ip',
             type: ApplicationCommandOptionType.String,
-            required: false,
-            default: "",
-            choices: null
+            default: ""
         },
         {
             name: 'ephemeral',
             description: 'Should message be only visible to you',
             type: ApplicationCommandOptionType.Boolean,
-            required: false,
-            default: true,
-            choices: null
+            default: true
         }
     ];
     
@@ -44,7 +44,7 @@ class IpCommand extends BaseCommand {
                                                    || x.name?.includes(keyword)
                                                    || x.config?.ipAssignments.some((ipAs: any) => ipAs.includes(keyword)));
 
-                const embed = generateBaseEmbed(client, 'IP');
+                const embed = makeBaseEmbed(client, 'IP');
                 generateEmbed(embed, members);
 
                 sendReply(interaction, {

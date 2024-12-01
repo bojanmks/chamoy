@@ -1,12 +1,19 @@
-import { ApplicationCommandType, ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
-import { X_EMOJI } from "@modules/shared/constants/emojis";
-import sendTextReply from "@modules/messaging/sendTextReply";
-import MemeCaptionSetterFactory from "@modules/meme/models/caption-setters/MemeCaptionSetterFactory";
-import MemeFilePathProviderFactory from "@modules/meme/models/meme-file-url-getters/MemeFilePathProviderFactory";
-import completeMemeMessageStore from "@modules/meme/completeMemeMessageStore";
-import wait from "@modules/shared/wait";
-import { BaseCommand } from "@modules/commands/models/BaseCommand";
-import { CommandParameter } from "@modules/commands/models/CommandParameter";
+import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
+import useWait from "@modules/shared/useWait";
+import useReplying from "@modules/messaging/useReplying";
+import useEmojis from "@modules/emojis/useEmojis";
+import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCompleteMeme from "@modules/meme/useCompleteMeme";
+import useMemeCaptionSetters from "@modules/meme/useMemeCaptionSetters";
+import useMemeFileUrlProviders from "@modules/meme/useMemeFileUrlProviders";
+
+const { wait } = useWait();
+const { sendTextReply } = useReplying();
+const { X_EMOJI } = useEmojis();
+const { BaseCommand } = useCommands();
+const { completeMemeMessageStore } = useCompleteMeme();
+const { MemeCaptionSetterFactory } = useMemeCaptionSetters();
+const { MemeFilePathProviderFactory } = useMemeFileUrlProviders();
 
 const DEFAULT_FONT_SIZE = 40;
 
@@ -14,30 +21,24 @@ class CompleteMemeCommand extends BaseCommand {
     name: string = 'completememe';
     description: string = 'Complete meme';
 
-    override options: CommandParameter[] | null = [
+    override options?: CommandParameter[] = [
         {
             name: 'toptext',
             description: 'Top text',
             type: ApplicationCommandOptionType.String,
             required: true,
-            default: undefined,
-            choices: null
         },
         {
             name: 'bottomtext',
             description: 'Bottom text',
             type: ApplicationCommandOptionType.String,
             required: true,
-            default: undefined,
-            choices: null
         },
         {
             name: 'fontsize',
             description: 'Font size',
             type: ApplicationCommandOptionType.Number,
-            required: false,
-            default: DEFAULT_FONT_SIZE,
-            choices: null
+            default: DEFAULT_FONT_SIZE
         }
     ];
     
@@ -91,7 +92,7 @@ class CompleteMemeCommand extends BaseCommand {
                 topCaption: topText,
                 bottomCaption: bottomText,
                 fontSize: fontSize,
-                temporaryUrlHandler: async (url: any) => {
+                temporaryUrlHandler: async (url: string) => {
                     temporaryMessageData = await sendTemporaryUrl(url, message.channel);
                 }
             });
