@@ -1,12 +1,13 @@
 import useErrorReplying from "@modules/errors/useErrorReplying";
 import useGameEmbeds from "@modules/games/useGameEmbeds";
 import useGamesConstants from "@modules/games/useGamesConstants";
+import { Client } from "discord.js";
 
 const { sendGenericErrorReply } = useErrorReplying();
 const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = useGamesConstants();
 const { makeInteractiveGameEmbed } = useGameEmbeds();
 
-export default (client: any, interaction: any) => {
+export default (client: Client, interaction: any) => {
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX)) {
         const selectedGameId = parseInt(interaction.values[0]);
         handleGameSelect(client, interaction, selectedGameId);
@@ -20,7 +21,7 @@ export default (client: any, interaction: any) => {
     }
 }
 
-function handleGameSelect(client: any, interaction: any, selectedGameId: any) {
+const handleGameSelect = (client: Client, interaction: any, selectedGameId: any) => {
     const response = makeInteractiveGameEmbed(client, selectedGameId);
 
     if (!response) {

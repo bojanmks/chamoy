@@ -17,7 +17,7 @@ export interface Command {
 
     get computedOptions(): CommandParameter[];
 
-    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | null
+    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | undefined
 }
 
 export interface CommandParameter {
@@ -71,7 +71,7 @@ abstract class BaseCommand implements Command {
         return commandOptions;
     }
 
-    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | null {
+    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | undefined {
         const optionObject = interaction.options.get(parameterName);
 
         if (optionObject) {
@@ -84,7 +84,7 @@ abstract class BaseCommand implements Command {
             return defaultValue as T;
         }
 
-        return null;
+        return undefined;
     }
 }
 

@@ -2,13 +2,14 @@ import useReplying from '@modules/messaging/useReplying';
 import useErrorReplying from '@modules/errors/useErrorReplying';
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import useConfig from '@modules/config/useConfig';
+import { Client, Interaction } from 'discord.js';
 
 const { sendTextReply } = useReplying();
 const { sendGenericErrorReply, sendNoPermissionErrorReply } = useErrorReplying();
 const { getLocalCommands } = useCommandsStore();
 const { DEVS } = useConfig();
 
-export default async (client: any, interaction: any) => {
+export default async (client: Client, interaction: Interaction) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
     const localCommands = await getLocalCommands(['commands']);
