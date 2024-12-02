@@ -16,21 +16,23 @@ export default async (client: Client, interaction: Interaction) => {
     const commandObject = localCommands.find((cmd: any) => cmd.name === interaction.commandName);
 
     if (!commandObject) {
-        sendGenericErrorReply(interaction);
+        await sendGenericErrorReply(interaction);
         return;
     }
 
-    await interaction.deferReply({ ephemeral: commandObject.hasEphemeralResponse || (commandObject.hasEphemeralParameter && commandObject.getParameter<boolean>(interaction, 'ephemeral')) });
+    await interaction.deferReply({
+        ephemeral: commandObject.hasEphemeralResponse || (commandObject.hasEphemeralParameter && commandObject.getParameter<boolean>(interaction, 'ephemeral'))
+    });
 
     const foundUserReponse = commandObject.userResponses?.find((x: any) => x.userId === interaction.user.id);
     if (foundUserReponse) {
-        sendTextReply(interaction, foundUserReponse.response, true);
+        await sendTextReply(interaction, foundUserReponse.response, true);
         return;
     }
 
     if (commandObject.onlyDevs) {
         if (!DEVS.includes(interaction.user.id)) {
-            sendNoPermissionErrorReply(interaction);
+            await sendNoPermissionErrorReply(interaction);
             return;
         }
     }
@@ -42,7 +44,7 @@ export default async (client: Client, interaction: Interaction) => {
         console.error(e);
 
         if (!e?.name?.includes("ConnectTimeoutError")) {
-            sendGenericErrorReply(interaction);
+            await sendGenericErrorReply(interaction);
         }
     }
 };

@@ -49,25 +49,28 @@ class CompleteMemeCommand extends BaseCommand {
         const messageId = completeMemeMessageStore.findMessageByUser(userId);
 
         if (!messageId) {
-            return sendMessageNotPreparedMessage(interaction);
+            await sendMessageNotPreparedMessage(interaction)
+            return;
         }
 
         const message = await interaction.channel?.messages.fetch(messageId);
 
         if (!message || !message.content) {
-            return sendMessageNotPreparedMessage(interaction);
+            await sendMessageNotPreparedMessage(interaction);
+            return;
         }
 
         const urlProvider = new MemeFilePathProviderFactory(message).makePathProvider();
 
         if (!urlProvider) {
-            return sendTextReply(interaction, `${X_EMOJI} Unknown file source`, true);
+            await sendTextReply(interaction, `${X_EMOJI} Unknown file source`, true);
+            return;
         }
 
         const fileUrl = await urlProvider.getUrl();
 
         if (!fileUrl) {
-            sendTextReply(interaction, `${X_EMOJI} An error occured while fetching the file url`);
+            await sendTextReply(interaction, `${X_EMOJI} An error occured while fetching the file url`);
             return;
         }
 
@@ -76,7 +79,7 @@ class CompleteMemeCommand extends BaseCommand {
         const captionSetter = new MemeCaptionSetterFactory().makeCaptionSetter(fileExtension);
 
         if (!captionSetter) {
-            sendTextReply(interaction, `${X_EMOJI} Unsupported file type`);
+            await sendTextReply(interaction, `${X_EMOJI} Unsupported file type`);
             return;
         }
 
@@ -99,13 +102,14 @@ class CompleteMemeCommand extends BaseCommand {
 
         await handleFinishedResponse(message.channel, temporaryMessageData, finishedMemeData);
 
-        sendTextReply(interaction, "✅ Meme sent");
+        await sendTextReply(interaction, "✅ Meme sent");
     }
 
 }
 
-const sendMessageNotPreparedMessage = (interaction: any) => {
-    return sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
+const sendMessageNotPreparedMessage = async (interaction: any) => {
+    await sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
+    return;
 }
 
 const getFileExtension = (urlString: any) => {

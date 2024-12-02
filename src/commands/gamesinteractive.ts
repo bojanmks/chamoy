@@ -20,7 +20,7 @@ class GamesInteractiveCommand extends BaseCommand {
         const response = makeInteractiveGameEmbed(client);
 
         if (!response) {
-            sendGenericErrorReply(interaction);
+            await sendGenericErrorReply(interaction);
             return;
         }
         

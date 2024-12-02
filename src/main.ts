@@ -6,20 +6,24 @@ import useIndiciSettings from '@lib/undici/useUndiciSettings';
 
 dotenv.config();
 
-const client = new Client({
-    intents: [
-        IntentsBitField.Flags.Guilds,
-        IntentsBitField.Flags.GuildMembers,
-        IntentsBitField.Flags.GuildMessages,
-        IntentsBitField.Flags.MessageContent,
-        IntentsBitField.Flags.GuildVoiceStates
-    ]
-});
-
-eventHandler(client);
-
 const { setExtendedTimeoutGlobalDispatcher } = useIndiciSettings();
 
-setExtendedTimeoutGlobalDispatcher();
+const setup = async () => {
+    const client = new Client({
+        intents: [
+            IntentsBitField.Flags.Guilds,
+            IntentsBitField.Flags.GuildMembers,
+            IntentsBitField.Flags.GuildMessages,
+            IntentsBitField.Flags.MessageContent,
+            IntentsBitField.Flags.GuildVoiceStates
+        ]
+    });
 
-client.login(process.env.TOKEN);
+    await eventHandler(client);
+
+    setExtendedTimeoutGlobalDispatcher();
+
+    client.login(process.env.TOKEN);
+}
+
+setup();

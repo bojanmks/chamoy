@@ -1,5 +1,7 @@
 import path from "path";
-import getObjectsFromFilesInPath from "@util/getObjectsFromFilesInPath";
+import useFiles from "@modules/files/useFiles";
+
+const { getObjectsFromFilesInPath } = useFiles();
 
 const getJobs = async () => {
     const jobsPath = path.join(__dirname, '..', '..', 'jobs');

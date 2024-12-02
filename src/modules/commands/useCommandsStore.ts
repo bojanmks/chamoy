@@ -1,7 +1,9 @@
 import path from 'path';
-import getObjectsFromFilesInPath from '@util/getObjectsFromFilesInPath';
 import { Client, ApplicationCommandManager, ApplicationCommand, GuildResolvable } from 'discord.js';
 import { Command } from './useCommands';
+import useFiles from '@modules/files/useFiles';
+
+const { getObjectsFromFilesInPath } = useFiles();
 
 const getLocalCommands = async (folders = ['commands']): Promise<Command[]> => {
     const commandsPath = path.join(__dirname, '..', '..', ...folders);

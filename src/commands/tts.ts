@@ -40,16 +40,18 @@ class TtsCommand extends BaseCommand {
 
     override hasEphemeralResponse?: boolean | undefined = true;
     
-    execute(client: Client, interaction: CommandInteraction): void {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const serverId = interaction.guildId;
         if (isBusy(serverId)) {
-            return sendBotIsBusyReply(interaction);
+            await sendBotIsBusyReply(interaction);
+            return;
         }
 
         const interactionUser = interaction.member as GuildMember;
         const usersVoiceChannel = interactionUser.voice.channel;
         if (!usersVoiceChannel) {
-            return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            return;
         }
 
         const language = this.getParameter<string>(interaction, 'language');
@@ -69,7 +71,7 @@ class TtsCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`, true);
         }
         catch (error) {
             connection.disconnect();

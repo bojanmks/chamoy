@@ -1,12 +1,14 @@
 import path from 'path';
-import getAllFiles from '@util/getAllFiles';
 import { Client } from 'discord.js';
+import useFiles from '@modules/files/useFiles';
 
-export default (client: Client) => {
-    const eventFolders = getAllFiles(path.join(__dirname, '..', 'events'), true);
+const { getContentsOfDirectory } = useFiles();
+
+export default async (client: Client) => {
+    const eventFolders = getContentsOfDirectory(path.join(__dirname, '..', 'events'), true);
 
     for (const eventFolder of eventFolders) {
-        const eventFiles = getAllFiles(eventFolder);
+        const eventFiles = getContentsOfDirectory(eventFolder);
         eventFiles.sort((a: any, b: any) => {
             if (a > b) {
                 return 1;
@@ -19,16 +21,23 @@ export default (client: Client) => {
             return 0;
         });
         
-        const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
+        const eventName = eventFolder.replace(/\\/g, '/').split('/').pop() as string;
+        const loadedEventFunctions: { eventName: string, eventFunction: Function }[] = [];
+
+        for (const eventFile of eventFiles) {
+            const eventFunction = (await import(eventFile)).default;
+            loadedEventFunctions.push({
+                eventName,
+                eventFunction
+            });
+        }
 
         client.on(eventName!, async (arg1: any, arg2: any) => {
-            for (const eventFile of eventFiles) {
-                const eventFunction = (await import(eventFile)).default;
-
+            for (const el of loadedEventFunctions) {
                 try {
-                    await eventFunction(client, arg1, arg2);
+                    await el.eventFunction(client, arg1, arg2);
                 } catch (error) {
-                    console.error(`❌ There was an handling the the ${eventFile} event.`);
+                    console.error(`❌ There was an handling the the ${el.eventName} event.`);
                     console.error(error);
                 }
             }

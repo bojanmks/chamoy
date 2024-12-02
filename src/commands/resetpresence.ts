@@ -18,11 +18,11 @@ class ResetPresenceCommand extends BaseCommand {
     override hasEphemeralResponse?: boolean | undefined = true;
     
     execute(client: Client, interaction: CommandInteraction): void {
-        onCanChangePresence(() => {
+        onCanChangePresence(async () => {
             client.user?.setPresence(defaultPresence);
-            sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`, true);
-        }, () => {
-            sendPresenceChangeTimeLeftReply(interaction);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`, true);
+        }, async () => {
+            await sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }

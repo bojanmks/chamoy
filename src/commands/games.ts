@@ -28,13 +28,13 @@ class GamesCommand extends BaseCommand {
     override hasEphemeralParameter?: boolean | undefined = true;
     override ephemeralParameterDefaultValue?: boolean | undefined = false;
 
-    execute(client: Client, interaction: CommandInteraction): void {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const gameId = this.getParameter<number>(interaction, 'game');
         const ephemeral = this.getParameter<boolean>(interaction, 'ephemeral');
 
         const embed = makeGameEmbed(client, gameId!);
 
-        sendReply(interaction, {
+        await sendReply(interaction, {
             embeds: [embed!],
             ephemeral: ephemeral!
         });

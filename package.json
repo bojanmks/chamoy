@@ -34,7 +34,6 @@
     "@events": "./src/events",
     "@commands": "./src/commands",
     "@modules": "./src/modules",
-    "@util": "./src/util",
     "@assets": "./src/assets",
     "@data": "./src/data",
     "@lib": "./src/lib"

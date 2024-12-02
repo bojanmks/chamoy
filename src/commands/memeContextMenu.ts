@@ -27,7 +27,7 @@ class MemeContextMenuCommand extends BaseCommand {
             inline: false
         });
 
-        sendReply(interaction, {
+        await sendReply(interaction, {
             embeds: [embed],
             ephemeral: this.hasEphemeralResponse
         });

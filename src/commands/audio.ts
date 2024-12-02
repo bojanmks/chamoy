@@ -35,24 +35,28 @@ class AudioCommand extends BaseCommand {
 
     override hasEphemeralResponse?: boolean | undefined = true;
 
-    execute(client: Client, interaction: CommandInteraction): void {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const serverId = interaction.guildId;
 
         if (isBusy(serverId)) {
-            return sendBotIsBusyReply(interaction);
+            await sendBotIsBusyReply(interaction);
+            return;
         }
 
         const interactionUser = interaction.member as GuildMember;
         const usersVoiceChannel = interactionUser.voice.channel;
+
         if (!usersVoiceChannel) {
-            return sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            return;
         }
 
         const audioId = this.getParameter<number>(interaction, 'name');
         const audio = findAudioTrack(audioId);
 
         if (!audio) {
-            return sendGenericErrorReply(interaction);
+            await sendGenericErrorReply(interaction);
+            return;
         }
 
         const connection = joinVoiceChannel({
@@ -75,7 +79,7 @@ class AudioCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
+            await sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
         }
         catch (error) {
             connection.disconnect();

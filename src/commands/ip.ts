@@ -36,25 +36,28 @@ class IpCommand extends BaseCommand {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
         };
 
-        await axios.get(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member`, { headers })
-            .then((data: any) => {
-                const members = data.data.filter((x: any) => x.nodeId?.includes(keyword)
-                                                   || x.name?.includes(keyword)
-                                                   || x.config?.ipAssignments.some((ipAs: any) => ipAs.includes(keyword)));
+        try {
+            const response = await axios.get(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member`, { headers });
 
-                const embed = makeBaseEmbed(client, 'IP');
-                generateEmbed(embed, members);
+            const members = response.data.filter((x: any) =>
+                x.nodeId?.includes(keyword)
+                || x.name?.includes(keyword)
+                || x.config?.ipAssignments.some((ipAs: any) => ipAs.includes(keyword))
+            );
 
-                sendReply(interaction, {
-                    embeds: [embed],
-                    ephemeral: ephemeral as boolean
-                });
-            })
-            .catch((error: any) => {
-                console.error('❌ Error fetching zero tier members:');
-                console.error(error);
-                sendGenericErrorReply(interaction);
+            const embed = makeBaseEmbed(client, 'IP');
+            generateEmbed(embed, members);
+
+            await sendReply(interaction, {
+                embeds: [embed],
+                ephemeral: ephemeral as boolean
             });
+        }
+        catch (error) {
+            console.error('❌ Error fetching zero tier members:');
+            console.error(error);
+            await sendGenericErrorReply(interaction);
+        }
     }
 
 }

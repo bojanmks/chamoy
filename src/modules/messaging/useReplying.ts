@@ -18,7 +18,7 @@ const sendTextReply = (interaction: CommandInteraction, content: string, ephemer
         ephemeral
     };
 
-    sendReply(interaction, replyContent);
+    return sendReply(interaction, replyContent);
 }
 
 export default () => {

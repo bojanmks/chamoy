@@ -15,8 +15,8 @@ class PingCommand extends BaseCommand {
 
     override hasEphemeralResponse?: boolean | undefined = true;
     
-    execute(client: Client, interaction: CommandInteraction): void {
-        sendTextReply(interaction, 'pong', true);
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
+        await sendTextReply(interaction, 'pong', true);
     }
 
 }

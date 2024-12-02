@@ -29,14 +29,14 @@ class SayCommand extends BaseCommand {
 
     override hasEphemeralResponse?: boolean | undefined = true;
     
-    execute(client: Client, interaction: CommandInteraction): void {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const messageToSend = this.getParameter<string>(interaction, 'message')!;
 
         if (interaction.channel?.type === ChannelType.GuildText) {
             interaction.channel?.send(messageToSend);
         }
 
-        sendTextReply(interaction, `${CHECK_EMOJI} Message sent`, true);
+        await sendTextReply(interaction, `${CHECK_EMOJI} Message sent`, true);
     }
 }
 

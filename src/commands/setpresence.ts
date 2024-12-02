@@ -75,16 +75,16 @@ class SetPresenceCommand extends BaseCommand {
     override hasEphemeralResponse?: boolean | undefined = true;
 
     execute(client: Client, interaction: CommandInteraction): void {
-        onCanChangePresence(() => {
+        onCanChangePresence(async () => {
             const activityName = this.getParameter<string>(interaction, 'name');
             const activityType = this.getParameter<number>(interaction, 'type');
             const status = this.getParameter<string>(interaction, 'status');
 
             setPresence(client, activityName, activityType, status);
 
-            sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
-        }, () => {
-            sendPresenceChangeTimeLeftReply(interaction);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
+        }, async () => {
+            await sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }

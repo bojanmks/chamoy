@@ -28,7 +28,7 @@ const handleHelpResponse = async (client: any, interaction: any, userId: any) =>
     const commands = await getAvailableCommandsForUser(userId);
 
     if (!commands || !commands.length) {
-        sendGenericErrorReply(interaction);
+        await sendGenericErrorReply(interaction);
         return;
     }
 

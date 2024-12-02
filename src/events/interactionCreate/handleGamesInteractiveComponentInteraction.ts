@@ -7,25 +7,25 @@ const { sendGenericErrorReply } = useErrorReplying();
 const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = useGamesConstants();
 const { makeInteractiveGameEmbed } = useGameEmbeds();
 
-export default (client: Client, interaction: any) => {
+export default async (client: Client, interaction: any) => {
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX)) {
         const selectedGameId = parseInt(interaction.values[0]);
-        handleGameSelect(client, interaction, selectedGameId);
+        await handleGameSelect(client, interaction, selectedGameId);
         return;
     }
     
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX)) {
         const selectedGameId = parseInt(interaction.customId.split('-')[1]);
-        handleGameSelect(client, interaction, selectedGameId);
+        await handleGameSelect(client, interaction, selectedGameId);
         return;
     }
 }
 
-const handleGameSelect = (client: Client, interaction: any, selectedGameId: any) => {
+const handleGameSelect = async (client: Client, interaction: any, selectedGameId: any) => {
     const response = makeInteractiveGameEmbed(client, selectedGameId);
 
     if (!response) {
-        sendGenericErrorReply(interaction);
+        await sendGenericErrorReply(interaction);
         return;
     }
 

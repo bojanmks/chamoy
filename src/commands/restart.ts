@@ -19,7 +19,7 @@ class RestartCommand extends BaseCommand {
     override hasEphemeralResponse?: boolean | undefined = true;
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
-        sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);
+        await sendTextReply(interaction, ':arrows_counterclockwise: Restarting', true);
 
         const body = {
             signal: 'restart'
@@ -29,12 +29,14 @@ class RestartCommand extends BaseCommand {
             'Authorization': 'Bearer ' + process.env.SPARKEDHOST_API_KEY
         };
 
-        await axios.post(process.env.POWER_API_ENDPOINT!, body, { headers })
-            .catch((error: any) => {
-                console.error('❌ Error restarting the bot:');
-                console.error(error);
-                sendGenericErrorReply(interaction);
-            });
+        try {
+            await axios.post(process.env.POWER_API_ENDPOINT!, body, { headers });
+        }
+        catch (error) {
+            console.error('❌ Error restarting the bot:');
+            console.error(error);
+            await sendGenericErrorReply(interaction);
+        }
     }
 }
 

@@ -41,15 +41,15 @@ class SetNodeNameCommand extends BaseCommand {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
         };
 
-        await axios.post(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member/${nodeId}`, { name: newName }, { headers })
-            .then((_: any) => {
-                sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
-            })
-            .catch((error: any) => {
-                console.error('❌ Error updating a zero tier node name:');
-                console.error(error);
-                sendGenericErrorReply(interaction);
-            });
+        try {
+            await axios.post(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member/${nodeId}`, { name: newName }, { headers });
+            await sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
+        }
+        catch (error) {
+            console.error('❌ Error updating a zero tier node name:');
+            console.error(error);
+            await sendGenericErrorReply(interaction);
+        }
     }
 }
 

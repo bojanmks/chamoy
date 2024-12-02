@@ -17,12 +17,12 @@ class ClearPresenceCommand extends BaseCommand {
 
     override hasEphemeralResponse?: boolean | undefined = true;
     
-    execute(client: Client, interaction: CommandInteraction): void {
-        onCanChangePresence(() => {
+    async execute(client: Client, interaction: CommandInteraction): Promise<void> {
+        onCanChangePresence(async () => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
-            sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);
-        }, () => {
-            sendPresenceChangeTimeLeftReply(interaction);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);
+        }, async () => {
+            await sendPresenceChangeTimeLeftReply(interaction);
         });
     }
 }
