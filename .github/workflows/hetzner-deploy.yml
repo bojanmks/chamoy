@@ -1,0 +1,26 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Deploy to Hetzner
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.HETZNER_HOST }}
+        username: ${{ secrets.HETZNER_USER }}
+        key: ${{ secrets.HETZNER_KEY }}
+        port: 22
+        script: |
+          cd ~/projects/chamoy
+          ./deploy.sh
