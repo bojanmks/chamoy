@@ -1,7 +1,7 @@
 import { ApplicationCommand, GuildResolvable } from "discord.js";
-import { Command } from "./useCommands";
+import { ICommand } from "./models/ICommand";
 
-const areCommandsDifferent = (existingCommand: ApplicationCommand<{ guild: GuildResolvable }>, localCommand: Command) => {
+const areCommandsDifferent = (existingCommand: ApplicationCommand<{ guild: GuildResolvable }>, localCommand: ICommand) => {
     if (
         (existingCommand.description || '') !== (localCommand.description || '') ||
         (existingCommand.options?.length || 0) !== (localCommand.computedOptions?.length || 0) ||

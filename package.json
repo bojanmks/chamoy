@@ -9,6 +9,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.18.0",
+    "@prisma/client": "^6.0.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node-schedule": "^2.1.7",
@@ -19,6 +20,7 @@
     "cors": "^2.8.5",
     "discord.js": "^14.16.3",
     "dotenv": "^16.3.1",
+    "express": "^4.21.2",
     "ffmpeg-static": "^5.2.0",
     "form-data": "^4.0.0",
     "gtts": "^0.2.1",
@@ -36,10 +38,13 @@
     "@modules": "./src/modules",
     "@assets": "./src/assets",
     "@data": "./src/data",
-    "@lib": "./src/lib"
+    "@lib": "./src/lib",
+    "@express": "./src/express",
+    "@database": "./src/database"
   },
   "devDependencies": {
     "@types/node": "^20.14.2",
+    "prisma": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },

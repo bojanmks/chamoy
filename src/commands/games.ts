@@ -1,27 +1,31 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from 'discord.js';
 import useReplying from '@modules/messaging/useReplying';
-import useGames from '@modules/games/useGames';
 import useGameEmbeds from '@modules/games/useGameEmbeds';
-import useCommands, { CommandParameter } from '@modules/commands/useCommands';
-import useCommandChoices from '@modules/commands/useCommandChoices';
+import useCommands from '@modules/commands/useCommands';
+import useRepositories from '@database/repositories/useRepositories';
+import { Game } from '@modules/games/models/Game';
+import { ICommandParameter } from '@modules/commands/models/ICommandParameter';
 
 const { sendReply } = useReplying();
-const { getGames } = useGames();
 const { makeGameEmbed } = useGameEmbeds();
 const { BaseCommand } = useCommands();
-const { makeCommandChoices } = useCommandChoices();
+const { gamesRepository } = useRepositories();
 
 class GamesCommand extends BaseCommand {
     name: string = 'games';
     description: string = 'Get game links';
     
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'game',
             description: 'Name of the game',
             type: ApplicationCommandOptionType.Number,
             required: true,
-            choices: makeCommandChoices(getGames())
+            choicesRepositoryOptions: {
+                repository: gamesRepository,
+                choiceNameGetter: (entity: Game) => entity.name,
+                choiceValueGetter: (entity: Game) => entity.id
+            }
         }
     ];
 
@@ -32,7 +36,7 @@ class GamesCommand extends BaseCommand {
         const gameId = this.getParameter<number>(interaction, 'game');
         const ephemeral = this.getParameter<boolean>(interaction, 'ephemeral');
 
-        const embed = makeGameEmbed(client, gameId!);
+        const embed = await makeGameEmbed(client, gameId!);
 
         await sendReply(interaction, {
             embeds: [embed!],

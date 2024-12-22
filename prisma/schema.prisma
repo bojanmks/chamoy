@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url = env("DATABASE_URL")
+}
+
+model Audio {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  filePath String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("Audios")
+}
+
+model Game {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  thumbnail String @db.VarChar(255)
+  deleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  gameLinks GameLink[]
+
+  @@map("Games")
+}
+
+model GameLink {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  link String @db.VarChar(255)
+  deleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  gameId Int
+  game Game @relation(fields: [gameId], references: [id])
+
+  @@map("GameLinks")
+}

@@ -5,8 +5,8 @@ import useReplying from "@modules/messaging/useReplying";
 import useTtsLanguages from "@modules/tts/useTtsLanguages";
 import useEmojis from "@modules/emojis/useEmojis";
 import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands, { CommandParameter } from "@modules/commands/useCommands";
-import useCommandChoices from "@modules/commands/useCommandChoices";
+import useCommands from "@modules/commands/useCommands";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 
 const gTTS = require("gtts");
 
@@ -16,19 +16,21 @@ const { getTtsLanguges, findTtsLanguage } = useTtsLanguages();
 const { CHECK_EMOJI, X_EMOJI } = useEmojis();
 const { sendBotIsBusyReply } = useErrorReplying();
 const { BaseCommand } = useCommands();
-const { makeCommandChoices } = useCommandChoices();
 
 class TtsCommand extends BaseCommand {
     name: string = 'tts';
     override description?: string = 'Make bot say a message in current voice channel';
 
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'language',
             description: 'Language',
             type: ApplicationCommandOptionType.String,
             required: true,
-            choices: makeCommandChoices(getTtsLanguges())
+            choices: getTtsLanguges().map((x: any) => ({
+                name: x.name,
+                value: x.id
+            }))
         },
         {
             name: 'message',

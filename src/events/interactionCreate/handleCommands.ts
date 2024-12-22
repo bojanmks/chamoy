@@ -12,7 +12,7 @@ const { DEVS } = useConfig();
 export default async (client: Client, interaction: Interaction) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
-    const localCommands = await getLocalCommands(['commands']);
+    const localCommands = await getLocalCommands();
     const commandObject = localCommands.find((cmd: any) => cmd.name === interaction.commandName);
 
     if (!commandObject) {
@@ -39,11 +39,11 @@ export default async (client: Client, interaction: Interaction) => {
 
     try {
         await commandObject.execute(client, interaction);
-    } catch (e: any) {
+    } catch (error: any) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
-        console.error(e);
+        console.error(error);
 
-        if (!e?.name?.includes("ConnectTimeoutError")) {
+        if (!error?.name?.includes("ConnectTimeoutError")) {
             await sendGenericErrorReply(interaction);
         }
     }

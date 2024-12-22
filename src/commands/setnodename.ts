@@ -3,8 +3,9 @@ import { default as axios } from "axios";
 import useReplying from "@modules/messaging/useReplying";
 import useEmojis from "@modules/emojis/useEmojis";
 import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCommands from "@modules/commands/useCommands";
 import useZeroTier from "@modules/zeroTier/useZeroTier";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 
 const { sendTextReply } = useReplying();
 const { CHECK_EMOJI } = useEmojis();
@@ -16,7 +17,7 @@ class SetNodeNameCommand extends BaseCommand {
     name: string = 'setnodename';
     description?: string = 'Sets a name for a zero tier user';
     
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'nodeid',
             description: 'User node ID',

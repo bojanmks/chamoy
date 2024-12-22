@@ -1,7 +1,9 @@
 import { ApplicationCommandOptionType, ChannelType, Client, CommandInteraction } from "discord.js";
 import useReplying from "@modules/messaging/useReplying";
 import useEmojis from "@modules/emojis/useEmojis";
-import useCommands, { CommandParameter, CommandUserResponse } from "@modules/commands/useCommands";
+import useCommands from "@modules/commands/useCommands";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
+import { ICommandUserResponse } from "@modules/commands/models/ICommandUserResponse";
 
 const { sendTextReply } = useReplying();
 const { CHECK_EMOJI, CLOWN_EMOJI } = useEmojis();
@@ -11,7 +13,7 @@ class SayCommand extends BaseCommand {
     name: string = 'say';
     description?: string = 'Make bot send a message';
 
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'message',
             description: 'Message to send',
@@ -20,7 +22,7 @@ class SayCommand extends BaseCommand {
         }
     ];
 
-    override userResponses?: CommandUserResponse[] = [
+    override userResponses?: ICommandUserResponse[] = [
         {
             userId: '478912904691974155',
             response: `desi ti jbt ${CLOWN_EMOJI}`
