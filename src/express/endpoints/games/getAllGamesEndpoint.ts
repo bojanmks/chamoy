@@ -6,7 +6,7 @@ const { gamesRepository } = useRepositories();
 
 const getAllGamesEndpoint: Endpoint = {
     method: 'get',
-    route: 'games',
+    route: '/games',
     async handler(req): Promise<ActionResult<Game[]>> {
         const result = await gamesRepository.getAll({ include: { gameLinks: true } });
 
@@ -14,7 +14,7 @@ const getAllGamesEndpoint: Endpoint = {
             status: ActionResultStatus.Success,
             result
         };
-    },
+    }
 };
 
 export default getAllGamesEndpoint;

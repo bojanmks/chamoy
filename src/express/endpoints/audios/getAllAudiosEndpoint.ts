@@ -6,7 +6,7 @@ const { audioRepository } = useRepositories();
 
 const getAllAudiosEndpoint: Endpoint = {
     method: 'get',
-    route: 'audios',
+    route: '/audios',
     async handler(req): Promise<ActionResult<Audio[]>> {
         const result = await audioRepository.getAll();
 

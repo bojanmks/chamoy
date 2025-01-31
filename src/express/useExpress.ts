@@ -1,22 +1,42 @@
+const cookieParser = require("cookie-parser");
 import useFiles from '@modules/files/useFiles';
 import express from 'express';
 import path from 'path';
 import { ActionResultStatus, Endpoint } from './endpoints/Endpoint';
+import cors from 'cors';
+import useExpressMidlewares from '@lib/express/useExpressMidlewares';
+import useDiscordAuth from '@modules/auth/useDiscordAuth';
 
 const app = express();
-const PORT = process.env.EXPRESS_PORT
+
+app.use(
+    cors({
+        origin: process.env.FRONTEND_APP_URL,
+        credentials: true
+    })
+);
+
+app.use(cookieParser());
+
+const PORT = process.env.EXPRESS_PORT;
 
 const { getContentsOfDirectory, getObjectsFromFilesInPath } = useFiles();
+const { setupDiscordAuth } = useDiscordAuth();
+const { isAuthenticatedMiddleware } = useExpressMidlewares();
 
 const startExpressServer = (): Promise<void> => {
     return new Promise(async resolve => {
+        await setupDiscordAuth(app);
+
         const endpointFolders = getContentsOfDirectory(path.join(__dirname, 'endpoints'), true);
 
         for (const folder of endpointFolders) {
             const endpoints: Endpoint[] = await getObjectsFromFilesInPath(folder);
 
             for (const endpoint of endpoints) {
-                app[endpoint.method](`/api/${endpoint.route}`, async (req, res) => {
+                const routeMiddlewares = endpoint.doNotAuthorize ? [] : [isAuthenticatedMiddleware];
+
+                app[endpoint.method](`/api${endpoint.route}`, ...routeMiddlewares, async (req, res) => {
                     try {
                         if (endpoint.validator) {
                             const validationResult = await endpoint.validator(req);
@@ -29,7 +49,7 @@ const startExpressServer = (): Promise<void> => {
                             }
                         }
     
-                        const endpointResult = await endpoint.handler(req);
+                        const endpointResult = await endpoint.handler(req, res);
     
                         switch (endpointResult.status) {
                             case ActionResultStatus.Success:
@@ -55,16 +75,28 @@ const startExpressServer = (): Promise<void> => {
                                     errors: endpointResult.errors
                                 });
                                 break;
+
+                            case ActionResultStatus.Forbidden:
+                                await res.status(403).send({
+                                    errors: endpointResult.errors
+                                });
+                                break;
+
+                            case ActionResultStatus.Unauthorized:
+                                await res.status(401).send({
+                                    errors: endpointResult.errors
+                                });
+                                break;
                         }
                     }
                     catch (error) {
-                        console.error(`❌ Error handling the request on the ${endpoint.method.toUpperCase()} /api/${endpoint.route} endpoint`);
+                        console.error(`❌ Error handling the request on the ${endpoint.method.toUpperCase()} /api${endpoint.route} endpoint`);
                         console.error(error);
                         await res.status(500).send();
                     }
                 });
 
-                console.log(`🔗 Registered route ${endpoint.method.toUpperCase()} /api/${endpoint.route}`);
+                console.log(`🔗 Registered route ${endpoint.method.toUpperCase()} /api${endpoint.route}`);
             }
         }
 
