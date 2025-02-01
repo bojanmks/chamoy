@@ -71,7 +71,7 @@ const setupDiscordAuth = async (app: Express) => {
     }),
     async (req, res) => {
         const redirect = () => {
-            res.redirect(`${process.env.FRONTEND_APP_URL}/discord-authenticate`);
+            res.redirect(`${process.env.FRONTEND_APP_URL}/unauthorized/discord-authenticate`);
         }
 
         if (!req.user) {
