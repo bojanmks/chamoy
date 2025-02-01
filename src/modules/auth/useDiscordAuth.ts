@@ -12,9 +12,9 @@ import useRefreshTokens from "./useRefreshTokens";
 import useUserSessionDataStore from "./useUserSessionDataStore";
 
 const { getRedisClient } = useRedis();
-const { DISCORD_AUTH_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY, REFRESH_TOKEN_EXPIRATION_IN_SECONDS } = useAuthConstants();
+const { DISCORD_AUTH_COOKIE_KEY } = useAuthConstants();
 const { isDevelopment } = useEnvironments();
-const { makeRefreshToken, storeRefreshToken } = useRefreshTokens();
+const { makeRefreshToken, storeRefreshToken, setResponseRefreshTokenCookie } = useRefreshTokens();
 const { storeUserSessionData } = useUserSessionDataStore();
 
 const setupDiscordAuth = async (app: Express) => {
@@ -84,11 +84,7 @@ const setupDiscordAuth = async (app: Express) => {
 
         await storeRefreshToken(userId, refreshToken);
 
-        res.cookie(REFRESH_TOKEN_COOKIE_KEY, refreshToken, {
-            httpOnly: true,
-            secure: !isDevelopment(),
-            maxAge: REFRESH_TOKEN_EXPIRATION_IN_SECONDS * 1000
-        });
+        setResponseRefreshTokenCookie(res, refreshToken);
 
         redirect();
     });

@@ -1,9 +1,12 @@
 import crypto from 'crypto';
 import useRedis from "@lib/redis/useRedis"
 import useAuthConstants from "./useAuthConstants";
+import { Response } from 'express';
+import useEnvironments from '@modules/environments/useEnvironments';
 
 const { getRedisClient } = useRedis();
-const { REFRESH_TOKEN_EXPIRATION_IN_SECONDS } = useAuthConstants();
+const { REFRESH_TOKEN_EXPIRATION_IN_SECONDS, REFRESH_TOKEN_COOKIE_KEY } = useAuthConstants();
+const { isDevelopment } = useEnvironments();
 
 const REFRESH_TOKEN_REDIS_KEY: string = "chamoyRefreshToken";
 
@@ -42,11 +45,20 @@ const deleteUsersRefreshToken = async (userId: string) => {
     await redisClient.del(`${REFRESH_TOKEN_REDIS_KEY}:${userId}`);
 }
 
+const setResponseRefreshTokenCookie = (res: Response, refreshToken: string) => {
+    res.cookie(REFRESH_TOKEN_COOKIE_KEY, refreshToken, {
+        httpOnly: true,
+        secure: !isDevelopment(),
+        maxAge: REFRESH_TOKEN_EXPIRATION_IN_SECONDS * 1000
+    });
+}
+
 export default () => {
     return {
         makeRefreshToken,
         storeRefreshToken,
         findUserIdByRefreshToken,
-        deleteUsersRefreshToken
+        deleteUsersRefreshToken,
+        setResponseRefreshTokenCookie
     }
 }

@@ -6,6 +6,7 @@ import useUserSessionDataStore from "@modules/auth/useUserSessionDataStore";
 const { REFRESH_TOKEN_COOKIE_KEY } = useAuthConstants();
 const { findUserIdByRefreshToken } = useRefreshTokens();
 const { findUserSessionDataByUserId } = useUserSessionDataStore();
+const { makeRefreshToken, storeRefreshToken, setResponseRefreshTokenCookie } = useRefreshTokens();
 
 const refreshTokenEndpoint: Endpoint = {
     method: 'post',
@@ -43,6 +44,12 @@ const refreshTokenEndpoint: Endpoint = {
                 });
             });
         });
+
+        const newRefreshToken = makeRefreshToken();
+
+        await storeRefreshToken(userId, newRefreshToken);
+
+        setResponseRefreshTokenCookie(res, refreshToken);
 
         return {
             status: ActionResultStatus.Success
