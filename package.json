@@ -34,8 +34,7 @@
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
     "redis": "^4.7.0",
-    "string-similarity": "^4.0.4",
-    "text-on-gif": "^2.0.13"
+    "string-similarity": "^4.0.4"
   },
   "_moduleAliases": {
     "~": ".",

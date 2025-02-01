@@ -1,18 +1,11 @@
-import { default as axios } from "axios";
 import FormData from 'form-data';
+import { default as axios } from "axios";
 
 const cheerio = require("cheerio");
 
 const ezgifBaseUrl = 'https://ezgif.com';
 
 class EzGifGifCaptionSetter {
-
-    fallbackCaptionSetter;
-
-    constructor(fallbackCaptionSetter: any) {
-        this.fallbackCaptionSetter = fallbackCaptionSetter;
-    }
-
     async setCaption(filePath: any, {
         topCaption,
         bottomCaption,
@@ -41,8 +34,7 @@ class EzGifGifCaptionSetter {
             console.log('❌ Error adding a caption to a gif using EzGif:');
             console.error(error);
 
-            console.log('🔃 Trying to use a different method to set the caption');
-            return this.fallbackCaptionSetter.setCaption(filePath, { topCaption, bottomCaption, fontSize });
+            throw error;
         }
     }
 }
