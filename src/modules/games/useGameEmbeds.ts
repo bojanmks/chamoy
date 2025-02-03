@@ -1,16 +1,17 @@
 import useEmbeds from "@modules/embeds/useEmbeds";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import useGames from "./useGames";
 import useStrings from "@modules/shared/useStrings";
 import useGamesConstants from "./useGamesConstants";
+import useRepositories from "@database/repositories/useRepositories";
+import { Game } from "./models/Game";
 
 const { makeBaseEmbed } = useEmbeds();
-const { getGames, findGame } = useGames();
 const { randomString } = useStrings();
 const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = useGamesConstants();
+const { gamesRepository } = useRepositories();
 
-const makeGameEmbed = (client: Client, gameId: number) => {
-    const game = findGame(gameId);
+const makeGameEmbed = async (client: Client, gameId: number) => {
+    const game = (await gamesRepository.find(gameId, { include: { gameLinks: true } }));
 
     if (!game) {
         return null;
@@ -22,10 +23,10 @@ const makeGameEmbed = (client: Client, gameId: number) => {
     return embed;
 }
 
-const addLinksToEmbed = (embed: any, game: any) => {
-    const activeLinks = game.links.filter((x: any) => !x.deleted);
+const addLinksToEmbed = (embed: any, game: Game) => {
+    const activeLinks = game.gameLinks!.filter((x: any) => !x.deleted);
     for(let i in activeLinks) {
-        addLinkToEmbed(embed, parseInt(i) + 1, game.links[i]);
+        addLinkToEmbed(embed, parseInt(i) + 1, game.gameLinks![i]);
     }
 
     if(game.thumbnail) {
@@ -52,11 +53,11 @@ const REFRESH_BUTTON = new ButtonBuilder()
     .setLabel('Refresh')
     .setEmoji('🔃');
 
-const makeInteractiveGameEmbed = (client: Client, selectedGameId: number | null = null): any => {
+const makeInteractiveGameEmbed = async (client: Client, selectedGameId: number | null = null): Promise<any> => {
     let embed;
 
     if (selectedGameId) {
-        embed = makeGameEmbed(client, selectedGameId);
+        embed = await makeGameEmbed(client, selectedGameId);
     } else {
         embed = makeBaseEmbed(client, 'Select a game');
 
@@ -70,7 +71,7 @@ const makeInteractiveGameEmbed = (client: Client, selectedGameId: number | null 
         return null;
     }
 
-    const components = makeInteractiveEmbedComponents(selectedGameId);
+    const components = await makeInteractiveEmbedComponents(selectedGameId);
 
     return {
         embeds: [embed],
@@ -78,8 +79,8 @@ const makeInteractiveGameEmbed = (client: Client, selectedGameId: number | null 
     };
 }
 
-function makeInteractiveEmbedComponents(selectedGameId: any) {
-    const games = getGames();
+const makeInteractiveEmbedComponents = async (selectedGameId: any) => {
+    const games = await gamesRepository.getAll();
 
     const generatedActionRows = [];
 

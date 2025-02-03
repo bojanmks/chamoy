@@ -3,7 +3,8 @@ import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
 import usePresence from "@modules/presence/usePresence";
 import useReplying from "@modules/messaging/useReplying";
 import useEmojis from "@modules/emojis/useEmojis";
-import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCommands from "@modules/commands/useCommands";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 
 const { setPresence } = usePresence();
 const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
@@ -15,7 +16,7 @@ class SetPresenceCommand extends BaseCommand {
     name: string = 'setpresence';
     description?: string = 'Set bot presence';
     
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'name',
             description: 'Activity name',

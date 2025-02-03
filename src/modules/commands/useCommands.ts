@@ -1,54 +1,18 @@
 import { ApplicationCommandType, Client, CommandInteraction, ApplicationCommandOptionType } from "discord.js";
+import { ICommand } from "./models/ICommand";
+import { ICommandParameter } from "./models/ICommandParameter";
+import { ICommandUserResponse } from "./models/ICommandUserResponse";
 
-export interface Command {
-    name: string;
-    description?: string;
-    options?: CommandParameter[];
-    deleted?: boolean;
-    type: ApplicationCommandType;
-    environments?: string[];
-    onlyDevs?: boolean;
-    userResponses?: CommandUserResponse[];
-    hasEphemeralResponse?: boolean;
-    hasEphemeralParameter?: boolean;
-    ephemeralParameterDefaultValue?: boolean;
-
-    execute(client: Client, interaction: CommandInteraction): void;
-
-    get computedOptions(): CommandParameter[];
-
-    getParameter<T>(interaction: CommandInteraction, parameterName: string): T | undefined
-}
-
-export interface CommandParameter {
-    name: string,
-    description: string,
-    type: ApplicationCommandOptionType,
-    choices?: CommandParameterChoice[],
-    required?: boolean,
-    default?: any
-}
-
-export interface CommandUserResponse {
-    userId: string;
-    response: string;
-}
-
-export interface CommandParameterChoice {
-    name: string,
-    value: any
-}
-
-abstract class BaseCommand implements Command {
+abstract class BaseCommand implements ICommand {
     abstract name: string;
 
     description?: string | undefined;
-    options?: CommandParameter[] | undefined;
+    options?: ICommandParameter[] | undefined;
     deleted?: boolean | undefined;
     type: ApplicationCommandType = ApplicationCommandType.ChatInput;;
     environments?: string[] | undefined;
     onlyDevs?: boolean | undefined;
-    userResponses?: CommandUserResponse[] | undefined;
+    userResponses?: ICommandUserResponse[] | undefined;
 
     hasEphemeralResponse?: boolean | undefined;
     hasEphemeralParameter?: boolean | undefined;
@@ -56,7 +20,7 @@ abstract class BaseCommand implements Command {
 
     abstract execute(client: Client, interaction: CommandInteraction): void;
 
-    get computedOptions(): CommandParameter[] {
+    get computedOptions(): ICommandParameter[] {
         const commandOptions = [...(this.options ?? [])];
 
         if (this.hasEphemeralParameter) {

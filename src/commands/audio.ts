@@ -3,32 +3,36 @@ import path from 'path';
 import { joinVoiceChannel, createAudioResource } from '@discordjs/voice';
 import useBusy from '@modules/busy/useBusy';
 import useReplying from '@modules/messaging/useReplying';
-import useAudioTracks from '@modules/audio/useAudioTracks';
 import useAudioPlayer from '@modules/audio/useAudioPlayer';
 import useEmojis from '@modules/emojis/useEmojis';
 import useErrorReplying from '@modules/errors/useErrorReplying';
-import useCommands, { CommandParameter } from '@modules/commands/useCommands';
-import useCommandChoices from '@modules/commands/useCommandChoices';
+import useCommands from '@modules/commands/useCommands';
+import useRepositories from '@database/repositories/useRepositories';
+import { Audio } from '@modules/audio/models/Audio'
+import { ICommandParameter } from '@modules/commands/models/ICommandParameter';
 
 const { isBusy, setBusy, setNotBusy } = useBusy();
 const { sendTextReply } = useReplying();
-const { getAudioTracks, findAudioTrack } = useAudioTracks();
 const { MyAudioPlayer } = useAudioPlayer();
 const { X_EMOJI, PLAY_EMOJI } = useEmojis();
 const { sendBotIsBusyReply, sendGenericErrorReply } = useErrorReplying();
 const { BaseCommand } = useCommands();
-const { makeCommandChoices } = useCommandChoices();
+const { audioRepository } = useRepositories();
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';
     description: string = 'Play audio';
 
-    override options: CommandParameter[] = [
+    override options: ICommandParameter[] = [
         {
             name: 'name',
             description: 'Name of the audio',
             type: ApplicationCommandOptionType.Number,
-            choices: makeCommandChoices(getAudioTracks()),
+            choicesRepositoryOptions: {
+                repository: audioRepository,
+                choiceNameGetter: (entity: Audio) => entity.name,
+                choiceValueGetter: (entity: Audio) => entity.id
+            },
             required: true
         }
     ];
@@ -52,7 +56,7 @@ class AudioCommand extends BaseCommand {
         }
 
         const audioId = this.getParameter<number>(interaction, 'name');
-        const audio = findAudioTrack(audioId);
+        const audio = await audioRepository.find(audioId!);
 
         if (!audio) {
             await sendGenericErrorReply(interaction);
@@ -68,7 +72,7 @@ class AudioCommand extends BaseCommand {
         try {
             setBusy(serverId);
 
-            const relativeFilePath = `./src/assets/audio/${audio.fileName}`;
+            const relativeFilePath = `./src/assets/audio/${audio.filePath}`;
             const absoluteFilePath = path.resolve(relativeFilePath);
             const audioResource = createAudioResource(absoluteFilePath);
 

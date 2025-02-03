@@ -17,7 +17,7 @@ class GamesInteractiveCommand extends BaseCommand {
     override ephemeralParameterDefaultValue?: boolean | undefined = false;
 
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
-        const response = makeInteractiveGameEmbed(client);
+        const response = await makeInteractiveGameEmbed(client);
 
         if (!response) {
             await sendGenericErrorReply(interaction);

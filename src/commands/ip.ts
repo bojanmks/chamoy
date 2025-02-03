@@ -3,8 +3,9 @@ import { ApplicationCommandOptionType, Client, CommandInteraction } from "discor
 import useEmbeds from "@modules/embeds/useEmbeds";
 import useReplying from "@modules/messaging/useReplying";
 import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCommands from "@modules/commands/useCommands";
 import useZeroTier from "@modules/zeroTier/useZeroTier";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 
 const { makeBaseEmbed } = useEmbeds();
 const { sendReply } = useReplying();
@@ -16,7 +17,7 @@ class IpCommand extends BaseCommand {
     name: string = 'ip';
     description: string = 'Get the list of zero tier network members';
 
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'keyword',
             description: 'Search by node id, name or ip',

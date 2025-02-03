@@ -22,7 +22,7 @@ export default async (client: Client, interaction: any) => {
 }
 
 const handleGameSelect = async (client: Client, interaction: any, selectedGameId: any) => {
-    const response = makeInteractiveGameEmbed(client, selectedGameId);
+    const response = await makeInteractiveGameEmbed(client, selectedGameId);
 
     if (!response) {
         await sendGenericErrorReply(interaction);

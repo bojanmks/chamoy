@@ -1,13 +1,11 @@
-import { Command } from '@modules/commands/useCommands';
+import { ICommand } from '@modules/commands/models/ICommand';
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import useConfig from '@modules/config/useConfig';
 import useEmbeds from "@modules/embeds/useEmbeds";
 import useEnvironments from '@modules/environments/useEnvironments';
 import useErrorReplying from '@modules/errors/useErrorReplying';
-import useReplying from '@modules/messaging/useReplying';
 import { ApplicationCommandType, ComponentType, Client, ButtonBuilder, ButtonStyle, ActionRowBuilder, InteractionResponse, Message } from "discord.js";
 
-const { sendReply } = useReplying();
 const { makeBaseEmbed } = useEmbeds();
 const { sendGenericErrorReply } = useErrorReplying();
 const { CURRENT_ENVIRONMENT } = useEnvironments();
@@ -17,7 +15,7 @@ const { DEVS } = useConfig();
 const COMMANDS_PER_PAGE = 10;
 
 const getAvailableCommandsForUser = async (userId: any) => {
-    const commands = (await getLocalCommands(['commands']))
+    const commands = (await getLocalCommands())
         .filter((x: any) => isCommandAvailable(x, userId) && x.type === ApplicationCommandType.ChatInput)
         .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
@@ -49,7 +47,7 @@ const isCommandAvailable = (command: any, userId: any) => {
     return true;
 }
 
-const generateMessage = (client: Client, commands: Command[], page = 0): any => {
+const generateMessage = (client: Client, commands: ICommand[], page = 0): any => {
     const embed = makeBaseEmbed(client, 'Commands');
 
     for (let command of commands.slice(COMMANDS_PER_PAGE * page, COMMANDS_PER_PAGE * (page + 1))) {
@@ -69,7 +67,7 @@ const generateMessage = (client: Client, commands: Command[], page = 0): any => 
     };
 }
 
-const commandNameWithParameters = (command: Command): string => {
+const commandNameWithParameters = (command: ICommand): string => {
     let commandName = "/" + command.name;
 
     if (!command.computedOptions?.length) {

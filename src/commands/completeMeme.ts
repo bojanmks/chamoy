@@ -2,10 +2,11 @@ import { ApplicationCommandOptionType, Client, CommandInteraction } from "discor
 import useWait from "@modules/shared/useWait";
 import useReplying from "@modules/messaging/useReplying";
 import useEmojis from "@modules/emojis/useEmojis";
-import useCommands, { CommandParameter } from "@modules/commands/useCommands";
+import useCommands from "@modules/commands/useCommands";
 import useCompleteMeme from "@modules/meme/useCompleteMeme";
 import useMemeCaptionSetters from "@modules/meme/useMemeCaptionSetters";
 import useMemeFileUrlProviders from "@modules/meme/useMemeFileUrlProviders";
+import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 
 const { wait } = useWait();
 const { sendTextReply } = useReplying();
@@ -21,7 +22,7 @@ class CompleteMemeCommand extends BaseCommand {
     name: string = 'completememe';
     description: string = 'Complete meme';
 
-    override options?: CommandParameter[] = [
+    override options?: ICommandParameter[] = [
         {
             name: 'toptext',
             description: 'Top text',
