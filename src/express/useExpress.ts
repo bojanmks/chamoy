@@ -15,8 +15,7 @@ const app = express();
 app.use(
     cors({
         origin: process.env.FRONTEND_APP_URL,
-        credentials: true,
-        exposedHeaders: ['Set-Cookie']
+        credentials: true
     })
 );
 
@@ -31,10 +30,6 @@ const { isDevelopment } = useEnvironments();
 
 if (!isDevelopment()) {
     app.set("trust proxy", 1);
-    console.log('set trust proxy')
-}
-else {
-    console.log('isDEvelopment')
 }
 
 const startExpressServer = (): Promise<void> => {
