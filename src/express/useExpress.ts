@@ -6,6 +6,7 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import useDiscordAuth from '@modules/auth/useDiscordAuth';
+import useEnvironments from '@modules/environments/useEnvironments';
 import useExpressMidlewares from '@lib/express/useExpressMidlewares';
 import useFiles from '@modules/files/useFiles';
 
@@ -26,6 +27,12 @@ const PORT = process.env.EXPRESS_PORT;
 const { getContentsOfDirectory, getObjectsFromFilesInPath } = useFiles();
 const { setupDiscordAuth } = useDiscordAuth();
 const { isAuthenticatedMiddleware } = useExpressMidlewares();
+const { isDevelopment } = useEnvironments();
+
+if (!isDevelopment()) {
+    app.set("trust proxy", 1);
+    console.log('set trust proxy')
+}
 
 const startExpressServer = (): Promise<void> => {
     return new Promise(async resolve => {
