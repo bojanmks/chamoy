@@ -30,7 +30,8 @@ const setupDiscordAuth = async (app: Express) => {
             cookie: {
                 httpOnly: true,
                 secure: !isDevelopment(),
-                maxAge: 15 * 60 * 1000, // 15 minutes
+                maxAge: 15 * 60 * 1000, // 15 minutes,
+                domain: process.env.SESSION_COOKIE_DOMAIN_SETTING
             }
         })
     );
