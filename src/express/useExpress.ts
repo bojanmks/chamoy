@@ -33,6 +33,9 @@ if (!isDevelopment()) {
     app.set("trust proxy", 1);
     console.log('set trust proxy')
 }
+else {
+    console.log('isDEvelopment')
+}
 
 const startExpressServer = (): Promise<void> => {
     return new Promise(async resolve => {
