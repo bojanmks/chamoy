@@ -1,13 +1,13 @@
+import { ApplicationUser } from "./models/ApplicationUser";
+import { Strategy as DiscordStrategy } from 'passport-discord';
 import { Express } from "express";
 import { RedisStore } from "connect-redis";
-import session from "express-session";
-import { Strategy as DiscordStrategy } from 'passport-discord';
-import passport from "passport";
 import { Roles } from "./enums/Roles";
-import { ApplicationUser } from "./models/ApplicationUser";
-import useRedis from "@lib/redis/useRedis";
+import passport from "passport";
+import session from "express-session";
 import useAuthConstants from "./useAuthConstants";
 import useEnvironments from "@modules/environments/useEnvironments";
+import useRedis from "@lib/redis/useRedis";
 import useRefreshTokens from "./useRefreshTokens";
 import useUserSessionDataStore from "./useUserSessionDataStore";
 
@@ -75,6 +75,7 @@ const setupDiscordAuth = async (app: Express) => {
         }
 
         if (!req.user) {
+            console.log(`❌ User session wasn't set during discord auth`);
             redirect();
             return;
         }
