@@ -1,18 +1,21 @@
 const cookieParser = require("cookie-parser");
-import useFiles from '@modules/files/useFiles';
+
+import { ActionResultStatus, Endpoint } from './endpoints/Endpoint';
+
+import cors from 'cors';
 import express from 'express';
 import path from 'path';
-import { ActionResultStatus, Endpoint } from './endpoints/Endpoint';
-import cors from 'cors';
-import useExpressMidlewares from '@lib/express/useExpressMidlewares';
 import useDiscordAuth from '@modules/auth/useDiscordAuth';
+import useExpressMidlewares from '@lib/express/useExpressMidlewares';
+import useFiles from '@modules/files/useFiles';
 
 const app = express();
 
 app.use(
     cors({
         origin: process.env.FRONTEND_APP_URL,
-        credentials: true
+        credentials: true,
+        exposedHeaders: ['Set-Cookie']
     })
 );
 
