@@ -43,7 +43,7 @@ const setupDiscordAuth = async (app: Express) => {
             {
                 clientID: process.env.CLIENT_ID!,
                 clientSecret: process.env.CLIENT_SECRET!,
-                callbackURL: `${process.env.SERVER_URL}:${process.env.EXPRESS_PORT}${process.env.DISCORD_AUTH_CALLBACK_ENDPOINT}`,
+                callbackURL: `${process.env.SERVER_URL}${process.env.DISCORD_AUTH_CALLBACK_ENDPOINT}`,
                 scope: ['identify', 'guilds'],
             },
             async (accessToken, refreshToken, profile, done) => {
