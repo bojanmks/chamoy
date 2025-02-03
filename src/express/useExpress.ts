@@ -15,7 +15,8 @@ const app = express();
 app.use(
     cors({
         origin: process.env.FRONTEND_APP_URL,
-        credentials: true
+        credentials: true,
+        exposedHeaders: ['Set-Cookie']
     })
 );
 
