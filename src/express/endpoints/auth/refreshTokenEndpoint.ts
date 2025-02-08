@@ -1,5 +1,6 @@
+import { ActionResult, ActionResultStatus, Endpoint } from "../Endpoint";
+
 import useAuthConstants from "@modules/auth/useAuthConstants";
-import { Endpoint, ActionResult, ActionResultStatus } from "../Endpoint";
 import useRefreshTokens from "@modules/auth/useRefreshTokens";
 import useUserSessionDataStore from "@modules/auth/useUserSessionDataStore";
 
@@ -49,7 +50,7 @@ const refreshTokenEndpoint: Endpoint = {
 
         await storeRefreshToken(userId, newRefreshToken);
 
-        setResponseRefreshTokenCookie(res, refreshToken);
+        setResponseRefreshTokenCookie(res, newRefreshToken);
 
         return {
             status: ActionResultStatus.Success

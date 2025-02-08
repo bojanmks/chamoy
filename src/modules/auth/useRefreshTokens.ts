@@ -1,8 +1,8 @@
-import crypto from 'crypto';
-import useRedis from "@lib/redis/useRedis"
-import useAuthConstants from "./useAuthConstants";
 import { Response } from 'express';
+import crypto from 'crypto';
+import useAuthConstants from "./useAuthConstants";
 import useEnvironments from '@modules/environments/useEnvironments';
+import useRedis from "@lib/redis/useRedis"
 
 const { getRedisClient } = useRedis();
 const { REFRESH_TOKEN_EXPIRATION_IN_SECONDS, REFRESH_TOKEN_COOKIE_KEY } = useAuthConstants();
