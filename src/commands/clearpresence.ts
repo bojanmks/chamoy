@@ -20,7 +20,7 @@ class ClearPresenceCommand extends BaseCommand {
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         onCanChangePresence(async () => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
-            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`);
         }, async () => {
             await sendPresenceChangeTimeLeftReply(interaction);
         });

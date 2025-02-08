@@ -20,7 +20,7 @@ class RefreshCommandsCommand extends BaseCommand {
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         await registerCommands(client);
-        await sendTextReply(interaction, `${CHECK_EMOJI} Commands refreshed`, true);
+        await sendTextReply(interaction, `${CHECK_EMOJI} Commands refreshed`);
     }
 }
 

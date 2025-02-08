@@ -35,7 +35,7 @@ const onCanChangePresence = async (successCallback: any, errorCallback: Function
 const sendPresenceChangeTimeLeftReply = (interaction: any) => {
     const secondsLeft = PRESENCE_CHANGE_COOLDOWN_IN_SECONDS - getSecondsSinceLastChange();
     const roundedSeconds = Math.ceil(secondsLeft);
-    return sendTextReply(interaction, `${X_EMOJI} Please wait ${roundedSeconds} seconds`, true);
+    return sendTextReply(interaction, `${X_EMOJI} Please wait ${roundedSeconds} seconds`);
 }
 
 const getSecondsSinceLastChange = (): number => {

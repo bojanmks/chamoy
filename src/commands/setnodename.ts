@@ -44,7 +44,7 @@ class SetNodeNameCommand extends BaseCommand {
 
         try {
             await axios.post(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member/${nodeId}`, { name: newName }, { headers });
-            await sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`);
         }
         catch (error) {
             console.error('❌ Error updating a zero tier node name:');

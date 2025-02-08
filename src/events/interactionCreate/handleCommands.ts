@@ -29,7 +29,7 @@ export default async (client: Client, interaction: Interaction) => {
 
     const foundUserReponse = commandObject.userResponses?.find((x: any) => x.userId === interaction.user.id);
     if (foundUserReponse) {
-        await sendTextReply(interaction, foundUserReponse.response, true);
+        await sendTextReply(interaction, foundUserReponse.response);
         return;
     }
 

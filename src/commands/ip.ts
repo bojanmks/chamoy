@@ -31,7 +31,6 @@ class IpCommand extends BaseCommand {
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const keyword = this.getParameter<string>(interaction, 'keyword');
-        const ephemeral = this.getParameter<boolean>(interaction, 'ephemeral');
 
         const headers = {
             'Authorization': 'token ' + process.env.ZERO_TIER_API_KEY
@@ -50,8 +49,7 @@ class IpCommand extends BaseCommand {
             generateEmbed(embed, members);
 
             await sendReply(interaction, {
-                embeds: [embed],
-                ephemeral: ephemeral as boolean
+                embeds: [embed]
             });
         }
         catch (error) {

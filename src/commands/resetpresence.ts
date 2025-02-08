@@ -20,7 +20,7 @@ class ResetPresenceCommand extends BaseCommand {
     execute(client: Client, interaction: CommandInteraction): void {
         onCanChangePresence(async () => {
             client.user?.setPresence(defaultPresence);
-            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was reset`);
         }, async () => {
             await sendPresenceChangeTimeLeftReply(interaction);
         });

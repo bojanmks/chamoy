@@ -1,4 +1,4 @@
-import { CommandInteraction, MessagePayload, InteractionReplyOptions } from "discord.js";
+import { CommandInteraction, InteractionReplyOptions, MessagePayload } from "discord.js";
 
 const sendReply = (interaction: CommandInteraction, data: string | MessagePayload | InteractionReplyOptions) => {
     if (interaction.deferred) {
@@ -12,10 +12,9 @@ const sendReply = (interaction: CommandInteraction, data: string | MessagePayloa
     return interaction.reply(data);
 }
 
-const sendTextReply = (interaction: CommandInteraction, content: string, ephemeral = false) => {
+const sendTextReply = (interaction: CommandInteraction, content: string) => {
     const replyContent = {
-        content,
-        ephemeral
+        content
     };
 
     return sendReply(interaction, replyContent);

@@ -38,7 +38,7 @@ class SayCommand extends BaseCommand {
             interaction.channel?.send(messageToSend);
         }
 
-        await sendTextReply(interaction, `${CHECK_EMOJI} Message sent`, true);
+        await sendTextReply(interaction, `${CHECK_EMOJI} Message sent`);
     }
 }
 

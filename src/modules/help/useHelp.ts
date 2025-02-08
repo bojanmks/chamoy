@@ -1,10 +1,11 @@
+import { ActionRowBuilder, ApplicationCommandType, ButtonBuilder, ButtonStyle, Client, ComponentType, InteractionResponse, Message } from "discord.js";
+
 import { ICommand } from '@modules/commands/models/ICommand';
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import useConfig from '@modules/config/useConfig';
 import useEmbeds from "@modules/embeds/useEmbeds";
 import useEnvironments from '@modules/environments/useEnvironments';
 import useErrorReplying from '@modules/errors/useErrorReplying';
-import { ApplicationCommandType, ComponentType, Client, ButtonBuilder, ButtonStyle, ActionRowBuilder, InteractionResponse, Message } from "discord.js";
 
 const { makeBaseEmbed } = useEmbeds();
 const { sendGenericErrorReply } = useErrorReplying();
@@ -62,8 +63,7 @@ const generateMessage = (client: Client, commands: ICommand[], page = 0): any =>
 
     return {
         embeds: [embed],
-        components: [actions],
-        ephemeral: true
+        components: [actions]
     };
 }
 

@@ -34,13 +34,11 @@ class GamesCommand extends BaseCommand {
 
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         const gameId = this.getParameter<number>(interaction, 'game');
-        const ephemeral = this.getParameter<boolean>(interaction, 'ephemeral');
 
         const embed = await makeGameEmbed(client, gameId!);
 
         await sendReply(interaction, {
-            embeds: [embed!],
-            ephemeral: ephemeral!
+            embeds: [embed!]
         });
     }
 

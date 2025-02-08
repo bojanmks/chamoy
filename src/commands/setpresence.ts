@@ -83,7 +83,7 @@ class SetPresenceCommand extends BaseCommand {
 
             setPresence(client, activityName, activityType, status);
 
-            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`);
         }, async () => {
             await sendPresenceChangeTimeLeftReply(interaction);
         });

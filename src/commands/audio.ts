@@ -51,7 +51,7 @@ class AudioCommand extends BaseCommand {
         const usersVoiceChannel = interactionUser.voice.channel;
 
         if (!usersVoiceChannel) {
-            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`);
             return;
         }
 
@@ -83,7 +83,7 @@ class AudioCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            await sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`, true);
+            await sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`);
         }
         catch (error) {
             connection.disconnect();

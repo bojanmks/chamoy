@@ -52,7 +52,7 @@ class TtsCommand extends BaseCommand {
         const interactionUser = interaction.member as GuildMember;
         const usersVoiceChannel = interactionUser.voice.channel;
         if (!usersVoiceChannel) {
-            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`, true);
+            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`);
             return;
         }
 
@@ -73,7 +73,7 @@ class TtsCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            await sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`, true);
+            await sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`);
         }
         catch (error) {
             connection.disconnect();

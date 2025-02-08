@@ -24,7 +24,7 @@ class GamesInteractiveCommand extends BaseCommand {
             return;
         }
         
-        await sendReply(interaction, { ...response, ephemeral: this.getParameter<boolean>(interaction, 'ephemeral') });
+        await sendReply(interaction, { ...response });
     }
 }
 

@@ -64,7 +64,7 @@ class CompleteMemeCommand extends BaseCommand {
         const urlProvider = new MemeFilePathProviderFactory(message).makePathProvider();
 
         if (!urlProvider) {
-            await sendTextReply(interaction, `${X_EMOJI} Unknown file source`, true);
+            await sendTextReply(interaction, `${X_EMOJI} Unknown file source`);
             return;
         }
 
@@ -109,7 +109,7 @@ class CompleteMemeCommand extends BaseCommand {
 }
 
 const sendMessageNotPreparedMessage = async (interaction: any) => {
-    await sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`, true);
+    await sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`);
     return;
 }
 
