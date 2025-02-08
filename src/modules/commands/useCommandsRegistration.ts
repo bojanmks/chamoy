@@ -1,8 +1,10 @@
-import { ApplicationCommandManager, ApplicationCommand, GuildResolvable } from 'discord.js';
-import useEnvironments from '@modules/environments/useEnvironments';
-import useCommandsStore from '@modules/commands/useCommandsStore';
-import useCommandsComparison from '@modules/commands/useCommandsComparison';
+import { ApplicationCommand, ApplicationCommandManager, GuildResolvable } from 'discord.js';
+
 import { ICommand } from './models/ICommand';
+import { IEntity } from '@database/models/IEntity';
+import useCommandsComparison from '@modules/commands/useCommandsComparison';
+import useCommandsStore from '@modules/commands/useCommandsStore';
+import useEnvironments from '@modules/environments/useEnvironments';
 
 const { CURRENT_ENVIRONMENT } = useEnvironments();
 const { getLocalCommands, getApplicationCommands } = useCommandsStore();
@@ -88,7 +90,7 @@ const loadCommandOptionsWithParameters = async (command: ICommand) => {
             continue;
         }
 
-        co.choices = (await co.choicesRepositoryOptions.repository.getAll()).map(x => ({
+        co.choices = (await co.choicesRepositoryOptions.repository.getAll()).sort((a: IEntity, b: IEntity) => a.id - b.id).map(x => ({
             name: co.choicesRepositoryOptions!.choiceNameGetter(x),
             value: co.choicesRepositoryOptions!.choiceValueGetter(x)
         }));

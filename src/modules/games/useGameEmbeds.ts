@@ -1,9 +1,10 @@
-import useEmbeds from "@modules/embeds/useEmbeds";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import useStrings from "@modules/shared/useStrings";
+
+import { Game } from "./models/Game";
+import useEmbeds from "@modules/embeds/useEmbeds";
 import useGamesConstants from "./useGamesConstants";
 import useRepositories from "@database/repositories/useRepositories";
-import { Game } from "./models/Game";
+import useStrings from "@modules/shared/useStrings";
 
 const { makeBaseEmbed } = useEmbeds();
 const { randomString } = useStrings();
@@ -24,7 +25,7 @@ const makeGameEmbed = async (client: Client, gameId: number) => {
 }
 
 const addLinksToEmbed = (embed: any, game: Game) => {
-    const activeLinks = game.gameLinks!.filter((x: any) => !x.deleted);
+    const activeLinks = game.gameLinks!.sort((a, b) => a.id - b.id).filter((x: any) => !x.deleted);
     for(let i in activeLinks) {
         addLinkToEmbed(embed, parseInt(i) + 1, game.gameLinks![i]);
     }
@@ -80,7 +81,7 @@ const makeInteractiveGameEmbed = async (client: Client, selectedGameId: number |
 }
 
 const makeInteractiveEmbedComponents = async (selectedGameId: any) => {
-    const games = await gamesRepository.getAll();
+    const games = (await gamesRepository.getAll()).sort((a, b) => a.id - b.id);
 
     const generatedActionRows = [];
 
