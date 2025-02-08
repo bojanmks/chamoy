@@ -1,28 +1,20 @@
-import { Client } from "discord.js";
-import UserGuild from "@modules/auth/models/UserGuild";
+import useDiscordClient from "@modules/shared/useDiscordClient";
 
-const guildCacheMap = new Map<string, UserGuild>();
+const { getDiscordClient } = useDiscordClient();
 
 const isBotInGuild = (guildId: string) => {
-    return guildCacheMap.has(guildId);
-}
+    const client = getDiscordClient();
 
-const refreshGuildsCache = (client: Client) => {
-    guildCacheMap.clear();
-
-    for (const guild of client.guilds.cache.map(g => g)) {
-        guildCacheMap.set(guild.id, {
-            id: guild.id,
-            name: guild.name,
-            icon: guild.icon
-        });
+    if (!client) {
+        return false;
     }
+
+    return client.guilds.cache.has(guildId);
 }
 
 const useBotGuilds = () => {
     return {
-        isBotInGuild,
-        refreshGuildsCache
+        isBotInGuild
     }
 }
 

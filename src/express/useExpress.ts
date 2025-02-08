@@ -7,7 +7,7 @@ import express from 'express';
 import path from 'path';
 import useDiscordAuth from '@modules/auth/useDiscordAuth';
 import useEnvironments from '@modules/environments/useEnvironments';
-import useExpressMidlewares from '@lib/express/useExpressMidlewares';
+import useExpressMidlewares from '@lib/express/useExpressMiddlewares';
 import useFiles from '@modules/files/useFiles';
 
 const app = express();
@@ -26,7 +26,7 @@ const PORT = process.env.EXPRESS_PORT;
 
 const { getContentsOfDirectory, getObjectsFromFilesInPath } = useFiles();
 const { setupDiscordAuth } = useDiscordAuth();
-const { isAuthenticatedMiddleware } = useExpressMidlewares();
+const { isAuthenticatedMiddleware, isUserInAnyBotGuildMiddleware } = useExpressMidlewares();
 const { isDevelopment } = useEnvironments();
 
 if (!isDevelopment()) {
@@ -43,7 +43,7 @@ const startExpressServer = (): Promise<void> => {
             const endpoints: Endpoint[] = await getObjectsFromFilesInPath(folder);
 
             for (const endpoint of endpoints) {
-                const routeMiddlewares = endpoint.doNotAuthorize ? [] : [isAuthenticatedMiddleware];
+                const routeMiddlewares = endpoint.doNotAuthorize ? [] : [isAuthenticatedMiddleware, isUserInAnyBotGuildMiddleware];
 
                 app[endpoint.method](`/api${endpoint.route}`, ...routeMiddlewares, async (req, res) => {
                     try {
@@ -110,7 +110,7 @@ const startExpressServer = (): Promise<void> => {
         }
 
         app.listen(PORT, () => {
-            console.log(`✅ Express server listening on port ${PORT}`);
+            console.log(`👂 Express server listening on port ${PORT}`);
             resolve();
         });
     });
