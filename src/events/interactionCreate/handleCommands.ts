@@ -1,8 +1,9 @@
-import useReplying from '@modules/messaging/useReplying';
-import useErrorReplying from '@modules/errors/useErrorReplying';
+import { Client, Interaction, MessageFlags } from 'discord.js';
+
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import useConfig from '@modules/config/useConfig';
-import { Client, Interaction } from 'discord.js';
+import useErrorReplying from '@modules/errors/useErrorReplying';
+import useReplying from '@modules/messaging/useReplying';
 
 const { sendTextReply } = useReplying();
 const { sendGenericErrorReply, sendNoPermissionErrorReply } = useErrorReplying();
@@ -21,7 +22,9 @@ export default async (client: Client, interaction: Interaction) => {
     }
 
     await interaction.deferReply({
-        ephemeral: commandObject.hasEphemeralResponse || (commandObject.hasEphemeralParameter && commandObject.getParameter<boolean>(interaction, 'ephemeral'))
+        flags: commandObject.hasEphemeralResponse || (commandObject.hasEphemeralParameter && commandObject.getParameter<boolean>(interaction, 'ephemeral'))
+            ? MessageFlags.Ephemeral
+            : undefined
     });
 
     const foundUserReponse = commandObject.userResponses?.find((x: any) => x.userId === interaction.user.id);
