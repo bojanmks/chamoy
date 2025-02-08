@@ -1,21 +1,24 @@
+import { Express, Request, Response } from "express";
+
 import { ApplicationUser } from "./models/ApplicationUser";
 import { Strategy as DiscordStrategy } from 'passport-discord';
-import { Express } from "express";
 import { RedisStore } from "connect-redis";
 import { Roles } from "./enums/Roles";
 import passport from "passport";
 import session from "express-session";
 import useAuthConstants from "./useAuthConstants";
+import useBotGuilds from "@modules/guilds/useBotGuilds";
 import useEnvironments from "@modules/environments/useEnvironments";
 import useRedis from "@lib/redis/useRedis";
 import useRefreshTokens from "./useRefreshTokens";
 import useUserSessionDataStore from "./useUserSessionDataStore";
 
 const { getRedisClient } = useRedis();
-const { DISCORD_AUTH_COOKIE_KEY } = useAuthConstants();
+const { DISCORD_AUTH_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } = useAuthConstants();
 const { isDevelopment } = useEnvironments();
-const { makeRefreshToken, storeRefreshToken, setResponseRefreshTokenCookie } = useRefreshTokens();
+const { makeRefreshToken, storeRefreshToken, setResponseRefreshTokenCookie, deleteUsersRefreshToken } = useRefreshTokens();
 const { storeUserSessionData } = useUserSessionDataStore();
+const { isBotInGuild } = useBotGuilds();
 
 const setupDiscordAuth = async (app: Express) => {
     const redisClient = await getRedisClient();
@@ -30,7 +33,7 @@ const setupDiscordAuth = async (app: Express) => {
             cookie: {
                 httpOnly: true,
                 secure: !isDevelopment(),
-                maxAge: 15 * 60 * 1000, // 15 minutes,
+                maxAge: 15 * 60 * 1000, // 15 minutes
                 domain: process.env.SESSION_COOKIE_DOMAIN_SETTING,
                 path: '/'
             }
@@ -62,8 +65,8 @@ const setupDiscordAuth = async (app: Express) => {
         done(null, user);
     });
         
-    passport.deserializeUser((obj: Express.User, done) => {
-        done(null, obj);
+    passport.deserializeUser((user: Express.User, done) => {
+        done(null, user);
     });
 
     app.get("/api/auth/discord", passport.authenticate("discord"));
@@ -72,29 +75,51 @@ const setupDiscordAuth = async (app: Express) => {
         failureRedirect: process.env.FRONTEND_APP_URL
     }),
     async (req, res) => {
-        const redirect = () => {
-            res.redirect(`${process.env.FRONTEND_APP_URL}/unauthorized/discord-authenticate`);
-        }
-
         if (!req.user) {
             console.log(`❌ User session wasn't set during discord auth`);
-            redirect();
+            res.redirect(`${process.env.FRONTEND_APP_URL}/unauthorized/authentication-error`);
             return;
         }
 
-        const userId = (req.user as ApplicationUser).id;
+        const user = req.user as ApplicationUser;
+
+        if (!user.guilds?.some(guild => isBotInGuild(guild.id))) {
+            await destroyAuthSession(req, res);
+            res.redirect(`${process.env.FRONTEND_APP_URL}/unauthorized/no-guilds-in-common`);
+            return;
+        }
+
+        const userId = user.id;
         const refreshToken = makeRefreshToken();
 
         await storeRefreshToken(userId, refreshToken);
 
         setResponseRefreshTokenCookie(res, refreshToken);
 
-        redirect();
+        res.redirect(`${process.env.FRONTEND_APP_URL}/unauthorized/discord-authenticate`);
     });
+}
+
+const destroyAuthSession = async (req: Request, res: Response) => {
+    const userId = (req.user as ApplicationUser)?.id;
+
+    if (userId) {
+        await deleteUsersRefreshToken(userId);
+    }
+
+    await new Promise((resolve) => {
+        req.session.destroy(() => {
+            resolve({});
+        });
+    });
+
+    res.clearCookie(DISCORD_AUTH_COOKIE_KEY);
+    res.clearCookie(REFRESH_TOKEN_COOKIE_KEY);
 }
 
 export default () => {
     return {
-        setupDiscordAuth
+        setupDiscordAuth,
+        destroyAuthSession
     }
 }

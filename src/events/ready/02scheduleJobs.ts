@@ -1,11 +1,12 @@
+import { Client } from 'discord.js';
 import schedule from 'node-schedule';
-import useJobs from '@modules/jobs/useJobs';
 import useEnvironments from '@modules/environments/useEnvironments';
+import useJobs from '@modules/jobs/useJobs';
 
 const { getJobs } = useJobs();
 const { CURRENT_ENVIRONMENT } = useEnvironments();
 
-export default async (client: any) => {
+export default async (client: Client) => {
     const jobs = await getJobs();
 
     for (const job of jobs) {
@@ -21,6 +22,6 @@ export default async (client: any) => {
             }
         });
 
-        console.log(`✅ ${job.name} job scheduled`);
+        console.log(`⌚ ${job.name} job scheduled`);
     }
 };

@@ -1,4 +1,4 @@
-import { ApplicationCommand, ApplicationCommandManager, GuildResolvable } from 'discord.js';
+import { ApplicationCommand, ApplicationCommandManager, Client, GuildResolvable } from 'discord.js';
 
 import { ICommand } from './models/ICommand';
 import { IEntity } from '@database/models/IEntity';
@@ -10,7 +10,7 @@ const { CURRENT_ENVIRONMENT } = useEnvironments();
 const { getLocalCommands, getApplicationCommands } = useCommandsStore();
 const { areCommandsDifferent } = useCommandsComparison();
 
-const registerCommands = async (client: any) => {
+const registerCommands = async (client: Client) => {
     const localCommands = await getLocalCommands();
     const applicationCommands = await getApplicationCommands(client);
 
