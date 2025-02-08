@@ -14,7 +14,6 @@
       "@events/*": ["./src/events/*"],
       "@commands/*": ["./src/commands/*"],
       "@modules/*": ["./src/modules/*"],
-      "@assets/*": ["./src/assets/*"],
       "@data/*": ["./src/data/*"],
       "@lib/*": ["./src/lib/*"],
       "@express/*": ["./src/express/*"],

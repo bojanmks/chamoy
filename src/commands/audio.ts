@@ -72,7 +72,7 @@ class AudioCommand extends BaseCommand {
         try {
             setBusy(serverId);
 
-            const relativeFilePath = `./src/assets/audio/${audio.filePath}`;
+            const relativeFilePath = `${process.env.FILES_BASE_PATH}/audio/${audio.filePath}`;
             const absoluteFilePath = path.resolve(relativeFilePath);
             const audioResource = createAudioResource(absoluteFilePath);
 

@@ -1,9 +1,10 @@
-import { VoiceConnection, createAudioResource, joinVoiceChannel } from "@discordjs/voice";
-import useAudioPlayer from "@modules/audio/useAudioPlayer";
-import usePlayingAudioOnUserJoin from "@modules/audioFileOnUserChannelJoin/usePlayingAudioOnUserJoin";
-import useBusy from "@modules/busy/useBusy";
 import { Client, VoiceState } from "discord.js";
+import { VoiceConnection, createAudioResource, joinVoiceChannel } from "@discordjs/voice";
+
 import path from "path";
+import useAudioPlayer from "@modules/audio/useAudioPlayer";
+import useBusy from "@modules/busy/useBusy";
+import usePlayingAudioOnUserJoin from "@modules/audioFileOnUserChannelJoin/usePlayingAudioOnUserJoin";
 
 const { isBusy, setBusy, setNotBusy } = useBusy();
 const { MyAudioPlayer } = useAudioPlayer();
@@ -53,7 +54,7 @@ export default async (client: Client, oldState: VoiceState, newState: VoiceState
             adapterCreator: newState.guild.voiceAdapterCreator
         });
 
-        const relativeFilePath = `./src/assets/audio/${audioFileToPlay.fileName}`;
+        const relativeFilePath = `${process.env.FILES_BASE_PATH}/audio/${audioFileToPlay.fileName}`;
         const absoluteFilePath = path.resolve(relativeFilePath);
         const audioResource = createAudioResource(absoluteFilePath);
 
