@@ -1,6 +1,4 @@
-import useExpress from "@express/useExpress";
-
-const { startExpressServer } = useExpress();
+import { startExpressServer } from "@express/express";
 
 export default async () => {
     await startExpressServer();

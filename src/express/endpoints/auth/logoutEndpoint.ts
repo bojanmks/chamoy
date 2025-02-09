@@ -1,8 +1,6 @@
 import { ActionResult, ActionResultStatus, Endpoint } from "../Endpoint";
 
-import useDiscordAuth from "@modules/auth/useDiscordAuth";
-
-const { destroyAuthSession } = useDiscordAuth();
+import { destroyAuthSession } from "@modules/auth/discordAuth";
 
 const logoutEndpoint: Endpoint = {
     method: 'post',

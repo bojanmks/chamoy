@@ -1,14 +1,8 @@
-import useCommands from '@modules/commands/useCommands';
-import useCommandsRegistration from '@modules/commands/useCommandsRegistration';
-import useEmojis from '@modules/emojis/useEmojis';
-import useReplying from '@modules/messaging/useReplying';
+import { registerCommands } from '@modules/commands/commandRegistration';
+import BaseCommand from '@modules/commands/models/BaseCommand';
+import { Emojis } from '@modules/emojis/enums/Emojis';
+import { sendTextReply } from '@modules/messaging/replying';
 import { Client, CommandInteraction } from 'discord.js';
-
-const { registerCommands } = useCommandsRegistration();
-
-const { sendTextReply } = useReplying();
-const { BaseCommand } = useCommands();
-const { CHECK_EMOJI } = useEmojis();
 
 class RefreshCommandsCommand extends BaseCommand {
     name: string = 'refreshcommands';
@@ -20,7 +14,7 @@ class RefreshCommandsCommand extends BaseCommand {
     
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         await registerCommands(client);
-        await sendTextReply(interaction, `${CHECK_EMOJI} Commands refreshed`);
+        await sendTextReply(interaction, `${Emojis.Check} Commands refreshed`);
     }
 }
 

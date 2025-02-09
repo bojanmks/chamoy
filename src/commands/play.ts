@@ -1,17 +1,11 @@
-import useBusy from "@modules/busy/useBusy";
+import { isBusy } from "@modules/busy/busy";
+import BaseCommand from "@modules/commands/models/BaseCommand";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
-import useCommands from "@modules/commands/useCommands";
-import useEmojis from "@modules/emojis/useEmojis";
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useReplying from "@modules/messaging/useReplying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { sendBotIsBusyReply } from "@modules/errors/errorReplying";
+import { sendTextReply } from "@modules/messaging/replying";
 import { useMainPlayer, useQueue } from "discord-player";
 import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from "discord.js";
-
-const { BaseCommand } = useCommands();
-const { sendTextReply } = useReplying();
-const { PLAY_EMOJI, X_EMOJI } = useEmojis();
-const { isBusy } = useBusy();
-const { sendBotIsBusyReply } = useErrorReplying();
 
 class PlayCommand extends BaseCommand {
     name: string = 'play';
@@ -45,7 +39,7 @@ class PlayCommand extends BaseCommand {
         const userVoiceChannel = (interaction.member as GuildMember)?.voice.channel;
 
         if (!userVoiceChannel) {
-            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`);
+            await sendTextReply(interaction, `${Emojis.X} You need to be in a voice channel`);
         }
 
         // const targetedChannel = client.channels.cache.get(userVoiceChannel!.id);
@@ -58,11 +52,11 @@ class PlayCommand extends BaseCommand {
             const result = await player.play(userVoiceChannel!, query!);
 
             if (!queue || queue.isEmpty()) {
-                await sendTextReply(interaction, `${PLAY_EMOJI} Playing **${result.track.cleanTitle}**`);
+                await sendTextReply(interaction, `${Emojis.Play} Playing **${result.track.cleanTitle}**`);
                 return;
             }
             
-            await sendTextReply(interaction, `${PLAY_EMOJI} Added **${result.track.cleanTitle}** to queue`);
+            await sendTextReply(interaction, `${Emojis.Play} Added **${result.track.cleanTitle}** to queue`);
         }
         catch (err) {
             throw err;

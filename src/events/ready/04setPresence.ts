@@ -1,9 +1,6 @@
 import { Client } from "discord.js";
-import usePresence from "@modules/presence/usePresence";
-import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
-
-const { defaultPresence } = usePresence();
-const { onCanChangePresence } = usePresenceRateLimiting();
+import { defaultPresence } from "@modules/presence/presence";
+import { onCanChangePresence } from "@modules/presence/presenceRateLimiting";
 
 export default (client: Client) => {
     onCanChangePresence(() => {

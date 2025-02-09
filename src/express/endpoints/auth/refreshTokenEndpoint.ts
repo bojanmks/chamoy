@@ -1,13 +1,8 @@
 import { ActionResult, ActionResultStatus, Endpoint } from "../Endpoint";
+import { findUserIdByRefreshToken, makeRefreshToken, setResponseRefreshTokenCookie, storeRefreshToken } from "@modules/auth/refreshTokens";
 
-import useAuthConstants from "@modules/auth/useAuthConstants";
-import useRefreshTokens from "@modules/auth/useRefreshTokens";
-import useUserSessionDataStore from "@modules/auth/useUserSessionDataStore";
-
-const { REFRESH_TOKEN_COOKIE_KEY } = useAuthConstants();
-const { findUserIdByRefreshToken } = useRefreshTokens();
-const { findUserSessionDataByUserId } = useUserSessionDataStore();
-const { makeRefreshToken, storeRefreshToken, setResponseRefreshTokenCookie } = useRefreshTokens();
+import { REFRESH_TOKEN_COOKIE_KEY } from "@modules/auth/constants/authConstants";
+import { findUserSessionDataByUserId } from "@modules/auth/userSessionDataStore";
 
 const refreshTokenEndpoint: Endpoint = {
     method: 'post',

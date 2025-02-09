@@ -1,12 +1,8 @@
-import useCommands from "@modules/commands/useCommands";
-import useEmojis from "@modules/emojis/useEmojis";
-import useReplying from "@modules/messaging/useReplying";
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { sendTextReply } from "@modules/messaging/replying";
 import { useQueue } from "discord-player";
 import { Client, CommandInteraction } from "discord.js";
-
-const { BaseCommand } = useCommands();
-const { sendTextReply } = useReplying();
-const { WAVE_EMOJI, INFO_EMOJI } = useEmojis();
 
 class LeaveCommand extends BaseCommand {
     name: string = 'leave';
@@ -18,13 +14,13 @@ class LeaveCommand extends BaseCommand {
         const queue = useQueue();
 
         if (!queue?.connection) {
-            await sendTextReply(interaction, `${INFO_EMOJI} Bot is not playing music`);
+            await sendTextReply(interaction, `${Emojis.Info} Bot is not playing music`);
             return;
         }
 
         queue?.connection?.destroy();
 
-        await sendTextReply(interaction, WAVE_EMOJI);
+        await sendTextReply(interaction, Emojis.Wave);
     }
 }
 

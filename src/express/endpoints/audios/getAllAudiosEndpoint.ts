@@ -1,8 +1,7 @@
-import useRepositories from "@database/repositories/useRepositories";
 import { ActionResult, ActionResultStatus, Endpoint } from "../Endpoint"
-import { Audio } from "@modules/audio/models/Audio"
 
-const { audioRepository } = useRepositories();
+import { Audio } from "@modules/audio/models/Audio"
+import { audioRepository } from "@database/repositories/repositories";
 
 const getAllAudiosEndpoint: Endpoint = {
     method: 'get',

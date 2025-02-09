@@ -1,11 +1,8 @@
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useGameEmbeds from "@modules/games/useGameEmbeds";
-import useGamesConstants from "@modules/games/useGamesConstants";
-import { Client } from "discord.js";
+import { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } from "@modules/games/constants/gameConstants";
 
-const { sendGenericErrorReply } = useErrorReplying();
-const { GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX, GAMES_INTERACTIVE_REFRESH_BUTTON_ID_PREFIX } = useGamesConstants();
-const { makeInteractiveGameEmbed } = useGameEmbeds();
+import { Client } from "discord.js";
+import { makeInteractiveGameEmbed } from "@modules/games/gameEmbeds";
+import { sendGenericErrorReply } from "@modules/errors/errorReplying";
 
 export default async (client: Client, interaction: any) => {
     if (interaction.customId?.startsWith(GAMES_INTERACTIVE_DROPDOWN_ID_PREFIX)) {

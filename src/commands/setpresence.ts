@@ -1,16 +1,10 @@
 import { ApplicationCommandOptionType, ActivityType, PresenceUpdateStatus, Client, CommandInteraction } from "discord.js";
-import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
-import usePresence from "@modules/presence/usePresence";
-import useReplying from "@modules/messaging/useReplying";
-import useEmojis from "@modules/emojis/useEmojis";
-import useCommands from "@modules/commands/useCommands";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
-
-const { setPresence } = usePresence();
-const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
-const { sendTextReply } = useReplying();
-const { CHECK_EMOJI } = useEmojis();
-const { BaseCommand } = useCommands();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { setPresence } from "@modules/presence/presence";
+import { onCanChangePresence, sendPresenceChangeTimeLeftReply } from "@modules/presence/presenceRateLimiting";
 
 class SetPresenceCommand extends BaseCommand {
     name: string = 'setpresence';
@@ -83,7 +77,7 @@ class SetPresenceCommand extends BaseCommand {
 
             setPresence(client, activityName, activityType, status);
 
-            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was set`);
+            await sendTextReply(interaction, `${Emojis.Check} Presence was set`);
         }, async () => {
             await sendPresenceChangeTimeLeftReply(interaction);
         });

@@ -1,9 +1,6 @@
-import useCommands from "@modules/commands/useCommands";
-import useReplying from "@modules/messaging/useReplying";
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
 import { Client, CommandInteraction } from "discord.js";
-
-const { sendTextReply } = useReplying();
-const { BaseCommand } = useCommands();
 
 class PingCommand extends BaseCommand {
     name: string = 'ping';

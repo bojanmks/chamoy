@@ -1,15 +1,10 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from 'discord.js';
-import useReplying from '@modules/messaging/useReplying';
-import useGameEmbeds from '@modules/games/useGameEmbeds';
-import useCommands from '@modules/commands/useCommands';
-import useRepositories from '@database/repositories/useRepositories';
 import { Game } from '@modules/games/models/Game';
 import { ICommandParameter } from '@modules/commands/models/ICommandParameter';
-
-const { sendReply } = useReplying();
-const { makeGameEmbed } = useGameEmbeds();
-const { BaseCommand } = useCommands();
-const { gamesRepository } = useRepositories();
+import BaseCommand from '@modules/commands/models/BaseCommand';
+import { gamesRepository } from '@database/repositories/repositories';
+import { sendReply } from '@modules/messaging/replying';
+import { makeGameEmbed } from '@modules/games/gameEmbeds';
 
 class GamesCommand extends BaseCommand {
     name: string = 'games';

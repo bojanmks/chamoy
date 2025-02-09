@@ -1,13 +1,8 @@
-import useCommands from "@modules/commands/useCommands";
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useGameEmbeds from "@modules/games/useGameEmbeds";
-import useReplying from "@modules/messaging/useReplying";
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendGenericErrorReply } from "@modules/errors/errorReplying";
+import { makeInteractiveGameEmbed } from "@modules/games/gameEmbeds";
+import { sendReply } from "@modules/messaging/replying";
 import { Client, CommandInteraction } from "discord.js";
-
-const { sendReply } = useReplying();
-const { sendGenericErrorReply } = useErrorReplying();
-const { makeInteractiveGameEmbed } = useGameEmbeds();
-const { BaseCommand } = useCommands();
 
 class GamesInteractiveCommand extends BaseCommand {
     name: string = 'gamesinteractive';

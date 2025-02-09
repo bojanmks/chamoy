@@ -1,7 +1,5 @@
-import useMessageRecognitionResponses from '@modules/messageRecognitionResponses/useMessageRecognitionResponses';
+import messageRecognitionResponses from '@modules/messageRecognitionResponses/messageRecognitionResponses';
 import stringSimilarity from 'string-similarity';
-
-const { messageRecognitionResponses } = useMessageRecognitionResponses();
 
 const MINIMUM_ACCURACY = .85;
 

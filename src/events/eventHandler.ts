@@ -1,8 +1,6 @@
-import path from 'path';
 import { Client } from 'discord.js';
-import useFiles from '@modules/files/useFiles';
-
-const { getContentsOfDirectory } = useFiles();
+import { getContentsOfDirectory } from '@modules/files/files';
+import path from 'path';
 
 export default async (client: Client) => {
     const eventFolders = getContentsOfDirectory(path.join(__dirname, '..', 'events'), true);

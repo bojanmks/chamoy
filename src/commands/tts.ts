@@ -1,21 +1,14 @@
-import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from "discord.js";
+import { ApplicationCommandOptionType, Client, CommandInteraction, Emoji, GuildMember } from "discord.js";
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
-import useBusy from "@modules/busy/useBusy";
-import useReplying from "@modules/messaging/useReplying";
-import useTtsLanguages from "@modules/tts/useTtsLanguages";
-import useEmojis from "@modules/emojis/useEmojis";
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands from "@modules/commands/useCommands";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { isBusy, setBusy, setNotBusy } from "@modules/busy/busy";
+import { sendTextReply } from "@modules/messaging/replying";
+import { sendBotIsBusyReply } from "@modules/errors/errorReplying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { getTtsLanguges, findTtsLanguage } from "@modules/tts/ttsLanguages";
 
 const gTTS = require("gtts");
-
-const { isBusy, setBusy, setNotBusy } = useBusy();
-const { sendTextReply } = useReplying();
-const { getTtsLanguges, findTtsLanguage } = useTtsLanguages();
-const { CHECK_EMOJI, X_EMOJI } = useEmojis();
-const { sendBotIsBusyReply } = useErrorReplying();
-const { BaseCommand } = useCommands();
 
 class TtsCommand extends BaseCommand {
     name: string = 'tts';
@@ -52,7 +45,7 @@ class TtsCommand extends BaseCommand {
         const interactionUser = interaction.member as GuildMember;
         const usersVoiceChannel = interactionUser.voice.channel;
         if (!usersVoiceChannel) {
-            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`);
+            await sendTextReply(interaction, `${Emojis.X} You need to be in a voice channel`);
             return;
         }
 
@@ -73,7 +66,7 @@ class TtsCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            await sendTextReply(interaction, `${CHECK_EMOJI} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`);
+            await sendTextReply(interaction, `${Emojis.Check} Saying **${messageToSay}** in **${findTtsLanguage(language)?.name}**`);
         }
         catch (error) {
             connection.disconnect();

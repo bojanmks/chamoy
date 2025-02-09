@@ -1,9 +1,7 @@
-import useCommands from "@modules/commands/useCommands";
-import useReplying from "@modules/messaging/useReplying";
 import { Client, CommandInteraction } from "discord.js";
 
-const { sendReply } = useReplying();
-const { BaseCommand } = useCommands();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendReply } from "@modules/messaging/replying";
 
 class ChamoyCommand extends BaseCommand {
     name: string = 'chamoy';

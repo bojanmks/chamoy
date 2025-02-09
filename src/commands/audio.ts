@@ -1,23 +1,15 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from 'discord.js';
 import path from 'path';
 import { joinVoiceChannel, createAudioResource } from '@discordjs/voice';
-import useBusy from '@modules/busy/useBusy';
-import useReplying from '@modules/messaging/useReplying';
-import useAudioPlayer from '@modules/audio/useAudioPlayer';
-import useEmojis from '@modules/emojis/useEmojis';
-import useErrorReplying from '@modules/errors/useErrorReplying';
-import useCommands from '@modules/commands/useCommands';
-import useRepositories from '@database/repositories/useRepositories';
 import { Audio } from '@modules/audio/models/Audio'
 import { ICommandParameter } from '@modules/commands/models/ICommandParameter';
-
-const { isBusy, setBusy, setNotBusy } = useBusy();
-const { sendTextReply } = useReplying();
-const { MyAudioPlayer } = useAudioPlayer();
-const { X_EMOJI, PLAY_EMOJI } = useEmojis();
-const { sendBotIsBusyReply, sendGenericErrorReply } = useErrorReplying();
-const { BaseCommand } = useCommands();
-const { audioRepository } = useRepositories();
+import BaseCommand from '@modules/commands/models/BaseCommand';
+import { audioRepository } from '@database/repositories/repositories';
+import { isBusy, setBusy, setNotBusy } from '@modules/busy/busy';
+import MyAudioPlayer from '@modules/audio/models/MyAudioPlayer';
+import { sendTextReply } from '@modules/messaging/replying';
+import { sendBotIsBusyReply, sendGenericErrorReply } from '@modules/errors/errorReplying';
+import { Emojis } from '@modules/emojis/enums/Emojis';
 
 class AudioCommand extends BaseCommand {
     name: string = 'audio';
@@ -51,7 +43,7 @@ class AudioCommand extends BaseCommand {
         const usersVoiceChannel = interactionUser.voice.channel;
 
         if (!usersVoiceChannel) {
-            await sendTextReply(interaction, `${X_EMOJI} You need to be in a voice channel`);
+            await sendTextReply(interaction, `${Emojis.X} You need to be in a voice channel`);
             return;
         }
 
@@ -83,7 +75,7 @@ class AudioCommand extends BaseCommand {
                 setNotBusy(serverId);
             });
 
-            await sendTextReply(interaction, `${PLAY_EMOJI} Playing **${audio.name}**`);
+            await sendTextReply(interaction, `${Emojis.Play} Playing **${audio.name}**`);
         }
         catch (error) {
             connection.disconnect();

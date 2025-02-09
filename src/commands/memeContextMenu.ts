@@ -1,13 +1,8 @@
 import { ApplicationCommandType, Client, MessageContextMenuCommandInteraction } from "discord.js";
-import useEmbeds from "@modules/embeds/useEmbeds";
-import useReplying from "@modules/messaging/useReplying";
-import useCommands from "@modules/commands/useCommands";
-import useCompleteMeme from "@modules/meme/useCompleteMeme";
-
-const { sendReply } = useReplying();
-const { makeBaseEmbed } = useEmbeds();
-const { BaseCommand } = useCommands();
-const { completeMemeMessageStore } = useCompleteMeme();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendReply } from "@modules/messaging/replying";
+import { completeMemeMessageStore } from "@modules/meme/completeMeme";
+import { makeBaseEmbed } from "@modules/embeds/embeds";
 
 class MemeContextMenuCommand extends BaseCommand {
     name: string = 'Meme';

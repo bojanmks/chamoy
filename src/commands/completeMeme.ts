@@ -1,20 +1,12 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
-import useWait from "@modules/shared/useWait";
-import useReplying from "@modules/messaging/useReplying";
-import useEmojis from "@modules/emojis/useEmojis";
-import useCommands from "@modules/commands/useCommands";
-import useCompleteMeme from "@modules/meme/useCompleteMeme";
-import useMemeCaptionSetters from "@modules/meme/useMemeCaptionSetters";
-import useMemeFileUrlProviders from "@modules/meme/useMemeFileUrlProviders";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
-
-const { wait } = useWait();
-const { sendTextReply } = useReplying();
-const { X_EMOJI } = useEmojis();
-const { BaseCommand } = useCommands();
-const { completeMemeMessageStore } = useCompleteMeme();
-const { MemeCaptionSetterFactory } = useMemeCaptionSetters();
-const { MemeFilePathProviderFactory } = useMemeFileUrlProviders();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { wait } from "@modules/shared/wait";
+import { completeMemeMessageStore } from "@modules/meme/completeMeme";
+import MemeCaptionSetterFactory from "@modules/meme/models/MemeCaptionSetterFactory";
+import MemeFilePathProviderFactory from "@modules/meme/models/MemeFilePathProviderFactory";
 
 const DEFAULT_FONT_SIZE = 40;
 
@@ -64,14 +56,14 @@ class CompleteMemeCommand extends BaseCommand {
         const urlProvider = new MemeFilePathProviderFactory(message).makePathProvider();
 
         if (!urlProvider) {
-            await sendTextReply(interaction, `${X_EMOJI} Unknown file source`);
+            await sendTextReply(interaction, `${Emojis.X} Unknown file source`);
             return;
         }
 
         const fileUrl = await urlProvider.getUrl();
 
         if (!fileUrl) {
-            await sendTextReply(interaction, `${X_EMOJI} An error occured while fetching the file url`);
+            await sendTextReply(interaction, `${Emojis.X} An error occured while fetching the file url`);
             return;
         }
 
@@ -80,7 +72,7 @@ class CompleteMemeCommand extends BaseCommand {
         const captionSetter = new MemeCaptionSetterFactory().makeCaptionSetter(fileExtension);
 
         if (!captionSetter) {
-            await sendTextReply(interaction, `${X_EMOJI} Unsupported file type`);
+            await sendTextReply(interaction, `${Emojis.X} Unsupported file type`);
             return;
         }
 
@@ -109,7 +101,7 @@ class CompleteMemeCommand extends BaseCommand {
 }
 
 const sendMessageNotPreparedMessage = async (interaction: any) => {
-    await sendTextReply(interaction, `${X_EMOJI} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`);
+    await sendTextReply(interaction, `${Emojis.X} You first need to prepare a message with a gif/image with **Right click > Apps > Meme**`);
     return;
 }
 

@@ -1,17 +1,11 @@
 import { default as axios } from "axios";
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
-import useEmbeds from "@modules/embeds/useEmbeds";
-import useReplying from "@modules/messaging/useReplying";
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands from "@modules/commands/useCommands";
-import useZeroTier from "@modules/zeroTier/useZeroTier";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
-
-const { makeBaseEmbed } = useEmbeds();
-const { sendReply } = useReplying();
-const { sendGenericErrorReply } = useErrorReplying();
-const { BaseCommand } = useCommands();
-const { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } = useZeroTier();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendReply } from "@modules/messaging/replying";
+import { sendGenericErrorReply } from "@modules/errors/errorReplying";
+import { makeBaseEmbed } from "@modules/embeds/embeds";
+import { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } from "@modules/zeroTier/constants/zeroTierConstants";
 
 class IpCommand extends BaseCommand {
     name: string = 'ip';

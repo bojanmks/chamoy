@@ -1,15 +1,10 @@
 import { Client, Interaction, MessageFlags } from 'discord.js';
+import { sendGenericErrorReply, sendNoPermissionErrorReply } from '@modules/errors/errorReplying';
 
-import useCommandsStore from '@modules/commands/useCommandsStore';
-import useConfig from '@modules/config/useConfig';
-import useErrorReplying from '@modules/errors/useErrorReplying';
+import config from '@modules/config/config';
+import { getLocalCommands } from '@modules/commands/commandStore';
+import { sendTextReply } from '@modules/messaging/replying';
 import { useMainPlayer } from 'discord-player';
-import useReplying from '@modules/messaging/useReplying';
-
-const { sendTextReply } = useReplying();
-const { sendGenericErrorReply, sendNoPermissionErrorReply } = useErrorReplying();
-const { getLocalCommands } = useCommandsStore();
-const { DEVS } = useConfig();
 
 export default async (client: Client, interaction: Interaction) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
@@ -35,7 +30,7 @@ export default async (client: Client, interaction: Interaction) => {
     }
 
     if (commandObject.onlyDevs) {
-        if (!DEVS.includes(interaction.user.id)) {
+        if (!config.devs.includes(interaction.user.id)) {
             await sendNoPermissionErrorReply(interaction);
             return;
         }

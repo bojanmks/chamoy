@@ -1,7 +1,5 @@
 import { Client } from 'discord.js';
-import useCommandsRegistration from '@modules/commands/useCommandsRegistration';
-
-const { registerCommands } = useCommandsRegistration();
+import { registerCommands } from '@modules/commands/commandRegistration';
 
 export default async (client: Client) => {
     try {

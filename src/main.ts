@@ -1,19 +1,16 @@
 import 'module-alias/register';
 
 import { Client, IntentsBitField } from 'discord.js';
+import { setBusy, setNotBusy } from '@modules/busy/busy';
 
 import { DefaultExtractors } from '@discord-player/extractor';
 import { Player } from 'discord-player';
 import { YoutubeiExtractor } from 'discord-player-youtubei';
 import dotenv from "dotenv";
 import eventHandler from '@events/eventHandler';
-import useBusy from '@modules/busy/useBusy';
-import useIndiciSettings from '@lib/undici/useUndiciSettings';
+import { setExtendedTimeoutGlobalDispatcher } from '@lib/undici/undiciSettings';
 
 dotenv.config();
-
-const { setExtendedTimeoutGlobalDispatcher } = useIndiciSettings();
-const { setBusy, setNotBusy } = useBusy();
 
 const setup = async () => {
     const client = new Client({

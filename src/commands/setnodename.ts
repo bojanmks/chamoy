@@ -1,17 +1,11 @@
 import { ApplicationCommandOptionType, Client, CommandInteraction } from "discord.js";
 import { default as axios } from "axios";
-import useReplying from "@modules/messaging/useReplying";
-import useEmojis from "@modules/emojis/useEmojis";
-import useErrorReplying from "@modules/errors/useErrorReplying";
-import useCommands from "@modules/commands/useCommands";
-import useZeroTier from "@modules/zeroTier/useZeroTier";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
-
-const { sendTextReply } = useReplying();
-const { CHECK_EMOJI } = useEmojis();
-const { sendGenericErrorReply } = useErrorReplying();
-const { BaseCommand } = useCommands();
-const { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } = useZeroTier();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
+import { sendGenericErrorReply } from "@modules/errors/errorReplying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { ZERO_TIER_API_URL, ZERO_TIER_NETWORK_ID } from "@modules/zeroTier/constants/zeroTierConstants";
 
 class SetNodeNameCommand extends BaseCommand {
     name: string = 'setnodename';
@@ -44,7 +38,7 @@ class SetNodeNameCommand extends BaseCommand {
 
         try {
             await axios.post(`${ZERO_TIER_API_URL}/network/${ZERO_TIER_NETWORK_ID}/member/${nodeId}`, { name: newName }, { headers });
-            await sendTextReply(interaction, `${CHECK_EMOJI} Updated the node **${nodeId}** name to **${newName}**`);
+            await sendTextReply(interaction, `${Emojis.Check} Updated the node **${nodeId}** name to **${newName}**`);
         }
         catch (error) {
             console.error('❌ Error updating a zero tier node name:');

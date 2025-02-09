@@ -1,15 +1,9 @@
 import { Client, CommandInteraction, PresenceUpdateStatus } from "discord.js";
-import usePresenceRateLimiting from "@modules/presence/usePresenceRateLimiting";
-import usePresence from "@modules/presence/usePresence";
-import useReplying from "@modules/messaging/useReplying";
-import useEmojis from "@modules/emojis/useEmojis";
-import useCommands from "@modules/commands/useCommands";
-
-const { setPresence } = usePresence();
-const { onCanChangePresence, sendPresenceChangeTimeLeftReply } = usePresenceRateLimiting();
-const { sendTextReply } = useReplying();
-const { CHECK_EMOJI } = useEmojis();
-const { BaseCommand } = useCommands();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
+import { setPresence } from "@modules/presence/presence";
+import { onCanChangePresence, sendPresenceChangeTimeLeftReply } from "@modules/presence/presenceRateLimiting";
 
 class ClearPresenceCommand extends BaseCommand {
     name: string = 'clearpresence';
@@ -20,7 +14,7 @@ class ClearPresenceCommand extends BaseCommand {
     async execute(client: Client, interaction: CommandInteraction): Promise<void> {
         onCanChangePresence(async () => {
             setPresence(client, '', null, PresenceUpdateStatus.Online);
-            await sendTextReply(interaction, `${CHECK_EMOJI} Presence was cleared`);
+            await sendTextReply(interaction, `${Emojis.Check} Presence was cleared`);
         }, async () => {
             await sendPresenceChangeTimeLeftReply(interaction);
         });

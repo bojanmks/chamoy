@@ -1,7 +1,5 @@
 import { Client } from "discord.js";
-import useDiscordClient from "@modules/shared/useDiscordClient";
-
-const { storeDiscordClient } = useDiscordClient();
+import { storeDiscordClient } from "@modules/shared/discordClient";
 
 export default async (client: Client) => {
     storeDiscordClient(client);

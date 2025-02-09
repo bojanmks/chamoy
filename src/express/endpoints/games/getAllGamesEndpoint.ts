@@ -1,9 +1,7 @@
 import { ActionResult, ActionResultStatus, Endpoint } from "../Endpoint";
 
 import { Game } from "@modules/games/models/Game";
-import useRepositories from "@database/repositories/useRepositories";
-
-const { gamesRepository } = useRepositories();
+import { gamesRepository } from "@database/repositories/repositories";
 
 const getAllGamesEndpoint: Endpoint = {
     method: 'get',

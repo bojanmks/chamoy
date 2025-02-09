@@ -1,10 +1,7 @@
+import { CURRENT_ENVIRONMENT } from '@modules/environments/environments';
 import { Client } from 'discord.js';
+import { getJobs } from '@modules/jobs/jobs';
 import schedule from 'node-schedule';
-import useEnvironments from '@modules/environments/useEnvironments';
-import useJobs from '@modules/jobs/useJobs';
-
-const { getJobs } = useJobs();
-const { CURRENT_ENVIRONMENT } = useEnvironments();
 
 export default async (client: Client) => {
     const jobs = await getJobs();

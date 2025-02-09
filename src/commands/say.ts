@@ -1,13 +1,9 @@
 import { ApplicationCommandOptionType, ChannelType, Client, CommandInteraction } from "discord.js";
-import useReplying from "@modules/messaging/useReplying";
-import useEmojis from "@modules/emojis/useEmojis";
-import useCommands from "@modules/commands/useCommands";
 import { ICommandParameter } from "@modules/commands/models/ICommandParameter";
 import { ICommandUserResponse } from "@modules/commands/models/ICommandUserResponse";
-
-const { sendTextReply } = useReplying();
-const { CHECK_EMOJI, CLOWN_EMOJI } = useEmojis();
-const { BaseCommand } = useCommands();
+import BaseCommand from "@modules/commands/models/BaseCommand";
+import { sendTextReply } from "@modules/messaging/replying";
+import { Emojis } from "@modules/emojis/enums/Emojis";
 
 class SayCommand extends BaseCommand {
     name: string = 'say';
@@ -25,7 +21,7 @@ class SayCommand extends BaseCommand {
     override userResponses?: ICommandUserResponse[] = [
         {
             userId: '478912904691974155',
-            response: `desi ti jbt ${CLOWN_EMOJI}`
+            response: `desi ti jbt ${Emojis.Clown}`
         }
     ];
 
@@ -38,7 +34,7 @@ class SayCommand extends BaseCommand {
             interaction.channel?.send(messageToSend);
         }
 
-        await sendTextReply(interaction, `${CHECK_EMOJI} Message sent`);
+        await sendTextReply(interaction, `${Emojis.Check} Message sent`);
     }
 }
 

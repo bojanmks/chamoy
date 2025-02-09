@@ -1,14 +1,10 @@
 import { Client, VoiceState } from "discord.js";
 import { VoiceConnection, createAudioResource, joinVoiceChannel } from "@discordjs/voice";
+import { isBusy, setBusy, setNotBusy } from "@modules/busy/busy";
 
+import MyAudioPlayer from "@modules/audio/models/MyAudioPlayer";
+import { audioFileUserMap } from "@modules/audioFileOnUserChannelJoin/playingAudioOnUserJoin";
 import path from "path";
-import useAudioPlayer from "@modules/audio/useAudioPlayer";
-import useBusy from "@modules/busy/useBusy";
-import usePlayingAudioOnUserJoin from "@modules/audioFileOnUserChannelJoin/usePlayingAudioOnUserJoin";
-
-const { isBusy, setBusy, setNotBusy } = useBusy();
-const { MyAudioPlayer } = useAudioPlayer();
-const { audioFileUserMap } = usePlayingAudioOnUserJoin();
 
 export default async (client: Client, oldState: VoiceState, newState: VoiceState) => {
     if (newState.member?.user.bot) {
