@@ -7,6 +7,8 @@ import { sendTextReply } from "@modules/messaging/replying";
 import { useMainPlayer, useQueue } from "discord-player";
 import { ApplicationCommandOptionType, Client, CommandInteraction, GuildMember } from "discord.js";
 
+const getYoutubeTitle = require('get-youtube-title')
+
 class PlayCommand extends BaseCommand {
     name: string = 'play';
     description: string = 'Play a song';
@@ -32,10 +34,6 @@ class PlayCommand extends BaseCommand {
             return;
         }
 
-        const player = useMainPlayer();
-        
-        const query = this.getParameter<string>(interaction, 'song');
-
         const userVoiceChannel = (interaction.member as GuildMember)?.voice.channel;
 
         if (!userVoiceChannel) {
@@ -48,20 +46,68 @@ class PlayCommand extends BaseCommand {
         //     // provera da li je voice kanal
         // }
 
-        try {
-            const result = await player.play(userVoiceChannel!, query!);
+        const player = useMainPlayer();
+        
+        const query = this.getParameter<string>(interaction, 'song')!;
 
-            if (!queue || queue.isEmpty()) {
-                await sendTextReply(interaction, `${Emojis.Play} Playing **${result.track.cleanTitle}**`);
+        const youtubeVideoTitle = await tryToExtractYoutubeVideoTitle(query);
+
+        const result = await player.play(userVoiceChannel!, youtubeVideoTitle ? youtubeVideoTitle : query);
+
+        if (!queue || queue.isEmpty()) {
+            await sendTextReply(interaction, `${Emojis.Play} Playing **${result.track.cleanTitle}**`);
+            return;
+        }
+        
+        await sendTextReply(interaction, `${Emojis.Play} Added **${result.track.cleanTitle}** to queue`);
+    }
+}
+
+const YOUTUBE_TITLE_REMOVE_PATTERNS = [
+    /\(.*official.*\)/i,
+    /\[.*official.*\]/i,   
+    /\(.*lyrics.*\)/i,
+    /\[.*lyrics.*\]/i,
+    /\(.*audio.*\)/i,
+    /\[.*audio.*\]/i,
+    /\(.*music video.*\)/i,
+    /\[.*music video.*\]/i,
+    /official music video/i,
+    /official video/i,
+    /music video/i,
+    /official audio/i,
+    /lyrics video/i,
+    /ft\..*/i,
+    /[-–_|]+/g, // Normalize separators
+];
+
+const tryToExtractYoutubeVideoTitle = async (url: string): Promise<string | null> => {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+
+    if (!match) {
+        return null;
+    }
+
+    const videoId = match[1];
+
+    return new Promise(resolve => {
+        getYoutubeTitle(videoId, (err: any, title: string) => {
+            if (err) {
+                resolve(null);
                 return;
             }
-            
-            await sendTextReply(interaction, `${Emojis.Play} Added **${result.track.cleanTitle}** to queue`);
-        }
-        catch (err) {
-            throw err;
-        }
-    }
+
+            YOUTUBE_TITLE_REMOVE_PATTERNS.forEach(pattern => {
+                title = title.replace(pattern, "").trim();
+            });
+    
+            // Clean up excess spaces, dashes, and symbols
+            title = title.replace(/\s{2,}/g, " ").trim();
+
+            resolve(title);
+        });
+    });
 }
 
 const command = new PlayCommand();

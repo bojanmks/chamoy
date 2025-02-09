@@ -5,7 +5,6 @@ import { setBusy, setNotBusy } from '@modules/busy/busy';
 
 import { DefaultExtractors } from '@discord-player/extractor';
 import { Player } from 'discord-player';
-import { YoutubeiExtractor } from 'discord-player-youtubei';
 import dotenv from "dotenv";
 import eventHandler from '@events/eventHandler';
 import { setExtendedTimeoutGlobalDispatcher } from '@lib/undici/undiciSettings';
@@ -28,7 +27,8 @@ const setup = async () => {
     setExtendedTimeoutGlobalDispatcher();
 
     const player = new Player(client);
-    await player.extractors.loadMulti([ ...DefaultExtractors, YoutubeiExtractor ]);
+    
+    await player.extractors.loadMulti(DefaultExtractors);
 
     player.events.on('playerStart', (guild) => {
         setBusy(guild.guild.id);
