@@ -3,6 +3,7 @@ import { Client, Interaction, MessageFlags } from 'discord.js';
 import useCommandsStore from '@modules/commands/useCommandsStore';
 import useConfig from '@modules/config/useConfig';
 import useErrorReplying from '@modules/errors/useErrorReplying';
+import { useMainPlayer } from 'discord-player';
 import useReplying from '@modules/messaging/useReplying';
 
 const { sendTextReply } = useReplying();
@@ -41,13 +42,16 @@ export default async (client: Client, interaction: Interaction) => {
     }
 
     try {
-        await commandObject.execute(client, interaction);
+        const player = useMainPlayer();
+        
+        await player.context.provide(
+            { guild: interaction.guild! },
+            async () => await commandObject.execute(client, interaction)
+        );
     } catch (error: any) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
         console.error(error);
 
-        if (!error?.name?.includes("ConnectTimeoutError")) {
-            await sendGenericErrorReply(interaction);
-        }
+        await sendGenericErrorReply(interaction);
     }
 };
