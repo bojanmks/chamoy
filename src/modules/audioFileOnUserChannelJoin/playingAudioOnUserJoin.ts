@@ -4,7 +4,7 @@ export const audioFileUserMap: any[] = [
         audioFiles: [
             {
                 fileName: 'get_yo_yellow_ass_over_here.mp3',
-                chance: 10
+                chance: 0
             }
         ]
     },
@@ -13,7 +13,7 @@ export const audioFileUserMap: any[] = [
         audioFiles: [
             {
                 fileName: 'get_yo_yellow_ass_over_here.mp3',
-                chance: 10
+                chance: 0
             }
         ]
     }
