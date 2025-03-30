@@ -7,8 +7,13 @@ export default async (client: Client) => {
     const jobs = await getJobs();
 
     for (const job of jobs) {
-        if (job.deleted) continue;
-        if (job.environments && !job.environments.includes(CURRENT_ENVIRONMENT)) continue;
+        if (job.deleted) {
+            continue;
+        }
+        
+        if (job.environments && !job.environments.includes(CURRENT_ENVIRONMENT)) {
+            continue;
+        }
 
         schedule.scheduleJob(job.cronExpression, async () => {
             try {
