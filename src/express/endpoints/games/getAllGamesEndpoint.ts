@@ -10,7 +10,7 @@ const getAllGamesEndpoint: Endpoint = {
         const result = (await gamesRepository.getAll({ include: { gameLinks: true } })).sort((a, b) => a.id - b.id);
 
         result.forEach(game => {
-            game.gameLinks = game.gameLinks?.sort((a, b) => a.id - b.id);
+            game.gameLinks = game.gameLinks?.filter(x => !x.deleted).sort((a, b) => a.id - b.id);
         });
 
         return {
