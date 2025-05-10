@@ -4,7 +4,6 @@ import { sendGenericErrorReply, sendNoPermissionErrorReply } from '@modules/erro
 import config from '@modules/config/config';
 import { getLocalCommands } from '@modules/commands/commandStore';
 import { sendTextReply } from '@modules/messaging/replying';
-import { useMainPlayer } from 'discord-player';
 
 export default async (client: Client, interaction: Interaction) => {
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
@@ -37,12 +36,7 @@ export default async (client: Client, interaction: Interaction) => {
     }
 
     try {
-        const player = useMainPlayer();
-        
-        await player.context.provide(
-            { guild: interaction.guild! },
-            async () => await commandObject.execute(client, interaction)
-        );
+        await commandObject.execute(client, interaction)
     } catch (error: any) {
         console.error(`❌ There was an error running the ${commandObject.name} command:`);
         console.error(error);

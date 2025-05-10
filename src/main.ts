@@ -1,10 +1,7 @@
 import 'module-alias/register';
 
 import { Client, IntentsBitField } from 'discord.js';
-import { setBusy, setNotBusy } from '@modules/busy/busy';
 
-import { DefaultExtractors } from '@discord-player/extractor';
-import { Player } from 'discord-player';
 import dotenv from "dotenv";
 import eventHandler from '@events/eventHandler';
 import { setExtendedTimeoutGlobalDispatcher } from '@lib/undici/undiciSettings';
@@ -25,22 +22,6 @@ const setup = async () => {
     await eventHandler(client);
 
     setExtendedTimeoutGlobalDispatcher();
-
-    const player = new Player(client);
-    
-    await player.extractors.loadMulti(DefaultExtractors);
-
-    player.events.on('playerStart', (guild) => {
-        setBusy(guild.guild.id);
-    });
-
-    player.events.on('connectionDestroyed', (guild) => {
-        setNotBusy(guild.guild.id);
-    });
-
-    player.events.on('emptyQueue', (guild) => {
-        setNotBusy(guild.guild.id);
-    });
 
     client.login(process.env.TOKEN);
 }
